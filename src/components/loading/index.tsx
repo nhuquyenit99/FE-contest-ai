@@ -17,8 +17,8 @@ type LoadingType = {
     size?: 'large' | 'default' | 'small',
     className?: string,
 }
-export function LoadingFullView ({size = 'default', className} : LoadingType) {
+export function LoadingFullView({ size = 'default', className }: LoadingType) {
     return (
-        <Spin size={size} className={`loading-fullview ${className ?? ''}`}/>
+        <Spin size={size} className={`loading-fullview ${className ?? ''}`} />
     );
 }

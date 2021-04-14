@@ -7,7 +7,8 @@ import { DataAccess } from './access';
 // import { UserContext } from './context';
 
 const INSTALLED_MODULE: any = {
-    'modules': require('./modules'),
+    'user_modules': require('./modules/UserModules'),
+    'admin_modules': require('./modules/AdminModules')
 };
 
 class RootApplication extends React.Component<{}, { loading: boolean }> {
@@ -78,7 +79,5 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
         );
     }
 }
-
 // RootApplication.contextType = UserContext;
-
 export { RootApplication };

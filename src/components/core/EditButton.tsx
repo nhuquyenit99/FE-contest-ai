@@ -1,13 +1,18 @@
 import { Button } from 'antd';
+import CustomButton from './CustomButton';
 import {
     EditOutlined
 } from '@ant-design/icons';
-export interface Props {
-    handleClick?: () => void;
-}
-export default function EditButton({handleClick}: Props) {
+
+export default function DeleteButton(propsObj) {
+    const props = {
+        type: 'primary',
+        icon: <EditOutlined />
+    };
     return (
-        <Button type="primary" icon={<EditOutlined />} onClick={handleClick}>
-        </Button>
+        <CustomButton 
+            {...props}
+            {...propsObj}
+        />
     );
 }

@@ -1,12 +1,8 @@
 import { Button } from 'antd';
 
-export interface Props {
-    icon: JSX.Element,
-    handleClick?: () => void
-}
-export default function CustomButton({icon, handleClick}: Props) {
+export default function CustomButton(propsObj) {
     return (
-        <Button type="primary" icon={icon} onClick={handleClick}>
+        <Button {...propsObj} >
         </Button>
     );
 }

@@ -1,58 +1,37 @@
-import React from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Layout, Menu, Breadcrumb } from 'antd';
-import {
-    DesktopOutlined,
-    PieChartOutlined,
-    FileOutlined,
-    CommentOutlined,
-    CrownOutlined,
-    UserOutlined,
-} from '@ant-design/icons';
+import { NavLink } from 'react-router-dom';
 
-const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
-
-class AdminSider extends React.Component {
-    state = {
-        collapsed: false,
-    };
-
-    onCollapse = collapsed => {
-        console.log(collapsed);
-        this.setState({ collapsed });
-    };
-
-    render() {
-        const { collapsed } = this.state;
-        return (
-            <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
-                <div className="logo" />
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-                    <Menu.Item key="1" icon={<PieChartOutlined />}>
-                        Option 1
-                    </Menu.Item>
-                    <Menu.Item key="2" icon={<DesktopOutlined />}>
-                        Option 2
-                    </Menu.Item>
-                    <Menu.Item key="3" icon={<UserOutlined />}>
-                        Users
-                    </Menu.Item>
-                    <Menu.Item key="4" icon={<CrownOutlined />}>
-                        Contests
-                    </Menu.Item>                    
-                    <Menu.Item key="5" icon={<CommentOutlined />}>
-                        Languages
-                    </Menu.Item>
-                    <Menu.Item key="9" icon={<FileOutlined />}>
-                        Files
-                    </Menu.Item>
-                </Menu>
-            </Sider>
-        );
-    }
+const { Sider } = Layout;
+interface Props {
+    routes: Array<{path: string, label: string, icon: ReactNode}>,
 }
 
-export default AdminSider;
+export default function AdminSider({routes}: Props) {
+    const [collapsed, setCollapsed] = useState(false);
+
+    let onCollapse = collapsed => {
+        setCollapsed(collapsed);
+    };
+    return (
+        <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
+            <div className="logo" />
+            <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+                {
+                    routes.map((menuItem, idx) => {
+                        return (
+                            <Menu.Item key={idx}>
+                                <NavLink key={idx} to={menuItem.path}>
+                                    {menuItem.label}
+                                </NavLink>
+                            </Menu.Item>
+                        );
+                    })
+                }
+            </Menu>
+        </Sider>
+    );
+}
 
 // ReactDOM.render(<SiderDemo />, mountNode);
 // #components-layout-demo-side .logo {

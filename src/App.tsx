@@ -7,8 +7,7 @@ import { DataAccess } from './access';
 // import { UserContext } from './context';
 
 const INSTALLED_MODULE: any = {
-    'user_modules': require('./modules/UserModules'),
-    'admin_modules': require('./modules/AdminModules')
+    'modules': require('./modules/'),
 };
 
 class RootApplication extends React.Component<{}, { loading: boolean }> {

@@ -50,13 +50,12 @@ const columns = [
         key: 'action',
         render: (text, record) => (
             <Space size="middle">
-                <EditButton handleClick={handleClickEditItem}></EditButton>
-                <DeleteButton handleClick={showDeleteItem}></DeleteButton>
+                <EditButton onClick={handleClickEditItem}></EditButton>
+                <DeleteButton onClick={showDeleteItem}></DeleteButton>
             </Space>
         ),
     },
 ];
-
 
 const data = [
     {

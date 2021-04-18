@@ -2,14 +2,14 @@ import React, { ReactNode, useState } from 'react';
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { NavLink } from 'react-router-dom';
 import AvatarContainer from 'components/core/AvatarContainer';
-
+import {LogoutOutlined} from '@ant-design/icons';
 const { Sider } = Layout;
 interface Props {
-    routes: Array<{path: string, label: string, icon: ReactNode}>,
+    routes: Array<{ path: string, label: string, icon: ReactNode }>,
 }
 
 export default function AdminSider(props) {
-    const {routes} = props;
+    const { routes } = props;
     const [collapsed, setCollapsed] = useState(false);
 
     let onCollapse = collapsed => {
@@ -17,7 +17,7 @@ export default function AdminSider(props) {
     };
     return (
         <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-            <AvatarContainer collapsed={collapsed}></AvatarContainer>
+            <AvatarContainer dark collapsed={collapsed}></AvatarContainer>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                 {
                     routes.map((menuItem, idx) => {
@@ -31,6 +31,12 @@ export default function AdminSider(props) {
                         );
                     })
                 }
+
+                <Menu.Item icon={<LogoutOutlined/>}>
+                    <NavLink to="/">
+                        Log out
+                    </NavLink>
+                </Menu.Item>
             </Menu>
         </Sider>
     );

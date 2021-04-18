@@ -1,15 +1,12 @@
 import { Space } from 'antd';
 import Text from 'antd/lib/typography/Text';
 import CustomAvatar from './CustomAvatar';
-export interface TextProps {
-    level: Number
-}
-
-function AvatarContainer(TextProps) {
+function AvatarContainer(props) {
+    const {collapsed} = props;
     return (
         <Space>
             <CustomAvatar></CustomAvatar>
-            <Text style={{color: '#FFF'}}>Đại Nguyễn</Text>
+            {collapsed? null : <Text style={{color: '#FFF'}}>Đại Nguyễn</Text>}
         </Space>
     );
 }

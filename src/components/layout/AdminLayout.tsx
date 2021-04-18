@@ -1,7 +1,5 @@
 import Layout, { Content } from 'antd/lib/layout/layout';
-import { ReactNode } from 'react';
 import AdminSider from './AdminSider';
-import CustomHeader from './CustomHeader';
 function AdminLayout(props) {
     const {siderRoutes, siderRouter} = props;
     return (

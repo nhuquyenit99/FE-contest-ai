@@ -1,10 +1,11 @@
 import { Content, Footer} from 'antd/lib/layout/layout';
 import Layout from 'antd/lib/layout/layout';
 import CustomHeader from './CustomHeader';
-function BaseLayout(props) {
-    const {headerRoutes, router} = props;
-    console.log(headerRoutes);
-    console.log(router);
+import { Route, Switch } from 'react-router';
+import { ContestPage } from 'modules/pages';
+import LoginPage from '../../modules/pages/LoginPage/index';
+function UserLayout(props) {
+    const {headerRoutes, headerRouter} = props;
     return (
         <Layout className="layout">
             <CustomHeader routes={headerRoutes}></CustomHeader>
@@ -19,7 +20,7 @@ function BaseLayout(props) {
                             textAlign: 'left',
                         }}
                     >
-                        {router}
+                        {headerRouter}
                     </Content>
                 </Layout>
             </Layout>
@@ -28,4 +29,4 @@ function BaseLayout(props) {
     );
 }
 
-export default BaseLayout;
+export default UserLayout;

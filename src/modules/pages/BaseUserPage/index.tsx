@@ -1,18 +1,21 @@
-import BaseLayout from 'components/layout/BaseLayout';
 import { Route, Switch } from 'react-router';
 import { HomePage } from '../home';
-import LoginPage from '../LoginPage';
 import Logo from '../../../components/core/Logo';
+import { ContestPage } from '../ContestPage';
+import UserLayout from 'components/layout/UserLayout';
+import LoginPage from '../LoginPage/index';
 
 const routes = [
     {
         label: 'Logo',
         path: '/',
+        exact: true,
         component: Logo
     },
     {
         label: 'Home',
         path: '/',
+        exact: true,
         component: HomePage
     },
     {
@@ -20,19 +23,20 @@ const routes = [
         path: '/login',
         component: LoginPage
     },
+    {
+        label: 'Contest',
+        path: '/contest',
+        exact: true,
+        component: ContestPage
+    },
 ];
 export default function BaseUserPage() {
-    const router = (
+    const headerRouter = (
         <Switch>
             {
                 routes.map(route => <Route key={route.path} {...route}></Route>)
             }
         </Switch>
     );
-    const childProps = {
-        router: router,
-        headerRoutes: routes
-    };
-    console.log(childProps);
-    return <BaseLayout {...childProps}></BaseLayout>;
+    return <UserLayout headerRoutes={routes} headerRouter={headerRouter}></UserLayout>;
 }

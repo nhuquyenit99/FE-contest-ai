@@ -4,20 +4,15 @@ import BaseUserPage from './pages/BaseUserPage';
 import LoginPage from './pages/LoginPage/index';
 const routes = [
     {
-        path: '/',
-        exact: true,
-        component: BaseUserPage,
-    },
-    {
         path: '/admin',
         exact: false,
         component: AdminPage, 
     },
     {
-        path: '/login',
+        path: '/',
         exact: false,
-        component: LoginPage,
-    }
+        component: BaseUserPage,
+    },
 ];
 export function setup(module: Module) {
     console.log('Setup chat room');

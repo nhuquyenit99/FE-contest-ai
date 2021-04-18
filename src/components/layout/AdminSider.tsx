@@ -17,7 +17,7 @@ export default function AdminSider(props) {
     };
     return (
         <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-            <AvatarContainer></AvatarContainer>
+            <AvatarContainer collapsed={collapsed}></AvatarContainer>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                 {
                     routes.map((menuItem, idx) => {

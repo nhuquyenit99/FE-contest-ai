@@ -44,14 +44,12 @@ const routes = [
 ];
 
 export default function AdminPage() {
-    const router = () => {
-        return (
-            <Switch>
-                {
-                    routes.map(route => <Route key={route.path} {...route}></Route>)
-                }
-            </Switch>
-        );
-    };
-    return (<AdminLayout siderRouter={router()} siderRoutes={routes}></AdminLayout>);
+    const router = (
+        <Switch>
+            {
+                routes.map(route => <Route key={route.path} {...route}></Route>)
+            }
+        </Switch>
+    );
+    return (<AdminLayout siderRouter={router} siderRoutes={routes}></AdminLayout>);
 }

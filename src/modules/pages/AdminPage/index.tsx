@@ -53,5 +53,5 @@ export default function AdminPage() {
             </Switch>
         );
     };
-    return (<AdminLayout router={router()} routes={routes}></AdminLayout>);
+    return (<AdminLayout siderRouter={router()} siderRoutes={routes}></AdminLayout>);
 }

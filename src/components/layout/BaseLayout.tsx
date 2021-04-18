@@ -1,11 +1,13 @@
 import { Content, Footer} from 'antd/lib/layout/layout';
 import Layout from 'antd/lib/layout/layout';
 import CustomHeader from './CustomHeader';
-
-function BaseLayout() {
+function BaseLayout(props) {
+    const {headerRoutes, router} = props;
+    console.log(headerRoutes);
+    console.log(router);
     return (
         <Layout className="layout">
-            <CustomHeader></CustomHeader>
+            <CustomHeader routes={headerRoutes}></CustomHeader>
             <Layout>
                 <Layout
                     style={{}}>
@@ -17,6 +19,7 @@ function BaseLayout() {
                             textAlign: 'left',
                         }}
                     >
+                        {router}
                     </Content>
                 </Layout>
             </Layout>

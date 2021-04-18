@@ -4,22 +4,24 @@ import { Col, Layout, Menu, Row, Space } from 'antd';
 import CustomAvatar from '../core/CustomAvatar';
 import AvatarContainer from '../core/AvatarContainer';
 import CustomBadge from '../core/CustomBadge';
+import { NavLink } from 'react-router-dom';
 const { Header } = Layout;
-function CustomHeader() {
+function CustomHeader(props) {
+    const {routes} = props;
+    console.log(routes);
     return (
         <Header>
             <Row>
                 <Col xs={16}>
                     <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
-                        <Menu.Item key="0"><Logo></Logo></Menu.Item>
-                        <Menu.Item key="1">Home</Menu.Item>
-                        <Menu.Item key="2">Dashboard</Menu.Item>
-                        <Menu.Item key="3">Help</Menu.Item>
-
-                        <Menu.Item key="4">
-
-                        </Menu.Item>
-
+                        {
+                            routes.map((route, idx) => 
+                                <Menu.Item key={idx}>
+                                    <NavLink to={route.path}>
+                                        {route.label}
+                                    </NavLink>
+                                </Menu.Item>)
+                        }
                     </Menu>
                 </Col>
                 <Col>

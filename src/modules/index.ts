@@ -1,7 +1,6 @@
 import { Module } from '../core';
 import AdminPage from './pages/AdminPage';
 import BaseUserPage from './pages/BaseUserPage';
-import LoginPage from './pages/LoginPage/index';
 const routes = [
     {
         path: '/admin',

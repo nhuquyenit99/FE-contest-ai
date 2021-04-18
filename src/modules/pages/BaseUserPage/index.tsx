@@ -1,6 +1,6 @@
 import { Route, Switch } from 'react-router';
-import { HomePage } from '../home';
-import Logo from '../../../components/core/Logo';
+import { HomePage } from '../HomePage';
+import Logo from 'components/core/Logo';
 import { ContestPage } from '../ContestPage';
 import UserLayout from 'components/layout/UserLayout';
 import LoginPage from '../LoginPage/index';
@@ -10,7 +10,7 @@ const routes = [
         label: 'Logo',
         path: '/',
         exact: true,
-        component: Logo
+        component: HomePage
     },
     {
         label: 'Home',

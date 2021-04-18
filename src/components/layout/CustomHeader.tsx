@@ -8,7 +8,6 @@ import { NavLink } from 'react-router-dom';
 const { Header } = Layout;
 function CustomHeader(props) {
     const {routes} = props;
-    console.log(routes);
     return (
         <Header>
             <Row>
@@ -27,7 +26,7 @@ function CustomHeader(props) {
                 <Col>
                     <Space align="center" size="large">
                         <CustomBadge></CustomBadge>
-                        <AvatarContainer></AvatarContainer>
+                        <AvatarContainer dark></AvatarContainer>
                     </Space>
                 </Col>
             </Row>

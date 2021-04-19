@@ -22,9 +22,12 @@ export default function LanguagePage() {
     const [isEditLanguageModalVisible, setIsEditLanguageModalVisible] = useState(false);
     const [isDeleteLanguageModalVisible, setIsDeleteLanguageModalVisible] = useState(false);
     useEffect(() => {
-        fetchAllLanguage((resp, idx) => {
+        fetchAllLanguage((resp) => {
             let newData = resp.data;
-            // newData = newData.map(data => data.key = idx);
+            newData = newData.map(data => {
+                data.key = data._id;
+                return data;
+            });
             console.log(newData);
             setData(newData);
         })

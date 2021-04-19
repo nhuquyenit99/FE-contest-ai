@@ -7,9 +7,9 @@ import { notification } from 'antd';
 
 
 const apiDeleteLanguage = API_ADDRESS.concat('/api/language/');
-const fetchDeleteLanguage = (id, cb) => {
+const fetchDeleteLanguage = (id) => {
     const apiDeleteLanguageId = apiDeleteLanguage.concat(id).concat('/');
-    return Promise.resolve(axios.delete(apiDeleteLanguageId).then(cb));
+    return axios.delete(apiDeleteLanguageId);
 };
 const childDeleteLanguageComponent = (
     <>
@@ -17,19 +17,22 @@ const childDeleteLanguageComponent = (
     </>
 );
 export default function ModalAddLanguage(props) {
-    const { setIsDeleteLanguageModalVisible } = props;
+    const { setIsDeleteLanguageModalVisible, setShouldRefreshData } = props;
     const {_id} = props;
     const handleOk = () => {
-        fetchDeleteLanguage(_id, () => {
-            notification.success({
-                message: 'Delete language successfully',
-                style: {
-                    width: 600,
-                },
-            });
-        }).catch(
-            err => console.log(err)
-        );
+        fetchDeleteLanguage(_id)
+            .then(resp => {
+                setShouldRefreshData(true);
+                notification.success({
+                    message: 'Delete language successfully',
+                    style: {
+                        width: 600,
+                    },
+                });
+            })
+            .catch(
+                err => console.log(err)
+            );
         setIsDeleteLanguageModalVisible(false);
     };
 

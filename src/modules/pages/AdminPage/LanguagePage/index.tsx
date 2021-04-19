@@ -21,8 +21,9 @@ export default function LanguagePage() {
     const [isAddLanguageModalVisible, setIsAddLanguageModalVisible] = useState(false);
     const [isEditLanguageModalVisible, setIsEditLanguageModalVisible] = useState(false);
     const [isDeleteLanguageModalVisible, setIsDeleteLanguageModalVisible] = useState(false);
+    const [shouldRefreshData, setShouldRefreshData] = useState(false);
     const [selectedId, setSelectedId] = useState(-1);
-    useEffect(() => {
+    const refreshData = () => {
         fetchAllLanguage()
             .then(resp => {
                 let newData = resp.data;
@@ -34,7 +35,17 @@ export default function LanguagePage() {
                 setData(newData);
             })
             .catch(err => console.log(err));
+    };
+    
+    useEffect(() => {
+        refreshData();
     }, []);
+    useEffect(() => {
+        if (shouldRefreshData) {
+            refreshData();
+            setShouldRefreshData(false);
+        }
+    }, [shouldRefreshData]);
     const columns = [
         {
             title: 'Id',
@@ -82,17 +93,20 @@ export default function LanguagePage() {
     };
     const addLanguageModalProps = {
         visible: isAddLanguageModalVisible,
-        setIsAddLanguageModalVisible
+        setIsAddLanguageModalVisible,
+        setShouldRefreshData,
     };
     const editLanguageModalProps = {
         editedItem: data.filter(item => item['_id'] === selectedId)[0],
         visible: isEditLanguageModalVisible,
-        setIsEditLanguageModalVisible
+        setIsEditLanguageModalVisible,
+        setShouldRefreshData,
     };
     const deleteLanguageModalProps = {
         _id: selectedId,
         visible: isDeleteLanguageModalVisible,
-        setIsDeleteLanguageModalVisible
+        setIsDeleteLanguageModalVisible,
+        setShouldRefreshData,
     };
     return (
         <>

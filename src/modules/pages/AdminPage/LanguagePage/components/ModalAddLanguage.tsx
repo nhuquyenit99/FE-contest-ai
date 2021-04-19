@@ -10,7 +10,7 @@ const fetchAddLanguage = (body) => {
 };
 
 export default function ModalAddLanguage(props) {
-    const {setIsAddLanguageModalVisible} = props;    
+    const {setIsAddLanguageModalVisible, setShouldRefreshData} = props;    
     const [form] = Form.useForm();
     const handleOk = () => {
         form.validateFields()
@@ -18,6 +18,7 @@ export default function ModalAddLanguage(props) {
                 console.log(values);
                 fetchAddLanguage(values)
                     .then(resp => {
+                        setShouldRefreshData(true);
                         notification.success({
                             message: 'Added language successfully',
                             style: {

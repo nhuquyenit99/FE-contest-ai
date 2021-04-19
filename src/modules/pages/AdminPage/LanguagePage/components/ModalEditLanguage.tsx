@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import { Form, FormInstance, Input, notification } from 'antd';
 import CustomModal from 'components/core/CustomModal';
 import { Store } from 'rc-field-form/lib/interface';
@@ -6,9 +6,9 @@ import API_ADDRESS from 'const/api';
 import axios from 'axios';
 
 const renderChildComponent = (
-    form: FormInstance, 
+    form: FormInstance,
     initialValues?: Store,
-    handleOk?: ((values: any) => void), 
+    handleOk?: ((values: any) => void),
 ) => {
     return (
         <Form
@@ -19,12 +19,12 @@ const renderChildComponent = (
             <Form.Item
                 label='name'
                 name="name">
-                <Input size="large" placeholder='Language name'/>
+                <Input size="large" placeholder='Language name' />
             </Form.Item>
             <Form.Item
                 label='path'
                 name='path'>
-                <Input size="large" placeholder='Path'/>
+                <Input size="large" placeholder='Path' />
             </Form.Item>
         </Form>
     );
@@ -36,7 +36,11 @@ const fetchUpdateLanguage = (id, newObj) => {
 };
 export default function ModalEditLanguage(props) {
     const [form] = Form.useForm();
-    const { setIsEditLanguageModalVisible, editedItem } = props;
+    const {
+        setIsEditLanguageModalVisible,
+        editedItem,
+        setShouldRefreshData 
+    } = props;
     useEffect(() => {
         form.resetFields();
     });
@@ -47,6 +51,7 @@ export default function ModalEditLanguage(props) {
                 console.log(values);
                 fetchUpdateLanguage(editedItem._id, values)
                     .then(() => {
+                        setShouldRefreshData(true);
                         notification.success({
                             message: 'Updated language successfully',
                             style: {
@@ -54,17 +59,17 @@ export default function ModalEditLanguage(props) {
                             },
                         });
                     })
-                    .catch((err) => {});
+                    .catch((err) => { });
                 form.resetFields();
                 setIsEditLanguageModalVisible(false);
             })
-            .catch(err => {});
+            .catch(err => { });
     };
 
     const handleCancel = () => {
         setIsEditLanguageModalVisible(false);
     };
-    
+
     const editLanguageModalProps = {
         title: 'Edit language',
         getContainer: false,

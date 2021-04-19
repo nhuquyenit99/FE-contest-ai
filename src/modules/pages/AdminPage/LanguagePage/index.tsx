@@ -11,8 +11,8 @@ import API_ADDRESS from 'const/api';
 
 
 const apiGetAllLanguage = API_ADDRESS.concat('/api/language/');
-const fetchAllLanguage = (cb) => {
-    return Promise.resolve(axios.get(apiGetAllLanguage).then(cb));
+const fetchAllLanguage = () => {
+    return axios.get(apiGetAllLanguage);
 };
 
 
@@ -23,15 +23,16 @@ export default function LanguagePage() {
     const [isDeleteLanguageModalVisible, setIsDeleteLanguageModalVisible] = useState(false);
     const [selectedId, setSelectedId] = useState(-1);
     useEffect(() => {
-        fetchAllLanguage((resp) => {
-            let newData = resp.data;
-            newData = newData.map(data => {
-                data.key = data._id;
-                return data;
-            });
-            console.log(newData);
-            setData(newData);
-        })
+        fetchAllLanguage()
+            .then(resp => {
+                let newData = resp.data;
+                newData = newData.map(data => {
+                    data.key = data._id;
+                    return data;
+                });
+                console.log(newData);
+                setData(newData);
+            })
             .catch(err => console.log(err));
     }, []);
     const columns = [

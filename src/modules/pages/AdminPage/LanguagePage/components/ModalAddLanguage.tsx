@@ -1,12 +1,12 @@
 import CustomModal from 'components/core/CustomModal';
-import { Form, Input } from 'antd';
+import { Form, Input, notification } from 'antd';
 import axios from 'axios';
 import API_ADDRESS from 'const/api';
 
 
 const apiAddLanguage = API_ADDRESS.concat('/api/language/');
-const fetchAddLanguage = (body, cb) => {
-    return Promise.resolve(axios.post(apiAddLanguage, body).then(cb));
+const fetchAddLanguage = (body) => {
+    return axios.post(apiAddLanguage, body);
 };
 
 export default function ModalAddLanguage(props) {
@@ -16,8 +16,16 @@ export default function ModalAddLanguage(props) {
         form.validateFields()
             .then(values => {
                 console.log(values);
-                fetchAddLanguage(values, resp => console.log(resp))
-                    .then(err => console.log(err));
+                fetchAddLanguage(values)
+                    .then(resp => {
+                        notification.success({
+                            message: 'Added language successfully',
+                            style: {
+                                width: 600,
+                            },
+                        });
+                    })
+                    .catch(err => console.log(err));
                 form.resetFields();
                 setIsAddLanguageModalVisible(false);
             })

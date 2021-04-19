@@ -21,6 +21,7 @@ export default function LanguagePage() {
     const [isAddLanguageModalVisible, setIsAddLanguageModalVisible] = useState(false);
     const [isEditLanguageModalVisible, setIsEditLanguageModalVisible] = useState(false);
     const [isDeleteLanguageModalVisible, setIsDeleteLanguageModalVisible] = useState(false);
+    const [selectedId, setSelectedId] = useState(-1);
     useEffect(() => {
         fetchAllLanguage((resp) => {
             let newData = resp.data;
@@ -59,10 +60,11 @@ export default function LanguagePage() {
         {
             title: 'Action',
             key: 'action',
-            render: (text, record) => (
+            dataIndex: '_id',
+            render: (_id, record) => (
                 <Space size="middle">
                     <EditButton onClick={showEditItem}></EditButton>
-                    <DeleteButton onClick={showDeleteItem}></DeleteButton>
+                    <DeleteButton onClick={showDeleteItem} id={_id}></DeleteButton>
                 </Space>
             ),
         },
@@ -74,7 +76,8 @@ export default function LanguagePage() {
     const showEditItem = () => {
         setIsEditLanguageModalVisible(true);
     }; 
-    const showDeleteItem = () => {
+    const showDeleteItem = (e) => {
+        console.log(e);
         setIsDeleteLanguageModalVisible(true);
     };
     const addLanguageModalProps = {
@@ -86,6 +89,7 @@ export default function LanguagePage() {
         setIsEditLanguageModalVisible
     };
     const deleteLanguageModalProps = {
+        _id: selectedId,
         visible: isDeleteLanguageModalVisible,
         setIsDeleteLanguageModalVisible
     };
@@ -95,7 +99,16 @@ export default function LanguagePage() {
             <ModalEditLanguage {...editLanguageModalProps}></ModalEditLanguage>
             <ModalDeleteLanguage {...deleteLanguageModalProps}></ModalDeleteLanguage>
             <Button type="primary" onClick={showAddLanguageModal} style={{ justifyContent: 'end' }}>Add language</Button>
-            <Table columns={columns} dataSource={data} />
+            <Table 
+                rowKey='_id' 
+                onRow={(record) =>{
+                    return {
+                        onClick: event => setSelectedId(record._id),
+                    };
+                }}
+                columns={columns} 
+                dataSource={data} 
+            />
         </>
     );
 }

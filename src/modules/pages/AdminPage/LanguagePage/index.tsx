@@ -77,7 +77,6 @@ export default function LanguagePage() {
         setIsEditLanguageModalVisible(true);
     }; 
     const showDeleteItem = (e) => {
-        console.log(e);
         setIsDeleteLanguageModalVisible(true);
     };
     const addLanguageModalProps = {
@@ -85,6 +84,7 @@ export default function LanguagePage() {
         setIsAddLanguageModalVisible
     };
     const editLanguageModalProps = {
+        editedItem: data.filter(item => item['_id'] === selectedId)[0],
         visible: isEditLanguageModalVisible,
         setIsEditLanguageModalVisible
     };

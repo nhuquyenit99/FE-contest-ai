@@ -1,21 +1,12 @@
+import { Form, Input } from 'antd';
 import CustomModal from 'components/core/CustomModal';
-import {
-    UserOutlined
-} from '@ant-design/icons';
-import { Input } from 'antd';
 
 
-const childEditLanguageComponent = (
-    <>
-        <Input size="large" placeholder="name" prefix={<UserOutlined />} />
-        <br />
-        <br />
-        <Input size="large" placeholder="path" prefix={<UserOutlined />} />
-        <br />
-    </>
-);
+
 export default function ModalEditLanguage(props) {
-    const {setIsEditLanguageModalVisible} = props;    
+    const [form] = Form.useForm();
+    const { setIsEditLanguageModalVisible, editedItem } = props;
+
     const handleOk = () => {
         setIsEditLanguageModalVisible(false);
     };
@@ -23,7 +14,24 @@ export default function ModalEditLanguage(props) {
     const handleCancel = () => {
         setIsEditLanguageModalVisible(false);
     };
-    
+    const childEditLanguageComponent = (
+        <Form
+            form={form}
+            onFinish={handleOk}
+            initialValues={{...editedItem}}>
+            <Form.Item
+                label='name'
+                name="name">
+                <Input size="large" placeholder='Language name' />
+            </Form.Item>
+            <Form.Item
+                label='path'
+                name='path'>
+                <Input size="large" placeholder='Path' />
+            </Form.Item>
+        </Form>
+    );
+
     const editLanguageModalProps = {
         title: 'Edit language',
         childComponent: childEditLanguageComponent,

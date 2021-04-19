@@ -1,7 +1,9 @@
 import {useEffect} from 'react';
-import { Form, FormInstance, Input } from 'antd';
+import { Form, FormInstance, Input, notification } from 'antd';
 import CustomModal from 'components/core/CustomModal';
 import { Store } from 'rc-field-form/lib/interface';
+import API_ADDRESS from 'const/api';
+import axios from 'axios';
 
 const renderChildComponent = (
     form: FormInstance, 
@@ -27,7 +29,11 @@ const renderChildComponent = (
         </Form>
     );
 };
-
+const apiUpdateLanguage = API_ADDRESS.concat('/api/language/');
+const fetchUpdateLanguage = (id, newObj) => {
+    const apiUpdateLanguageId = apiUpdateLanguage.concat(id).concat('/');
+    return axios.put(apiUpdateLanguageId, newObj);
+};
 export default function ModalEditLanguage(props) {
     const [form] = Form.useForm();
     const { setIsEditLanguageModalVisible, editedItem } = props;
@@ -36,15 +42,29 @@ export default function ModalEditLanguage(props) {
     });
 
     const handleOk = () => {
-        setIsEditLanguageModalVisible(false);
+        form.validateFields()
+            .then(values => {
+                console.log(values);
+                fetchUpdateLanguage(editedItem._id, values)
+                    .then(() => {
+                        notification.success({
+                            message: 'Updated language successfully',
+                            style: {
+                                width: 600,
+                            },
+                        });
+                    })
+                    .catch((err) => {});
+                form.resetFields();
+                setIsEditLanguageModalVisible(false);
+            })
+            .catch(err => {});
     };
 
     const handleCancel = () => {
         setIsEditLanguageModalVisible(false);
     };
     
-    
-
     const editLanguageModalProps = {
         title: 'Edit language',
         getContainer: false,

@@ -1,30 +1,49 @@
-import Modal from 'antd/lib/modal/Modal';
 import CustomModal from 'components/core/CustomModal';
-import {
-    UserOutlined
-} from '@ant-design/icons';
-import { Input } from 'antd';
+import { Form, Input } from 'antd';
+import axios from 'axios';
+import API_ADDRESS from 'const/api';
 
 
-const childAddLanguageComponent = (
-    <>
-        <Input size="large" placeholder="name" prefix={<UserOutlined />} />
-        <br />
-        <br />
-        <Input size="large" placeholder="path" prefix={<UserOutlined />} />
-        <br />
-    </>
-);
+const apiAddLanguage = API_ADDRESS.concat('/api/language/');
+const fetchAddLanguage = (body, cb) => {
+    return Promise.resolve(axios.post(apiAddLanguage, body).then(cb));
+};
+
 export default function ModalAddLanguage(props) {
     const {setIsAddLanguageModalVisible} = props;    
+    const [form] = Form.useForm();
     const handleOk = () => {
-        setIsAddLanguageModalVisible(false);
+        form.validateFields()
+            .then(values => {
+                console.log(values);
+                fetchAddLanguage(values, resp => console.log(resp))
+                    .then(err => console.log(err));
+                form.resetFields();
+                setIsAddLanguageModalVisible(false);
+            })
+            .catch(err => {});
     };
 
     const handleCancel = () => {
         setIsAddLanguageModalVisible(false);
     };
-    
+    const childAddLanguageComponent = (
+        <Form 
+            form={form}
+            onFinish={handleOk}>
+            <Form.Item
+                label='name'
+                name="name">
+                <Input size="large" placeholder='Language name' />
+            </Form.Item>
+            <Form.Item
+                label='path'
+                name='path'>
+                <Input size="large" placeholder='Path' />
+            </Form.Item>
+        </Form>
+    );
+
     const addLanguageModalProps = {
         title: 'Add language',
         childComponent: childAddLanguageComponent,

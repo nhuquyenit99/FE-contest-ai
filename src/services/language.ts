@@ -1,6 +1,6 @@
 import axios from 'axios';
-import {LANGUAGE_API_ADDRESS} from 'const/api';
-
+import { API_ADDRESS } from 'const/api';
+const LANGUAGE_API_ADDRESS = API_ADDRESS.concat('/api/language/');
 
 const fetchAllLanguage = () => {
     return axios.get(LANGUAGE_API_ADDRESS);

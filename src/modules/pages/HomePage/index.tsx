@@ -6,8 +6,8 @@ import ContestsAttendCard from './components/ContestsAttendCard';
 export function HomePage () {
     return (
         <Layout style={{flexDirection: 'row' }}> 
-            <ContestListPage></ContestListPage>
-            <ContestsAttendCard></ContestsAttendCard>
+            <ContestListPage style={{width: '75%'}}></ContestListPage>
+            <ContestsAttendCard style={{width: '25%'}}></ContestsAttendCard>
         </Layout>
     );
 }

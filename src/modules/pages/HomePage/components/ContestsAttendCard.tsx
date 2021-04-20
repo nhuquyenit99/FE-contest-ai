@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 const count = 3;
 const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat&noinfo`;
-export default function ContestsAttendCard() {
+export default function ContestsAttendCard(props) {
     const [initLoading, setInitLoading] = useState(true);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
@@ -55,7 +55,7 @@ export default function ContestsAttendCard() {
 
 
     return (
-        <Card title="Attended Contests">
+        <Card {...props} title="Attended Contests">
 
             <List
                 className="demo-loadmore-list"

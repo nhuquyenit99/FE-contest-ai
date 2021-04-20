@@ -1,24 +1,23 @@
 import CardContest from './components/CardContest';
 import { Card } from 'antd';
-const listContests = [
-    {
-        title: 'Predict'
-    },
-    {
+import { useEffect, useState } from 'react';
+import { fetchAllContest } from 'services/contest';
+export default function ContestListPage(props) {
+    const [dataList, setDataList] = useState([]);
 
-    },
-    {
-
-    },
-    {
-
-    },
-];
-export default function ContestListPage() {
+    useEffect(() => {
+        fetchAllContest()
+            .then(resp => {
+                setDataList(resp.data);
+                console.log(resp.data);
+            });
+    }, []);
     return <>
-        <Card title="List contests">
+        <Card {...props} title="List contests">
             {
-                listContests.map((contest, idx) => <CardContest key={idx} style={{marginBottom: '30px'}}></CardContest>)
+                dataList.map(
+                    (contest, idx) => 
+                        <CardContest key={idx} contest={contest} style={{ marginBottom: '30px' }}></CardContest>)
             }
         </Card>
     </>;

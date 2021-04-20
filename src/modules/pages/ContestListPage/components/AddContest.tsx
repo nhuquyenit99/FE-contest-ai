@@ -1,4 +1,4 @@
-import { Steps, Button, message } from 'antd';
+import { Steps, Button, message, Space } from 'antd';
 import { useState } from 'react';
 import AddContestComponent from './AddContestComponent';
 import AddProblemComponent from './AddProblemComponent';
@@ -19,8 +19,9 @@ const steps = [
     },
 ];
 
-export default function AddContest() {
+export default function AddContest(props) {
     const [current, setCurrent] = useState(0);
+    const {setIsShowAddContest} = props;
 
     const next = () => {
         setCurrent(current + 1);
@@ -29,7 +30,9 @@ export default function AddContest() {
     const prev = () => {
         setCurrent(current - 1);
     };
-
+    const backToList = () => {
+        setIsShowAddContest(false);
+    };
     return (
         <>
             <Steps current={current}>
@@ -39,21 +42,24 @@ export default function AddContest() {
             </Steps>
             <div className="steps-content">{steps[current].content}</div>
             <div className="steps-action">
-                {current < steps.length - 1 && (
-                    <Button type="primary" onClick={() => next()}>
-                        Next
-                    </Button>
-                )}
-                {current === steps.length - 1 && (
-                    <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                        Done
-                    </Button>
-                )}
-                {current > 0 && (
-                    <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-                        Previous
-                    </Button>
-                )}
+                <Space>
+                    {current < steps.length - 1 && (
+                        <Button type="primary" onClick={() => next()}>
+                            Next
+                        </Button>
+                    )}
+                    {current === steps.length - 1 && (
+                        <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                            Done
+                        </Button>
+                    )}
+                    {current > 0 && (
+                        <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+                            Previous
+                        </Button>
+                    )}
+                    <Button onClick={backToList}>Back to List</Button>
+                </Space>
             </div>
         </>
     );

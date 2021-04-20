@@ -5,7 +5,7 @@ import { fetchAllContest } from 'services/contest';
 import AddContest from './components/AddContest';
 export default function ContestListPage(props) {
     const [dataList, setDataList] = useState([]);
-    const [isShowAddContest, setIsShowAddContest] = useState(true);
+    const [isShowAddContest, setIsShowAddContest] = useState(false);
 
     const showAddContest = () => {
         setIsShowAddContest(true);
@@ -27,10 +27,13 @@ export default function ContestListPage(props) {
             (contest, idx) => 
                 <CardContest key={idx} contest={contest} style={{ marginBottom: '30px' }}></CardContest>);
     };
+    const addContestProps = {
+        setIsShowAddContest
+    };
     return <>
         <Card {...props} title="List contests" extra={[buttonAddContest]}>
             {
-                isShowAddContest? <AddContest/>: renderListContest()
+                isShowAddContest? <AddContest {...addContestProps}/>: renderListContest()
             }
         </Card>
     </>;

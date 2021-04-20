@@ -1,12 +1,10 @@
 import CustomModal from 'components/core/CustomModal';
 import { Form, Input, notification } from 'antd';
 import axios from 'axios';
-import API_ADDRESS from 'const/api';
+import {LANGUAGE_API_ADDRESS} from 'const/api';
 
-
-const apiAddLanguage = API_ADDRESS.concat('/api/language/');
 const fetchAddLanguage = (body) => {
-    return axios.post(apiAddLanguage, body);
+    return axios.post(LANGUAGE_API_ADDRESS, body);
 };
 
 export default function ModalAddLanguage(props) {

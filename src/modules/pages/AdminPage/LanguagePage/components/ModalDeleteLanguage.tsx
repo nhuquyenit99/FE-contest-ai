@@ -1,14 +1,11 @@
-import Modal from 'antd/lib/modal/Modal';
 import CustomModal from 'components/core/CustomModal';
 import Text from 'antd/lib/typography/Text';
 import axios from 'axios';
-import API_ADDRESS from 'const/api';
+import {LANGUAGE_API_ADDRESS} from 'const/api';
 import { notification } from 'antd';
 
-
-const apiDeleteLanguage = API_ADDRESS.concat('/api/language/');
 const fetchDeleteLanguage = (id) => {
-    const apiDeleteLanguageId = apiDeleteLanguage.concat(id).concat('/');
+    const apiDeleteLanguageId = LANGUAGE_API_ADDRESS.concat(id).concat('/');
     return axios.delete(apiDeleteLanguageId);
 };
 const childDeleteLanguageComponent = (

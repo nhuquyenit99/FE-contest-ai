@@ -7,12 +7,11 @@ import ModalEditLanguage from './components/ModalEditLanguage';
 import ModalDeleteLanguage from './components/ModalDeleteLanguage';
 import axios from 'axios';
 import { useEffect } from 'react';
-import API_ADDRESS from 'const/api';
+import {LANGUAGE_API_ADDRESS} from 'const/api';
 
 
-const apiGetAllLanguage = API_ADDRESS.concat('/api/language/');
 const fetchAllLanguage = () => {
-    return axios.get(apiGetAllLanguage);
+    return axios.get(LANGUAGE_API_ADDRESS);
 };
 
 

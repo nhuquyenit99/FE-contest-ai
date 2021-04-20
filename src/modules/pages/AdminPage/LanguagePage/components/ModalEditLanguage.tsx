@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Form, FormInstance, Input, notification } from 'antd';
 import CustomModal from 'components/core/CustomModal';
 import { Store } from 'rc-field-form/lib/interface';
-import API_ADDRESS from 'const/api';
+import { LANGUAGE_API_ADDRESS} from 'const/api';
 import axios from 'axios';
 
 const renderChildComponent = (
@@ -29,9 +29,9 @@ const renderChildComponent = (
         </Form>
     );
 };
-const apiUpdateLanguage = API_ADDRESS.concat('/api/language/');
+
 const fetchUpdateLanguage = (id, newObj) => {
-    const apiUpdateLanguageId = apiUpdateLanguage.concat(id).concat('/');
+    const apiUpdateLanguageId = LANGUAGE_API_ADDRESS.concat(id).concat('/');
     return axios.put(apiUpdateLanguageId, newObj);
 };
 export default function ModalEditLanguage(props) {

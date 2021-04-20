@@ -5,14 +5,8 @@ import EditButton from 'components/core/EditButton';
 import ModalAddLanguage from './components/ModalAddLanguage';
 import ModalEditLanguage from './components/ModalEditLanguage';
 import ModalDeleteLanguage from './components/ModalDeleteLanguage';
-import axios from 'axios';
 import { useEffect } from 'react';
-import {LANGUAGE_API_ADDRESS} from 'const/api';
-
-
-const fetchAllLanguage = () => {
-    return axios.get(LANGUAGE_API_ADDRESS);
-};
+import { fetchAllLanguage } from 'services/language';
 
 
 export default function LanguagePage() {

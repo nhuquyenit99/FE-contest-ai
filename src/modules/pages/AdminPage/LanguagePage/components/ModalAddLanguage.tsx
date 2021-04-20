@@ -1,11 +1,6 @@
 import CustomModal from 'components/core/CustomModal';
 import { Form, Input, notification } from 'antd';
-import axios from 'axios';
-import {LANGUAGE_API_ADDRESS} from 'const/api';
-
-const fetchAddLanguage = (body) => {
-    return axios.post(LANGUAGE_API_ADDRESS, body);
-};
+import { fetchAddLanguage } from 'services/language';
 
 export default function ModalAddLanguage(props) {
     const {setIsAddLanguageModalVisible, setShouldRefreshData} = props;    
@@ -13,7 +8,6 @@ export default function ModalAddLanguage(props) {
     const handleOk = () => {
         form.validateFields()
             .then(values => {
-                console.log(values);
                 fetchAddLanguage(values)
                     .then(resp => {
                         setShouldRefreshData(true);

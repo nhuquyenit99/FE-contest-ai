@@ -8,45 +8,12 @@ import {
     Col,
     Checkbox,
     Button,
-    AutoComplete,
+    notification,
 } from 'antd';
+import { fetchRegister } from 'services/user';
 
 const { Option } = Select;
 
-const residences = [
-    {
-        value: 'zhejiang',
-        label: 'Zhejiang',
-        children: [
-            {
-                value: 'hangzhou',
-                label: 'Hangzhou',
-                children: [
-                    {
-                        value: 'xihu',
-                        label: 'West Lake',
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        value: 'jiangsu',
-        label: 'Jiangsu',
-        children: [
-            {
-                value: 'nanjing',
-                label: 'Nanjing',
-                children: [
-                    {
-                        value: 'zhonghuamen',
-                        label: 'Zhong Hua Men',
-                    },
-                ],
-            },
-        ],
-    },
-];
 
 const formItemLayout = {
     labelCol: {
@@ -76,26 +43,32 @@ export default function RegistrationForm() {
 
     const onFinish = (values: any) => {
         console.log('Received values of form: ', values);
-    };
+        const {username, password} = values;
+        fetchRegister(username, password)
+            .then(resp => {
+                console.log(resp);
+                notification.success({
+                    message: 'Register successfully',
+                    style: {
+                        width: 600,
+                    },
+                });
+            })
+            .catch(err => {
+                const {data} = err.response;
+                // console.log(err);
+                notification.error({
+                    message: data.error_message,
+                    style: {
+                        width: 600,
+                    },
+                });
+            });
 
-    const prefixSelector = (
-        <Form.Item name="prefix" noStyle>
-            <Select style={{ width: 70 }}>
-                <Option value="86">+86</Option>
-                <Option value="87">+87</Option>
-            </Select>
-        </Form.Item>
-    );
+    };
 
     const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
 
-    const onWebsiteChange = (value: string) => {
-        if (!value) {
-            setAutoCompleteResult([]);
-        } else {
-            setAutoCompleteResult(['.com', '.org', '.net'].map(domain => `${value}${domain}`));
-        }
-    };
 
     const websiteOptions = autoCompleteResult.map(website => ({
         label: website,

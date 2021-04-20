@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { API_ADDRESS } from 'const/api';
 const USER_API_ADDRESS = API_ADDRESS.concat('/api/user/');
+const REGISTER_API_ADDRESS = API_ADDRESS.concat('/api/register/');
 
 const fetchAllUser = () => {
     return axios.get(USER_API_ADDRESS);
@@ -9,6 +10,12 @@ const fetchAllUser = () => {
 const fetchLogin = (username: string, password: string) => {
     const body = {username, password};
     return axios.post(USER_API_ADDRESS, body);
+};
+
+
+const fetchRegister = (username: string, password: string) => {
+    const body = {username, password};
+    return axios.post(REGISTER_API_ADDRESS, body);
 };
 // const fetchAddLanguage = (body) => {
 //     return axios.post(LANGUAGE_API_ADDRESS, body);
@@ -27,6 +34,7 @@ const fetchLogin = (username: string, password: string) => {
 export {
     fetchLogin,
     fetchAllUser,
+    fetchRegister,
     // fetchAddLanguage,
     // fetchDeleteLanguage,
     // fetchUpdateLanguage,

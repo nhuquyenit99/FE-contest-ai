@@ -1,4 +1,5 @@
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, notification } from 'antd';
+import { fetchLogin } from 'services/user';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
@@ -10,6 +11,25 @@ const tailLayout = {
 export default function LoginForm() {
     const onFinish = (values: any) => {
         console.log('Success:', values);
+        const {username, password} = values;
+        fetchLogin(username, password)
+            .then(resp => {
+                notification.success({
+                    message: 'Login successfully',
+                    style: {
+                        width: 600,
+                    },
+                });
+                document.cookie = 'access_token='+resp.data.access_token;
+            })
+            .catch(err => {
+                notification.error({
+                    message: 'Login failed',
+                    style: {
+                        width: 600,
+                    },
+                });
+            });
     };
 
     const onFinishFailed = (errorInfo: any) => {

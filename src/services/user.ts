@@ -2,14 +2,14 @@ import axios from 'axios';
 import { API_ADDRESS } from 'const/api';
 const USER_API_ADDRESS = API_ADDRESS.concat('/api/user/');
 const REGISTER_API_ADDRESS = API_ADDRESS.concat('/api/register/');
-
+const LOGIN_API_ADDRESS = API_ADDRESS.concat('/api/login/');
 const fetchAllUser = () => {
     return axios.get(USER_API_ADDRESS);
 };
 
 const fetchLogin = (username: string, password: string) => {
     const body = {username, password};
-    return axios.post(USER_API_ADDRESS, body);
+    return axios.post(LOGIN_API_ADDRESS, body);
 };
 
 

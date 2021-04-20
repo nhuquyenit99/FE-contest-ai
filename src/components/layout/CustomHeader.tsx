@@ -1,14 +1,17 @@
 import React from 'react';
 import Logo from '../core/Logo';
-import { Col, Layout, Menu, Row, Space } from 'antd';
+import { Col, Layout, Menu, Row, Space, Button } from 'antd';
 import CustomAvatar from '../core/CustomAvatar';
 import AvatarContainer from '../core/AvatarContainer';
 import CustomBadge from '../core/CustomBadge';
+import {
+    MenuFoldOutlined
+} from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
+import SettingDropdown from './SettingDropdown';
 const { Header } = Layout;
 function CustomHeader(props) {
     const {routes} = props;
-    console.log(routes);
     return (
         <Header>
             <Row>
@@ -25,9 +28,10 @@ function CustomHeader(props) {
                     </Menu>
                 </Col>
                 <Col>
-                    <Space align="center" size="large">
+                    <Space align='end' size="large">
                         <CustomBadge></CustomBadge>
-                        <AvatarContainer></AvatarContainer>
+                        <AvatarContainer dark></AvatarContainer>
+                        <SettingDropdown></SettingDropdown>
                     </Space>
                 </Col>
             </Row>

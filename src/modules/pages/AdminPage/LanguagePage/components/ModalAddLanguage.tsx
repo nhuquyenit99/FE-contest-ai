@@ -1,17 +1,57 @@
-import Modal from 'antd/lib/modal/Modal';
+import CustomModal from 'components/core/CustomModal';
+import { Form, Input, notification } from 'antd';
+import { fetchAddLanguage } from 'services/language';
 
-export interface Props {
-    title: string,
-    isModalVisible: boolean,
-    childComponent: JSX.Element,
-    handleOk?: () => void,
-    handleCancel?: () => void
-}
+export default function ModalAddLanguage(props) {
+    const {setIsAddLanguageModalVisible, setShouldRefreshData} = props;    
+    const [form] = Form.useForm();
+    const handleOk = () => {
+        form.validateFields()
+            .then(values => {
+                fetchAddLanguage(values)
+                    .then(resp => {
+                        setShouldRefreshData(true);
+                        notification.success({
+                            message: 'Added language successfully',
+                            style: {
+                                width: 600,
+                            },
+                        });
+                    })
+                    .catch(err => console.log(err));
+                form.resetFields();
+                setIsAddLanguageModalVisible(false);
+            })
+            .catch(err => {});
+    };
 
-export default function ModalAddLanguage({ title, isModalVisible, childComponent, handleOk, handleCancel }: Props) {
+    const handleCancel = () => {
+        setIsAddLanguageModalVisible(false);
+    };
+    const childAddLanguageComponent = (
+        <Form 
+            form={form}
+            onFinish={handleOk}>
+            <Form.Item
+                label='name'
+                name="name">
+                <Input size="large" placeholder='Language name' />
+            </Form.Item>
+            <Form.Item
+                label='path'
+                name='path'>
+                <Input size="large" placeholder='Path' />
+            </Form.Item>
+        </Form>
+    );
+
+    const addLanguageModalProps = {
+        title: 'Add language',
+        childComponent: childAddLanguageComponent,
+        handleOk,
+        handleCancel,
+    };
     return (
-        <Modal title={title} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-            {childComponent}
-        </Modal>
+        <CustomModal {...props} {...addLanguageModalProps}></CustomModal>
     );
 }

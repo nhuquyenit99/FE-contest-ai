@@ -1,82 +1,75 @@
-import { Table, Tag, Space } from 'antd';
+import React, { useState } from 'react';
+import { Button, Input, Space, Table, Tag } from 'antd';
+import DeleteButton from 'components/core/DeleteButton';
+import EditButton from 'components/core/EditButton';
+import { useEffect } from 'react';
+import { fetchAllUser } from 'services/user';
 
-const columns = [
-    {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-        render: text => <a>{text}</a>,
-    },
-    {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
-    },
-    {
-        title: 'Address',
-        dataIndex: 'address',
-        key: 'address',
-    },
-    {
-        title: 'Tags',
-        key: 'tags',
-        dataIndex: 'tags',
-        render: tags => (
-            <>
-                {tags.map(tag => {
-                    let color = tag.length > 5 ? 'geekblue' : 'green';
-                    if (tag === 'loser') {
-                        color = 'volcano';
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
-            </>
-        ),
-    },
-    {
-        title: 'Action',
-        key: 'action',
-        render: (text, record) => (
-            <Space size="middle">
-                <a>Invite {record.name}</a>
-                <a>Delete</a>
-            </Space>
-        ),
-    },
-];
 
-const data = [
-    {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        tags: ['loser'],
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-        tags: ['cool', 'teacher'],
-    },
-];
+export default function LanguagePage() {
+    const [data, setData] = useState([]);
+    const [shouldRefreshData, setShouldRefreshData] = useState(false);
+    const refreshData = () => {
+        fetchAllUser()
+            .then(resp => {
+                let newData = resp.data;
+                newData = newData.map(data => {
+                    data.key = data._id;
+                    return data;
+                });
+                console.log(newData);
+                setData(newData);
+            })
+            .catch(err => console.log(err));
+    };
 
-export default function UsersPage() {
+    useEffect(() => {
+        refreshData();
+    }, []);
+    useEffect(() => {
+        if (shouldRefreshData) {
+            refreshData();
+            setShouldRefreshData(false);
+        }
+    }, [shouldRefreshData]);
+    const columns = [
+        {
+            title: 'Username',
+            dataIndex: 'username',
+            key: 'username',
+            render: text => <a>{text}</a>,
+        },
+        {
+            title: 'Role',
+            dataIndex: 'role',
+            key: 'role',
+        },
+        {
+            title: 'Created At',
+            dataIndex: 'created',
+            key: 'created',
+        },
+        // {
+        //     title: 'Action',
+        //     key: 'action',
+        //     dataIndex: '_id',
+        //     render: (_id, record) => (
+        //         <Space size="middle">
+        //             <EditButton onClick={showEditItem}></EditButton>
+        //             <DeleteButton onClick={showDeleteItem} id={_id}></DeleteButton>
+        //         </Space>
+        //     ),
+        // },
+    ];
+
+
     return (
-        <div className='site-card-wrapper'>
-            <Table columns={columns} dataSource={data} />
-        </div>
+        <>
+            <Table
+                rowKey='_id'
+                columns={columns}
+                dataSource={data}
+            />
+        </>
     );
 }

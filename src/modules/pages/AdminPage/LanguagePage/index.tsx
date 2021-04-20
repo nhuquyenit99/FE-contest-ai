@@ -1,140 +1,122 @@
 import React, { useState } from 'react';
 import { Button, Input, Space, Table, Tag } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-import CustomModal from 'components/core/CustomModal';
 import DeleteButton from 'components/core/DeleteButton';
 import EditButton from 'components/core/EditButton';
-import Text from 'antd/lib/typography/Text';
-const handleClickEditItem = () => {
-    alert('alert');
-};
-
-const showDeleteItem = () => {
-    // setIsDeleteLanguageModalVisible(true);
-};
-
-const columns = [
-    {
-        title: 'Language',
-        dataIndex: 'language',
-        key: 'language',
-        render: text => <a>{text}</a>,
-    },
-    {
-        title: 'Path',
-        dataIndex: 'age',
-        key: 'path',
-    },
-    {
-        title: 'Tags',
-        key: 'tags',
-        dataIndex: 'tags',
-        render: tags => (
-            <>
-                {tags.map(tag => {
-                    let color = tag.length > 5 ? 'geekblue' : 'green';
-                    if (tag === 'loser') {
-                        color = 'volcano';
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
-            </>
-        ),
-    },
-    {
-        title: 'Action',
-        key: 'action',
-        render: (text, record) => (
-            <Space size="middle">
-                <EditButton onClick={handleClickEditItem}></EditButton>
-                <DeleteButton onClick={showDeleteItem}></DeleteButton>
-            </Space>
-        ),
-    },
-];
-
-const data = [
-    {
-        key: '1',
-        language: 'C++',
-        age: 'sdfsdf',
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-    },
-    {
-        key: '2',
-        language: 'Python',
-        age: 'sdfsdfsdf',
-        address: 'London No. 1 Lake Park',
-        tags: ['loser'],
-    },
-    {
-        key: '3',
-        language: 'Rust',
-        age: 'sdfsdfsdf',
-        address: 'Sidney No. 1 Lake Park',
-        tags: ['cool', 'teacher'],
-    },
-];
-
+import ModalAddLanguage from './components/ModalAddLanguage';
+import ModalEditLanguage from './components/ModalEditLanguage';
+import ModalDeleteLanguage from './components/ModalDeleteLanguage';
+import { useEffect } from 'react';
+import { fetchAllLanguage } from 'services/language';
 
 
 export default function LanguagePage() {
+    const [data, setData] = useState([]);
     const [isAddLanguageModalVisible, setIsAddLanguageModalVisible] = useState(false);
+    const [isEditLanguageModalVisible, setIsEditLanguageModalVisible] = useState(false);
     const [isDeleteLanguageModalVisible, setIsDeleteLanguageModalVisible] = useState(false);
+    const [shouldRefreshData, setShouldRefreshData] = useState(false);
+    const [selectedId, setSelectedId] = useState(-1);
+    const refreshData = () => {
+        fetchAllLanguage()
+            .then(resp => {
+                let newData = resp.data;
+                newData = newData.map(data => {
+                    data.key = data._id;
+                    return data;
+                });
+                console.log(newData);
+                setData(newData);
+            })
+            .catch(err => console.log(err));
+    };
     
-    const childAddLanguageComponent = (
-        <>
-            <Input size="large" placeholder="name" prefix={<UserOutlined />} />
-            <br />
-            <br />
-            <Input size="large" placeholder="path" prefix={<UserOutlined />} />
-            <br />
-        </>
-    );
-    const childDeleteLanguageComponent = (
-        <>
-            <Text> Are you sure to delete this language?</Text>
-        </>
-    );
+    useEffect(() => {
+        refreshData();
+    }, []);
+    useEffect(() => {
+        if (shouldRefreshData) {
+            refreshData();
+            setShouldRefreshData(false);
+        }
+    }, [shouldRefreshData]);
+    const columns = [
+        {
+            title: 'Id',
+            dataIndex: '_id',
+            key: '_id',
+            render: text => <a>{text}</a>,
+        },
+        {
+            title: 'Language',
+            dataIndex: 'name',
+            key: 'language',
+            render: text => <a>{text}</a>,
+        },
+        {
+            title: 'Path',
+            dataIndex: 'path',
+            key: 'path',
+        },
+        {
+            title: 'Created At',
+            dataIndex: 'created',
+            key: 'created',
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            dataIndex: '_id',
+            render: (_id, record) => (
+                <Space size="middle">
+                    <EditButton onClick={showEditItem}></EditButton>
+                    <DeleteButton onClick={showDeleteItem} id={_id}></DeleteButton>
+                </Space>
+            ),
+        },
+    ];
 
-    const showModal = () => {
+    const showAddLanguageModal = () => {
         setIsAddLanguageModalVisible(true);
     };
-
-    const handleOk = () => {
-        setIsAddLanguageModalVisible(false);
+    const showEditItem = () => {
+        setIsEditLanguageModalVisible(true);
+    }; 
+    const showDeleteItem = (e) => {
+        setIsDeleteLanguageModalVisible(true);
     };
-
-    const handleCancel = () => {
-        setIsAddLanguageModalVisible(false);
-    };
-
     const addLanguageModalProps = {
-        title: 'Add language',
-        childComponent: childAddLanguageComponent,
-        isModalVisible: isAddLanguageModalVisible,
-        handleOk,
-        handleCancel,
+        visible: isAddLanguageModalVisible,
+        setIsAddLanguageModalVisible,
+        setShouldRefreshData,
     };
-
+    const editLanguageModalProps = {
+        editedItem: data.filter(item => item['_id'] === selectedId)[0],
+        visible: isEditLanguageModalVisible,
+        setIsEditLanguageModalVisible,
+        setShouldRefreshData,
+    };
     const deleteLanguageModalProps = {
-        title: 'Delete language',
-        childComponent: childDeleteLanguageComponent,
-        isModalVisible: isDeleteLanguageModalVisible,
-        handleOk,
-        handleCancel,
+        _id: selectedId,
+        visible: isDeleteLanguageModalVisible,
+        setIsDeleteLanguageModalVisible,
+        setShouldRefreshData,
     };
     return (
         <>
-            <CustomModal {...addLanguageModalProps}></CustomModal>
-            <CustomModal {...deleteLanguageModalProps}></CustomModal>
-            <Button type="primary" onClick={showModal} style={{ justifyContent: 'end' }}>Add language</Button>
-            <Table columns={columns} dataSource={data} />
+            <ModalAddLanguage {...addLanguageModalProps}></ModalAddLanguage>
+            <ModalEditLanguage {...editLanguageModalProps}></ModalEditLanguage>
+            <ModalDeleteLanguage {...deleteLanguageModalProps}></ModalDeleteLanguage>
+            <Button type="primary" onClick={showAddLanguageModal} style={{ justifyContent: 'end' }}>Add language</Button>
+            <Table 
+                rowKey='_id' 
+                onRow={(record) =>{
+                    return {
+                        onClick: event => setSelectedId(record._id),
+                    };
+                }}
+                columns={columns} 
+                dataSource={data} 
+            />
         </>
     );
 }

@@ -1,9 +1,18 @@
 import CardContest from './components/CardContest';
-import { Card } from 'antd';
+import { Button, Card } from 'antd';
 import { useEffect, useState } from 'react';
 import { fetchAllContest } from 'services/contest';
+import AddContest from './components/AddContest';
 export default function ContestListPage(props) {
     const [dataList, setDataList] = useState([]);
+    const [isShowAddContest, setIsShowAddContest] = useState(true);
+
+    const showAddContest = () => {
+        setIsShowAddContest(true);
+    };
+    
+    const buttonAddContest = <Button type="primary" onClick={showAddContest}>Add contest</Button>;
+    
 
     useEffect(() => {
         fetchAllContest()
@@ -12,12 +21,16 @@ export default function ContestListPage(props) {
                 console.log(resp.data);
             });
     }, []);
+
+    const renderListContest = () => {
+        return dataList.map(
+            (contest, idx) => 
+                <CardContest key={idx} contest={contest} style={{ marginBottom: '30px' }}></CardContest>);
+    };
     return <>
-        <Card {...props} title="List contests">
+        <Card {...props} title="List contests" extra={[buttonAddContest]}>
             {
-                dataList.map(
-                    (contest, idx) => 
-                        <CardContest key={idx} contest={contest} style={{ marginBottom: '30px' }}></CardContest>)
+                isShowAddContest? <AddContest/>: renderListContest()
             }
         </Card>
     </>;

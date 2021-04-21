@@ -11,7 +11,7 @@ import { NavLink } from 'react-router-dom';
 import SettingDropdown from './SettingDropdown';
 const { Header } = Layout;
 function CustomHeader(props) {
-    const {routes} = props;
+    const {routes, isAuthenticated} = props;
     return (
         <Header>
             <Row>

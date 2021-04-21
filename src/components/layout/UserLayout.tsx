@@ -4,6 +4,8 @@ import CustomHeader from './CustomHeader';
 import { Route, Switch } from 'react-router';
 import { ContestPage } from 'modules/pages';
 import LoginPage from '../../modules/pages/LoginPage/index';
+import { readCookie } from 'utils/cookie';
+import { useState } from 'react';
 function UserLayout(props) {
     const {headerRoutes, headerRouter} = props;
     return (

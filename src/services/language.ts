@@ -17,7 +17,7 @@ const fetchDeleteLanguage = (id) => {
 
 const fetchUpdateLanguage = (id, newObj) => {
     const apiUpdateLanguageId = LANGUAGE_PATH.concat(id).concat('/');
-    return axios.put(apiUpdateLanguageId, newObj);
+    return DataAccess.Put(apiUpdateLanguageId, newObj);
 };
 
 export {

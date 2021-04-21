@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { API_ADDRESS } from 'const/api';
-const USER_API_ADDRESS = API_ADDRESS.concat('/api/user/');
+import { DataAccess } from 'access/base';
+const USER_PATH = 'api/user/';
 const REGISTER_API_ADDRESS = API_ADDRESS.concat('/api/register/');
 const LOGIN_API_ADDRESS = API_ADDRESS.concat('/api/login/');
 const fetchAllUser = () => {
-    return axios.get(USER_API_ADDRESS);
+    return DataAccess.Get(USER_PATH);
 };
 
 const fetchLogin = (username: string, password: string) => {

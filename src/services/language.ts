@@ -1,21 +1,22 @@
 import axios from 'axios';
 import { API_ADDRESS } from 'const/api';
-const LANGUAGE_API_ADDRESS = API_ADDRESS.concat('/api/language/');
+import { DataAccess } from '../access/base';
+const LANGUAGE_PATH = 'api/language/';
 
 const fetchAllLanguage = () => {
-    return axios.get(LANGUAGE_API_ADDRESS);
+    return DataAccess.Get(LANGUAGE_PATH);
 };
 const fetchAddLanguage = (body) => {
-    return axios.post(LANGUAGE_API_ADDRESS, body);
+    return DataAccess.Post(LANGUAGE_PATH, body);
 };
 
 const fetchDeleteLanguage = (id) => {
-    const apiDeleteLanguageId = LANGUAGE_API_ADDRESS.concat(id).concat('/');
-    return axios.delete(apiDeleteLanguageId);
+    const apiDeleteLanguageId = LANGUAGE_PATH.concat(id).concat('/');
+    return DataAccess.Delete(apiDeleteLanguageId);
 };
 
 const fetchUpdateLanguage = (id, newObj) => {
-    const apiUpdateLanguageId = LANGUAGE_API_ADDRESS.concat(id).concat('/');
+    const apiUpdateLanguageId = LANGUAGE_PATH.concat(id).concat('/');
     return axios.put(apiUpdateLanguageId, newObj);
 };
 

@@ -1,16 +1,14 @@
 const axios = require('axios');
 
 const headers = {
-    'Authorization': 'Basic Og==',
     'Content-Type': 'application/json',
-    'accept': '*/*',
-    'Access-Control-Allow-Origin': '*'
 };
-const BASE_URL = 'http://103.113.83.246:8006';
+const BASE_URL = 'http://127.0.0.1:8000';
 
 const CLOUD_NAME = 'dj5xafymg';
 const APIPost = async (url: string, data?: string) => {
-    const token = localStorage.getItem('token');
+    const token = document.cookie['access_token'];
+    console.log(token);
     return await axios({
         method: 'POST',
         url: `${BASE_URL}/${url}`,
@@ -18,36 +16,41 @@ const APIPost = async (url: string, data?: string) => {
         data: data
     });
 };
-
-const APIGet = async (url: string) => {
-    const token = localStorage.getItem('token');
-    return await axios({
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift();
+    return null;
+}
+const APIGet = (url: string) => {
+    const token = getCookie('access_token');
+    return axios({
         method: 'GET',
         url: `${BASE_URL}/${url}`,
         headers: token ? { ...headers, 'Authorization': `Bearer ${token}` } : headers,
     });
 };
 
-const APIDelete = async (url: string, data?: string) => {
-    const token = localStorage.getItem('token');
-    return await axios({
+const APIDelete = (url: string, data?: string) => {
+    const token = document.cookie['access_token'];
+    return axios({
         method: 'DELETE',
         url: `${BASE_URL}/${url}`,
         headers: token ? {...headers, 'Authorization' : `Bearer ${token}`} : headers,
         data: data
     });
 };
-const APIPut = async (url: string, data: string) => {
-    const token = localStorage.getItem('token');
-    return await axios({
+const APIPut = (url: string, data: string) => {
+    const token = document.cookie['access_token'];
+    return axios({
         method: 'PUT',
         url: `${BASE_URL}/${url}`,
         headers: token ? { ...headers, 'Authorization': `Bearer ${token}` } : headers,
         data: data
     });
 };
-const IMAGEPost = async (data: any) => {
-    return await axios({
+const IMAGEPost = (data: any) => {
+    return axios({
         method: 'POST',
         url: `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
         data: data,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Input, Space, Table, Tag } from 'antd';
+import { Button, Input, Pagination, Space, Table, Tag } from 'antd';
 import DeleteButton from 'components/core/DeleteButton';
 import EditButton from 'components/core/EditButton';
 import { useEffect } from 'react';
@@ -8,17 +8,18 @@ import { fetchAllUser } from 'services/user';
 
 export default function LanguagePage() {
     const [data, setData] = useState([]);
+    const [count, setCount] = useState(0);
     const [shouldRefreshData, setShouldRefreshData] = useState(false);
     const refreshData = () => {
         fetchAllUser()
             .then(resp => {
-                let newData = resp.data;
-                newData = newData.map(data => {
+                let { results, count } = resp.data;
+                results = results.map(data => {
                     data.key = data._id;
                     return data;
                 });
-                console.log(newData);
-                setData(newData);
+                setData(results);
+                setCount(count);
             })
             .catch(err => console.log(err));
     };
@@ -61,7 +62,9 @@ export default function LanguagePage() {
         //     ),
         // },
     ];
-
+    const change = (a: number, b: number | undefined) => {
+        console.log(a, b);
+    };
 
     return (
         <>
@@ -69,6 +72,9 @@ export default function LanguagePage() {
                 rowKey='_id'
                 columns={columns}
                 dataSource={data}
+                pagination={{
+                    showSizeChanger: true
+                }}
             />
         </>
     );

@@ -1,5 +1,6 @@
 import { Menu, Dropdown, Button } from 'antd';
 import { MenuFoldOutlined } from '@ant-design/icons';
+import logOut from '../../services/logout';
 const menu = (
     <Menu>
         <Menu.Item>
@@ -9,7 +10,9 @@ const menu = (
         </Menu.Item>
         <Menu.Item>
             <a rel="noopener noreferrer" href="/login">
-                Logout
+                <Button onClick={logOut}>
+                    Logout
+                </Button>
             </a>
         </Menu.Item>
     </Menu>

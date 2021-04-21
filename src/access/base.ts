@@ -1,3 +1,5 @@
+import { readCookie } from 'utils/cookie';
+
 const axios = require('axios');
 
 const headers = {
@@ -7,7 +9,7 @@ const BASE_URL = 'http://127.0.0.1:8000';
 
 const CLOUD_NAME = 'dj5xafymg';
 const APIPost = async (url: string, data?: string) => {
-    const token = getCookie('access_token');
+    const token = readCookie('access_token');
     console.log(token);
     return await axios({
         method: 'POST',
@@ -16,14 +18,8 @@ const APIPost = async (url: string, data?: string) => {
         data: data
     });
 };
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop()?.split(';').shift();
-    return null;
-}
 const APIGet = (url: string) => {
-    const token = getCookie('access_token');
+    const token = readCookie('access_token');
     return axios({
         method: 'GET',
         url: `${BASE_URL}/${url}`,
@@ -32,7 +28,7 @@ const APIGet = (url: string) => {
 };
 
 const APIDelete = (url: string, data?: string) => {
-    const token = getCookie('access_token');
+    const token = readCookie('access_token');
     console.log(token);
     return axios({
         method: 'DELETE',
@@ -42,7 +38,7 @@ const APIDelete = (url: string, data?: string) => {
     });
 };
 const APIPut = (url: string, data: string) => {
-    const token = getCookie('access_token');
+    const token = readCookie('access_token');
     return axios({
         method: 'PUT',
         url: `${BASE_URL}/${url}`,

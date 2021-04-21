@@ -1,8 +1,9 @@
 import React, { ReactNode, useState } from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb, Button } from 'antd';
 import { NavLink } from 'react-router-dom';
 import AvatarContainer from 'components/core/AvatarContainer';
 import {LogoutOutlined} from '@ant-design/icons';
+import logOut from 'services/logout';
 const { Sider } = Layout;
 interface Props {
     routes: Array<{ path: string, label: string, icon: ReactNode }>,
@@ -36,7 +37,9 @@ export default function AdminSider(props) {
 
                 <Menu.Item icon={<LogoutOutlined/>}>
                     <NavLink to="/">
-                        Log out
+                        <Button onClick={logOut}>
+                            Log out
+                        </Button>
                     </NavLink>
                 </Menu.Item>
             </Menu>

@@ -1,5 +1,6 @@
 import { Form, Input, Button, Checkbox, notification } from 'antd';
 import { fetchLogin } from 'services/user';
+import { createCookie } from 'utils/cookie';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
@@ -20,7 +21,7 @@ export default function LoginForm() {
                         width: 600,
                     },
                 });
-                document.cookie = 'access_token='+resp.data.access_token;
+                createCookie('access_token', resp.data.access_token);
             })
             .catch(err => {
                 notification.error({

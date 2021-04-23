@@ -25,7 +25,7 @@ type AllUserRespone = {
     previous: string,
     results: ListUser
 }
-const fetchAllUser = () => {
+const fetchAllUser = () : Promise<AllUserRespone>=> {
     return DataAccess.Get<AllUserRespone>(USER_PATH);
 };
 

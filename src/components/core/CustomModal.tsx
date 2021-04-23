@@ -1,6 +1,6 @@
 import Modal from 'antd/lib/modal/Modal';
 
-export interface Props {
+export type CustomModalProps = {
     title: string,
     visible: boolean,
     childComponent: JSX.Element,
@@ -8,7 +8,14 @@ export interface Props {
     handleCancel?: () => void
 }
 
-export default function CustomModal({ title, visible, childComponent, handleOk, handleCancel }: Props) {
+export default function CustomModal(
+    { 
+        title, 
+        visible, 
+        childComponent, 
+        handleOk, 
+        handleCancel 
+    }: CustomModalProps) {
     return (
         <Modal title={title} visible={visible} onOk={handleOk} onCancel={handleCancel}>
             {childComponent}

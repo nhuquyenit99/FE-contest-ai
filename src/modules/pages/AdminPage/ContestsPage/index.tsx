@@ -1,24 +1,30 @@
-import React, { useState } from 'react';
-import { Button, Input, Space, Table, Tag } from 'antd';
-import DeleteButton from 'components/core/DeleteButton';
-import EditButton from 'components/core/EditButton';
+import { useState } from 'react';
+import { Space, Table} from 'antd';
 import { useEffect } from 'react';
 import { fetchAllContest } from 'services/contest';
+import { Contest } from 'services/contest';
 
 
+export type Item = Contest&{
+    key: number,
+}
+type ListItems = Item[];
 export default function LanguagePage() {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<ListItems>([]);
     const [shouldRefreshData, setShouldRefreshData] = useState(false);
     const refreshData = () => {
         fetchAllContest()
-            .then(resp => {
-                let newData = resp.data;
-                newData = newData.map(data => {
-                    data.key = data._id;
-                    return data;
-                });
-                console.log(newData);
-                setData(newData);
+            .then(listContests => {
+                let listItems: ListItems = listContests.map(
+                    (data: Contest): Item => {
+                        let item: Item = {
+                            key: data._id,
+                            ...data
+                        };
+                        return item;
+                    });
+                console.log(listItems);
+                setData(listItems);
             })
             .catch(err => console.log(err));
     };

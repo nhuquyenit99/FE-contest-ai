@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
-import { Button, Input, Pagination, Space, Table, Tag } from 'antd';
-import DeleteButton from 'components/core/DeleteButton';
-import EditButton from 'components/core/EditButton';
+import { useState } from 'react';
+import {Table} from 'antd';
 import { useEffect } from 'react';
-import { fetchAllUser } from 'services/user';
+import { fetchAllUser, User } from 'services/user';
+import { ListUser } from '../../../../services/user';
 
+type Item = User&{
+    // key: number,
+}
+type ListItems = Item[];
 
 export default function LanguagePage() {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<ListItems>([]);
     const [count, setCount] = useState(0);
     const [shouldRefreshData, setShouldRefreshData] = useState(false);
     const refreshData = () => {
         fetchAllUser()
             .then(resp => {
-                let { results, count } = resp.data;
-                results = results.map(data => {
-                    data.key = data._id;
-                    return data;
+                let listUser: ListUser = resp.results;
+                let listData: ListItems = listUser.map((item: User) => {
+                    let midData = {
+                        ...item,
+                    };
+                    return midData;
                 });
-                setData(results);
-                setCount(count);
+                setData(listData);
             })
             .catch(err => console.log(err));
     };

@@ -1,5 +1,8 @@
 import { Form, Input, Button, Checkbox, notification } from 'antd';
+import { Redirect } from 'react-router';
 import { fetchLogin } from 'services/user';
+import { useHistory } from 'react-router-dom';
+import { createCookie, readCookie } from 'utils/cookie';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
@@ -8,7 +11,8 @@ const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
 };
 
-export default function LoginForm() {
+export default function LoginForm(props) {
+    const history = useHistory();
     const onFinish = (values: any) => {
         console.log('Success:', values);
         const {username, password} = values;
@@ -20,7 +24,8 @@ export default function LoginForm() {
                         width: 600,
                     },
                 });
-                document.cookie = 'access_token='+resp.data.access_token;
+                createCookie('access_token', resp.data.access_token);
+                history.push('/');
             })
             .catch(err => {
                 notification.error({
@@ -35,7 +40,10 @@ export default function LoginForm() {
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
-
+    const isAuthenticated = readCookie('access_token');
+    if (isAuthenticated) {
+        return <Redirect to='/'></Redirect>;
+    }
     return (
         <Form
             {...layout}

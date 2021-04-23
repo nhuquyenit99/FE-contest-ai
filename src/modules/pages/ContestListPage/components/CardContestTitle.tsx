@@ -7,9 +7,9 @@ export default function CardContestTitle(props) {
         <Space>
             <AvatarContainer></AvatarContainer>
             <Text>{title}</Text>
-            <Text>{time_start}</Text>
+            {/* <Text>{time_start}</Text>
             <Text>{time_end}</Text>
-            
+             */}
         </Space>
 
     </>;

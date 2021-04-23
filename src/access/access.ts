@@ -18,22 +18,22 @@ export function useEntityData<T>(url: string | undefined, keyUpdate?: any, defau
     };
 
     const fetchUser = useCallback(async () => {
-        try {
-            if (!url) return;
-            setLoading(true);
-            const res = await DataAccess.Get(url);
-            setData(res.data);
-            setStatus(res?.status?.toString());
-        } catch (e) {
-            console.error('Fetch entity error', e);
-            if (e.response) {
-                setStatus(e.response?.status?.toString());
-            } else {
-                setStatus('500');
-            }
-        } finally {
-            setLoading(false);
-        }
+        // try {
+        //     if (!url) return;
+        //     setLoading(true);
+        //     const res = await DataAccess.Get(url);
+        //     setData(res);
+        //     setStatus(res?.status?.toString());
+        // } catch (e) {
+        //     console.error('Fetch entity error', e);
+        //     if (e.response) {
+        //         setStatus(e.response?.status?.toString());
+        //     } else {
+        //         setStatus('500');
+        //     }
+        // } finally {
+        //     setLoading(false);
+        // }
     }, [url]);
 
     useEffect(() => {
@@ -61,22 +61,22 @@ export function useEntityDataList<T>(url: string | undefined, page?: number, tex
     const [errorStatus, setStatus] = useState<HTTP_STATUS_CODE>('200');
 
     const fetchUser = useCallback(async () => {
-        try {
-            if (!url) return;
-            setLoading(true);
-            const res = await DataAccess.Get(`${url}${page ? `?page=${page}` : ''}${textSearch ? `&query=${textSearch}` : ''}`);
-            setData(res.data);
-            setStatus(res?.status?.toString());
-        } catch (e) {
-            console.error('Fetch entity error', e);
-            if (e.response) {
-                setStatus(e.response?.status?.toString());
-            } else {
-                setStatus('500');
-            }
-        } finally {
-            setLoading(false);
-        }
+        // try {
+        //     if (!url) return;
+        //     setLoading(true);
+        //     const res = await DataAccess.Get(`${url}${page ? `?page=${page}` : ''}${textSearch ? `&query=${textSearch}` : ''}`);
+        //     setData(res.data);
+        //     setStatus(res?.status?.toString());
+        // } catch (e) {
+        //     console.error('Fetch entity error', e);
+        //     if (e.response) {
+        //         setStatus(e.response?.status?.toString());
+        //     } else {
+        //         setStatus('500');
+        //     }
+        // } finally {
+        //     setLoading(false);
+        // }
     }, [url, page]);
 
     useEffect(() => {

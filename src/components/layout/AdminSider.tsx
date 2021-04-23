@@ -1,15 +1,16 @@
-import React, { ReactNode, useState } from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { useState } from 'react';
+import { Layout, Menu, Button } from 'antd';
 import { NavLink } from 'react-router-dom';
 import AvatarContainer from 'components/core/AvatarContainer';
 import {LogoutOutlined} from '@ant-design/icons';
+import logOut from 'services/logout';
+import { ListMyRoutes, MyRoute } from 'modules/pages/AdminPage/index';
 const { Sider } = Layout;
 interface Props {
-    routes: Array<{ path: string, label: string, icon: ReactNode }>,
+    routes: ListMyRoutes,
 }
 
-export default function AdminSider(props) {
-    const { routes } = props;
+export default function AdminSider({routes}: Props) {
     const [collapsed, setCollapsed] = useState(false);
 
     let onCollapse = collapsed => {
@@ -22,7 +23,7 @@ export default function AdminSider(props) {
             </div>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                 {
-                    routes.map((menuItem, idx) => {
+                    routes.map((menuItem: MyRoute, idx) => {
                         let Icon = menuItem.icon;
                         return (
                             <Menu.Item key={idx} icon={<Icon></Icon>}>
@@ -36,21 +37,12 @@ export default function AdminSider(props) {
 
                 <Menu.Item icon={<LogoutOutlined/>}>
                     <NavLink to="/">
-                        Log out
+                        <Button onClick={logOut}>
+                            Log out
+                        </Button>
                     </NavLink>
                 </Menu.Item>
             </Menu>
         </Sider>
     );
 }
-
-// ReactDOM.render(<SiderDemo />, mountNode);
-// #components-layout-demo-side .logo {
-//   height: 32px;
-//   margin: 16px;
-//   background: rgba(255, 255, 255, 0.3);
-// }
-
-// .site-layout .site-layout-background {
-//   background: #fff;
-// }

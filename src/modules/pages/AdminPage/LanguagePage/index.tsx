@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Input, Space, Table, Tag } from 'antd';
+import { useState } from 'react';
+import { Button, Space, Table} from 'antd';
 import DeleteButton from 'components/core/DeleteButton';
 import EditButton from 'components/core/EditButton';
 import ModalAddLanguage from './components/ModalAddLanguage';
@@ -7,10 +7,15 @@ import ModalEditLanguage from './components/ModalEditLanguage';
 import ModalDeleteLanguage from './components/ModalDeleteLanguage';
 import { useEffect } from 'react';
 import { fetchAllLanguage } from 'services/language';
+import { Language } from '../../../../services/language';
 
+export type Item = Language&{
+    key: number,
+}
+type ListItems = Item[];
 
 export default function LanguagePage() {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<ListItems>([]);
     const [isAddLanguageModalVisible, setIsAddLanguageModalVisible] = useState(false);
     const [isEditLanguageModalVisible, setIsEditLanguageModalVisible] = useState(false);
     const [isDeleteLanguageModalVisible, setIsDeleteLanguageModalVisible] = useState(false);
@@ -18,14 +23,16 @@ export default function LanguagePage() {
     const [selectedId, setSelectedId] = useState(-1);
     const refreshData = () => {
         fetchAllLanguage()
-            .then(resp => {
-                let newData = resp.data;
-                newData = newData.map(data => {
-                    data.key = data._id;
-                    return data;
+            .then(listLanguage => {
+                // console.log(listLanguage);
+                let listData: ListItems = listLanguage.map((item: Language) => {
+                    let midData = {
+                        ...item,
+                        key: item._id,
+                    };
+                    return midData;
                 });
-                console.log(newData);
-                setData(newData);
+                setData(listData);
             })
             .catch(err => console.log(err));
     };
@@ -86,19 +93,19 @@ export default function LanguagePage() {
     };
     const addLanguageModalProps = {
         visible: isAddLanguageModalVisible,
-        setIsAddLanguageModalVisible,
+        setVisible: setIsAddLanguageModalVisible,
         setShouldRefreshData,
     };
     const editLanguageModalProps = {
         editedItem: data.filter(item => item['_id'] === selectedId)[0],
         visible: isEditLanguageModalVisible,
-        setIsEditLanguageModalVisible,
+        setVisible: setIsEditLanguageModalVisible,
         setShouldRefreshData,
     };
     const deleteLanguageModalProps = {
         _id: selectedId,
         visible: isDeleteLanguageModalVisible,
-        setIsDeleteLanguageModalVisible,
+        setVisible: setIsDeleteLanguageModalVisible,
         setShouldRefreshData,
     };
     return (

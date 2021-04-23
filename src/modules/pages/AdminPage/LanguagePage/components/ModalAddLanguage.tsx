@@ -1,9 +1,19 @@
 import CustomModal from 'components/core/CustomModal';
 import { Form, Input, notification } from 'antd';
 import { fetchAddLanguage } from 'services/language';
+type Props = {
+    visible: boolean,
+    setVisible: (value: boolean) => void,
+    setShouldRefreshData: (value: boolean) => void
+}
 
-export default function ModalAddLanguage(props) {
-    const {setIsAddLanguageModalVisible, setShouldRefreshData} = props;    
+export default function ModalAddLanguage(
+    {
+        visible,
+        setVisible,
+        setShouldRefreshData
+    } : Props
+) {
     const [form] = Form.useForm();
     const handleOk = () => {
         form.validateFields()
@@ -20,13 +30,13 @@ export default function ModalAddLanguage(props) {
                     })
                     .catch(err => console.log(err));
                 form.resetFields();
-                setIsAddLanguageModalVisible(false);
+                setVisible(false);
             })
             .catch(err => {});
     };
 
     const handleCancel = () => {
-        setIsAddLanguageModalVisible(false);
+        setVisible(false);
     };
     const childAddLanguageComponent = (
         <Form 
@@ -48,10 +58,13 @@ export default function ModalAddLanguage(props) {
     const addLanguageModalProps = {
         title: 'Add language',
         childComponent: childAddLanguageComponent,
+        visible,
         handleOk,
         handleCancel,
     };
+    
     return (
-        <CustomModal {...props} {...addLanguageModalProps}></CustomModal>
+        <CustomModal
+            {...addLanguageModalProps}></CustomModal>
     );
 }

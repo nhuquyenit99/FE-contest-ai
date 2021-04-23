@@ -4,13 +4,34 @@ import { DataAccess } from 'access/base';
 const USER_PATH = 'api/user/';
 const REGISTER_API_ADDRESS = API_ADDRESS.concat('/api/register/');
 const LOGIN_API_ADDRESS = API_ADDRESS.concat('/api/login/');
+
+export type User = {
+    username: string,
+    first_name?:string,
+    last_name?: string,
+    created: string,
+}
+export type ListUser = User[]
+type RespLogin = {
+    access_token: string,
+    reset_token: string,
+    username: string,
+    first_name: string,
+    last_name: string
+}
+type AllUserRespone = {
+    count: number,
+    next: string,
+    previous: string,
+    results: ListUser
+}
 const fetchAllUser = () => {
-    return DataAccess.Get(USER_PATH);
+    return DataAccess.Get<AllUserRespone>(USER_PATH);
 };
 
 const fetchLogin = (username: string, password: string) => {
     const body = {username, password};
-    return axios.post(LOGIN_API_ADDRESS, body);
+    return axios.post<RespLogin>(LOGIN_API_ADDRESS, body);
 };
 
 

@@ -9,12 +9,8 @@ import { useEffect } from 'react';
 import { fetchAllLanguage } from 'services/language';
 import { Language } from '../../../../services/language';
 
-export type Item = {
+export type Item = Language&{
     key: number,
-    _id: number,
-    name: string,
-    path: string,
-    created: string,
 }
 type ListItems = Item[];
 
@@ -29,7 +25,7 @@ export default function LanguagePage() {
         fetchAllLanguage()
             .then(listLanguage => {
                 // console.log(listLanguage);
-                let listData = listLanguage.map((item: Language) => {
+                let listData: ListItems = listLanguage.map((item: Language) => {
                     let midData = {
                         ...item,
                         key: item._id,

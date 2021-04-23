@@ -6,8 +6,7 @@ type Props = {
     headerRoutes: HeaderRoutes,
     headerRouter: JSX.Element
 }
-function UserLayout(props) {
-    const {headerRoutes, headerRouter} = props;
+function UserLayout({headerRouter, headerRoutes}: Props) {
     return (
         <Layout className="layout">
             <CustomHeader routes={headerRoutes}></CustomHeader>

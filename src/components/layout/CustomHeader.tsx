@@ -11,11 +11,10 @@ import { NavLink } from 'react-router-dom';
 import SettingDropdown from './SettingDropdown';
 import { HeaderRoutes } from '../../modules/pages/BaseUserPage/index';
 const { Header } = Layout;
-type CustomHeader = {
+type CustomHeaderProps = {
     routes: HeaderRoutes
 }
-function CustomHeader(props) {
-    const {routes, isAuthenticated} = props;
+function CustomHeader({routes}: CustomHeaderProps) {
     return (
         <Header>
             <Row>

@@ -10,7 +10,14 @@ import {
     CrownOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-const routes = [
+export type MyRoute = {
+    icon: any,
+    label: string,
+    path: string,
+    component: () => JSX.Element
+}
+export type ListMyRoutes = MyRoute[];
+const routes: ListMyRoutes = [
     // {
     //     icon: PieChartOutlined,
     //     label: 'Dashboard',

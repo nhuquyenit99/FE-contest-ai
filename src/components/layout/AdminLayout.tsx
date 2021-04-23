@@ -3,9 +3,14 @@ import { useState, useEffect } from 'react';
 import { Redirect } from 'react-router';
 import { readCookie } from 'utils/cookie';
 import AdminSider from './AdminSider';
-function AdminLayout(props) {
+import { ListMyRoutes } from 'modules/pages/AdminPage/index';
+type AdminLayoutProps = {
+    siderRouter: JSX.Element,
+    siderRoutes: ListMyRoutes
+};
+
+function AdminLayout({siderRoutes, siderRouter}: AdminLayoutProps) {
     const [authFails, setAuthFails] = useState((readCookie('access_token')===''));
-    const { siderRoutes, siderRouter } = props;
     console.log(authFails);
     if (authFails) {
         return <Redirect to='/login' />;
@@ -17,7 +22,6 @@ function AdminLayout(props) {
                 height: '100vh',
                 margin: 0,
             }}>
-                {/* <CustomHeader ></CustomHeader> */}
                 <Content style={{ height: '100%', textAlign: 'left', margin: '15px' }}>
                     {siderRouter}
                 </Content>

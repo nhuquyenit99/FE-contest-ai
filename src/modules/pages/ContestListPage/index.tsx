@@ -15,11 +15,11 @@ export default function ContestListPage(props) {
     
 
     useEffect(() => {
-        fetchAllContest()
-            .then(resp => {
-                setDataList(resp.data);
-                console.log(resp.data);
-            });
+        // fetchAllContest()
+        //     .then(resp => {
+        //         setDataList(resp.data);
+        //         console.log(resp.data);
+        //     });
     }, []);
 
     const renderListContest = () => {

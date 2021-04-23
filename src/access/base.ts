@@ -8,28 +8,46 @@ const headers = {
 const BASE_URL = 'http://127.0.0.1:8000';
 
 const CLOUD_NAME = 'dj5xafymg';
-const APIPost = async (url: string, data?: string) => {
+const APIPost = <T>(url: string, data?: T) : Promise<T> => {
     const token = readCookie('access_token');
-    console.log(token);
-    return await axios({
+    return axios({
         method: 'POST',
         url: `${BASE_URL}/${url}`,
         headers: token ? { ...headers, 'Authorization': `Bearer ${token}` } : headers,
         data: data
-    });
+    })
+        .then( response => {
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            return response.json() as Promise<{data: T}>;
+        })
+        .then(data => {
+            return data.data;
+        });
 };
-const APIGet = (url: string) => {
+
+const APIGet = <T>(url: string): Promise<T> => {
     const token = readCookie('access_token');
     return axios({
         method: 'GET',
         url: `${BASE_URL}/${url}`,
         headers: token ? { ...headers, 'Authorization': `Bearer ${token}` } : headers,
-    });
+    })
+        .then( response => {
+            console.log(response);
+            if (response.statusText !== 'OK') {
+                throw new Error(response.statusText);
+            }
+            return response as Promise<{data: T}>;
+        })
+        .then(data => {
+            return data.data;
+        });
 };
 
-const APIDelete = (url: string, data?: string) => {
+const APIDelete = <T>(url: string, data?: string) : Promise<T> => {
     const token = readCookie('access_token');
-    console.log(token);
     return axios({
         method: 'DELETE',
         url: `${BASE_URL}/${url}`,
@@ -37,7 +55,7 @@ const APIDelete = (url: string, data?: string) => {
         data: data
     });
 };
-const APIPut = (url: string, data: string) => {
+const APIPut = <T>(url: string, data: T) : Promise<T> => {
     const token = readCookie('access_token');
     return axios({
         method: 'PUT',

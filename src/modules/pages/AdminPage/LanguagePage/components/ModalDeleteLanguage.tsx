@@ -8,9 +8,19 @@ const childDeleteLanguageComponent = (
         <Text> Are you sure to delete this language?</Text>
     </>
 );
-export default function ModalAddLanguage(props) {
-    const { setIsDeleteLanguageModalVisible, setShouldRefreshData } = props;
-    const {_id} = props;
+
+type Props = {
+    _id: number,
+    visible: boolean,
+    setVisible: (value: boolean) => void,
+    setShouldRefreshData: (value: boolean) => void
+}
+export default function ModalDeleteLanguage({
+    _id,
+    visible,
+    setVisible,
+    setShouldRefreshData
+}: Props) {
     const handleOk = () => {
         fetchDeleteLanguage(_id)
             .then(resp => {
@@ -25,20 +35,21 @@ export default function ModalAddLanguage(props) {
             .catch(
                 err => console.log(err)
             );
-        setIsDeleteLanguageModalVisible(false);
+        setVisible(false);
     };
 
     const handleCancel = () => {
-        setIsDeleteLanguageModalVisible(false);
+        setVisible(false);
     };
 
     const deleteLanguageModalProps = {
+        visible,
         title: 'Delete language',
         childComponent: childDeleteLanguageComponent,
         handleOk,
         handleCancel,
     };
     return (
-        <CustomModal {...props} {...deleteLanguageModalProps}></CustomModal>
+        <CustomModal {...deleteLanguageModalProps}></CustomModal>
     );
 }

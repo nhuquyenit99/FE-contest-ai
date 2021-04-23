@@ -10,7 +10,6 @@ type UserContextType = {
     followCategories: CategoryType[],
     logout: () => void
     updateUser: (newInfo: UserInfo) => void
-    getFollowingCategories: () => void
     updateAvatar: (imageURL: string) => void
 }
 
@@ -22,7 +21,6 @@ export const UserContext = React.createContext<UserContextType>({
     followCategories: [],
     logout: () => undefined,
     updateUser: (newInfo: UserInfo) => undefined,
-    getFollowingCategories: () => undefined,
     updateAvatar: (imageURL: string) => undefined
 });
 
@@ -71,20 +69,6 @@ export class UserContextProvider extends React.Component<any, StateType> {
                 ...newInfo,
             };
         }, () => {
-            this.getFollowingCategories(cb);
-        });
-    }
-    getFollowingCategories = (cb?: () => void) => {
-        DataAccess.Get(`categories/user/${this.state._id}`).then(res => {
-            this.setState(prev => {
-                return {
-                    ...prev,
-                    followCategories: res.data.data
-                };
-            }, cb);
-        }).catch (e => {
-            console.log('Fetch following categories failed > ', e);
-            if (cb) cb();
         });
     }
     updateAvatar = (imageUrl: string) => {
@@ -101,7 +85,6 @@ export class UserContextProvider extends React.Component<any, StateType> {
                 ...this.state,
                 updateUser: this.updateUser,
                 logout: this.logout,
-                getFollowingCategories: this.getFollowingCategories,
                 updateAvatar: this.updateAvatar
             }}>
                 {this.props.children}

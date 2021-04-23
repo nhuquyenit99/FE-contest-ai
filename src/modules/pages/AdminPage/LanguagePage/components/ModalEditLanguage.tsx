@@ -3,6 +3,7 @@ import { Form, FormInstance, Input, notification } from 'antd';
 import { Store } from 'rc-field-form/lib/interface';
 import CustomModal from 'components/core/CustomModal';
 import { fetchUpdateLanguage } from 'services/language';
+import { Item } from '..';
 
 const renderChildComponent = (
     form: FormInstance,
@@ -29,13 +30,21 @@ const renderChildComponent = (
     );
 };
 
-export default function ModalEditLanguage(props) {
+
+type Props = {
+    visible: boolean,
+    editedItem: Item,
+    setVisible: (value: boolean) => void,
+    setShouldRefreshData: (value: boolean) => void
+}
+
+export default function ModalEditLanguage({
+    visible,
+    editedItem,
+    setVisible,
+    setShouldRefreshData
+} :Props) {
     const [form] = Form.useForm();
-    const {
-        setIsEditLanguageModalVisible,
-        editedItem,
-        setShouldRefreshData 
-    } = props;
     useEffect(() => {
         form.resetFields();
     });
@@ -55,23 +64,23 @@ export default function ModalEditLanguage(props) {
                     })
                     .catch((err) => { });
                 form.resetFields();
-                setIsEditLanguageModalVisible(false);
+                setVisible(false);
             })
             .catch(err => { });
     };
 
     const handleCancel = () => {
-        setIsEditLanguageModalVisible(false);
+        setVisible(false);
     };
 
     const editLanguageModalProps = {
+        visible,
         title: 'Edit language',
-        getContainer: false,
         childComponent: renderChildComponent(form, editedItem, handleOk),
         handleOk,
         handleCancel,
     };
     return (
-        <CustomModal {...props} {...editLanguageModalProps}></CustomModal>
+        <CustomModal {...editLanguageModalProps}></CustomModal>
     );
 }

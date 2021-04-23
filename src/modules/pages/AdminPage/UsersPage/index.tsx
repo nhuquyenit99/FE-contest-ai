@@ -11,17 +11,17 @@ export default function LanguagePage() {
     const [count, setCount] = useState(0);
     const [shouldRefreshData, setShouldRefreshData] = useState(false);
     const refreshData = () => {
-        fetchAllUser()
-            .then(resp => {
-                let { results, count } = resp.data;
-                results = results.map(data => {
-                    data.key = data._id;
-                    return data;
-                });
-                setData(results);
-                setCount(count);
-            })
-            .catch(err => console.log(err));
+        // fetchAllUser()
+        //     .then(resp => {
+        //         let { results, count } = resp.data;
+        //         results = results.map(data => {
+        //             data.key = data._id;
+        //             return data;
+        //         });
+        //         setData(results);
+        //         setCount(count);
+        //     })
+        //     .catch(err => console.log(err));
     };
 
     useEffect(() => {

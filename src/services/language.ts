@@ -1,22 +1,38 @@
-import axios from 'axios';
-import { API_ADDRESS } from 'const/api';
 import { DataAccess } from '../access/base';
 const LANGUAGE_PATH = 'api/language/';
 
-const fetchAllLanguage = () => {
-    return DataAccess.Get(LANGUAGE_PATH);
+export type Language = {
+    _id: number,
+    name: string,
+    path: string,
+    created: string
 };
-const fetchAddLanguage = (body) => {
+type LanguagePost = {
+    name: string,
+    path: string
+};
+type LanguagePut = {
+    name: string,
+    path: string
+};
+type ListLanguage = Language[];
+
+const fetchAllLanguage = () : Promise<ListLanguage> => {
+    let list = DataAccess.Get<ListLanguage>(LANGUAGE_PATH);
+    console.log(list);
+    return list;
+};
+const fetchAddLanguage = (body: LanguagePost) => {
     return DataAccess.Post(LANGUAGE_PATH, body);
 };
 
-const fetchDeleteLanguage = (id) => {
-    const apiDeleteLanguageId = LANGUAGE_PATH.concat(id).concat('/');
+const fetchDeleteLanguage = (id: number) => {
+    const apiDeleteLanguageId = LANGUAGE_PATH.concat(String(id)).concat('/');
     return DataAccess.Delete(apiDeleteLanguageId);
 };
 
-const fetchUpdateLanguage = (id, newObj) => {
-    const apiUpdateLanguageId = LANGUAGE_PATH.concat(id).concat('/');
+const fetchUpdateLanguage = (id: number, newObj: LanguagePut) => {
+    const apiUpdateLanguageId = LANGUAGE_PATH.concat(String(id)).concat('/');
     return DataAccess.Put(apiUpdateLanguageId, newObj);
 };
 

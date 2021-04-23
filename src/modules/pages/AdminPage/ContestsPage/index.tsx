@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Input, Space, Table, Tag } from 'antd';
-import DeleteButton from 'components/core/DeleteButton';
-import EditButton from 'components/core/EditButton';
+import { useState } from 'react';
+import { Space, Table} from 'antd';
 import { useEffect } from 'react';
 import { fetchAllContest } from 'services/contest';
 
@@ -10,17 +8,17 @@ export default function LanguagePage() {
     const [data, setData] = useState([]);
     const [shouldRefreshData, setShouldRefreshData] = useState(false);
     const refreshData = () => {
-        fetchAllContest()
-            .then(resp => {
-                let newData = resp.data;
-                newData = newData.map(data => {
-                    data.key = data._id;
-                    return data;
-                });
-                console.log(newData);
-                setData(newData);
-            })
-            .catch(err => console.log(err));
+        // fetchAllContest()
+        //     .then(resp => {
+        //         let newData = res;
+        //         newData = newData.map(data => {
+        //             data.key = data._id;
+        //             return data;
+        //         });
+        //         console.log(newData);
+        //         setData(newData);
+        //     })
+        //     .catch(err => console.log(err));
     };
 
     useEffect(() => {

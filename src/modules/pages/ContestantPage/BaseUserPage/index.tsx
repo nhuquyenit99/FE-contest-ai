@@ -1,7 +1,7 @@
 import { Route, Switch } from 'react-router';
 import { HomePage } from '../HomePage';
+import {ContestPage} from 'modules/pages/ContestantPage/ContestPage';
 import Logo from 'components/core/Logo';
-import { ContestPage } from '../ContestPage';
 import UserLayout from 'components/layout/UserLayout';
 type HeaderRoute = {
     label: string,

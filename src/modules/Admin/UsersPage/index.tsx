@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import {Table} from 'antd';
 import { useEffect } from 'react';
-import { fetchAllUser, User } from 'services/user';
-import { ListUser } from '../../../../services/user';
+import { fetchAllUser, User, ListUser } from 'services/user';
 import RoleTag from './RoleTag';
 import { RoleTagEnum } from './RoleTag';
 

@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import {Table} from 'antd';
+import { Table} from 'antd';
 import { useEffect } from 'react';
-import { fetchAllUser, User, ListUser } from 'services/user';
+import { fetchAllUserPagination, User, ListUser, fetchAllUser } from 'services/user';
 import RoleTag from './RoleTag';
 import { RoleTagEnum } from './RoleTag';
+import CustomPagination from './Pagination';
+import { PaginationQuery } from '../../../services/user';
 
 type Item = User&{
     // key: number,
@@ -13,11 +15,19 @@ type ListItems = Item[];
 export default function LanguagePage() {
     const [data, setData] = useState<ListItems>([]);
     const [count, setCount] = useState(0);
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
     const [shouldRefreshData, setShouldRefreshData] = useState(false);
     const refreshData = () => {
-        fetchAllUser()
+        let query: PaginationQuery = {
+            limit: pageSize,
+            offset: (page-1)*pageSize
+        };
+        fetchAllUserPagination(query)
             .then(resp => {
-                let listUser: ListUser = resp.results;
+                let {results, count} = resp;
+                // console.log(results);
+                let listUser: ListUser = results;
                 let listData: ListItems = listUser.map((item: User) => {
                     let midData = {
                         ...item,
@@ -25,6 +35,8 @@ export default function LanguagePage() {
                     return midData;
                 });
                 console.log(listUser);
+                console.log(resp);
+                setCount(count);
                 setData(listData);
             })
             .catch(err => console.log(err));
@@ -32,7 +44,7 @@ export default function LanguagePage() {
 
     useEffect(() => {
         refreshData();
-    }, []);
+    }, [page, pageSize]);
     useEffect(() => {
         if (shouldRefreshData) {
             refreshData();
@@ -76,20 +88,24 @@ export default function LanguagePage() {
         //     ),
         // },
     ];
-    const change = (a: number, b: number | undefined) => {
-        console.log(a, b);
+    const onPageChange = (page: number) => {
+        setPage(page);
     };
-
+    const onShowSizeChanger = (curr: number, size: number) => {
+        setPageSize(size);
+    };
     return (
         <>
             <Table
                 rowKey='_id'
                 columns={columns}
                 dataSource={data}
-                pagination={{
-                    showSizeChanger: true
-                }}
+                pagination={false}
             />
+            <CustomPagination
+                total={count} 
+                onPageChange={onPageChange} 
+                onShowSizeChanger={onShowSizeChanger}/>
         </>
     );
 }

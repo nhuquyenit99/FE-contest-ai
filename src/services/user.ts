@@ -27,8 +27,15 @@ type AllUserRespone = {
     previous: string,
     results: ListUser
 }
+export type PaginationQuery = {
+    limit: number,
+    offset: number
+}
 const fetchAllUser = () : Promise<AllUserRespone>=> {
     return DataAccess.Get<AllUserRespone>(USER_PATH);
+};
+const fetchAllUserPagination = (query: PaginationQuery) : Promise<AllUserRespone>=> {
+    return DataAccess.Get<AllUserRespone>(USER_PATH, query);
 };
 
 const fetchLogin = (username: string, password: string) => {
@@ -58,7 +65,9 @@ const fetchRegister = (username: string, password: string) => {
 export {
     fetchLogin,
     fetchAllUser,
+    fetchAllUserPagination,
     fetchRegister,
+    
     // fetchAddLanguage,
     // fetchDeleteLanguage,
     // fetchUpdateLanguage,

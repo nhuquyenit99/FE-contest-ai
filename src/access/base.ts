@@ -27,12 +27,13 @@ const APIPost = <T>(url: string, data?: T): Promise<T> => {
         });
 };
 
-const APIGet = <T>(url: string): Promise<T> => {
+const APIGet = <T>(url: string, params?: object): Promise<T> => {
     const token = readCookie('access_token');
     return axios({
         method: 'GET',
         url: `${BASE_URL}/${url}`,
         headers: token ? { ...headers, 'Authorization': `Bearer ${token}` } : headers,
+        params: params
     })
         .then(response => {
             if (response.statusText !== 'OK') {

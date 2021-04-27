@@ -3,6 +3,8 @@ import {Table} from 'antd';
 import { useEffect } from 'react';
 import { fetchAllUser, User } from 'services/user';
 import { ListUser } from '../../../../services/user';
+import RoleTag from './RoleTag';
+import { RoleTagEnum } from './RoleTag';
 
 type Item = User&{
     // key: number,
@@ -23,6 +25,7 @@ export default function LanguagePage() {
                     };
                     return midData;
                 });
+                console.log(listUser);
                 setData(listData);
             })
             .catch(err => console.log(err));
@@ -48,6 +51,14 @@ export default function LanguagePage() {
             title: 'Role',
             dataIndex: 'role',
             key: 'role',
+            render: (role, obj) => {
+                // let tagRenders = [];
+                return <>
+                    {obj.is_admin && <RoleTag role={RoleTagEnum.ADMIN}/>}
+                    {obj.is_organizer && <RoleTag role={RoleTagEnum.ORGANIZER}/>}
+                    <RoleTag role={RoleTagEnum.CONTESTANT}/>
+                </>;
+            }
         },
         {
             title: 'Created At',

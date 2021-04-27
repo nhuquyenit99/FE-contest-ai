@@ -10,6 +10,8 @@ export type User = {
     first_name?:string,
     last_name?: string,
     created: string,
+    is_admin: boolean,
+    is_organizer: boolean
 }
 export type ListUser = User[]
 type RespLogin = {

@@ -28,6 +28,7 @@ export default function LoginForm(props) {
                 history.push('/');
             })
             .catch(err => {
+                console.log(err);
                 notification.error({
                     message: 'Login failed',
                     style: {

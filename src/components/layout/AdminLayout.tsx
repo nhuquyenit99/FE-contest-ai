@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Redirect } from 'react-router';
 import { readCookie } from 'utils/cookie';
 import AdminSider from './AdminSider';
-import { ListMyRoutes } from 'modules/pages/AdminPage/index';
+import { ListMyRoutes } from 'modules/Admin/index';
 type AdminLayoutProps = {
     siderRouter: JSX.Element,
     siderRoutes: ListMyRoutes

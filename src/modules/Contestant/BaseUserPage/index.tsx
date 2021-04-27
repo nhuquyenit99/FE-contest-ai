@@ -1,6 +1,6 @@
 import { Route, Switch } from 'react-router';
 import { HomePage } from '../HomePage';
-import {ContestPage} from 'modules/pages/ContestantPage/ContestPage';
+import {ContestPage} from 'modules/Contestant/ContestPage';
 import Logo from 'components/core/Logo';
 import UserLayout from 'components/layout/UserLayout';
 type HeaderRoute = {

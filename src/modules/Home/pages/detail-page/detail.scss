@@ -1,0 +1,11 @@
+.contest-detail {
+    .title {
+        display: flex;
+        align-items: center;
+        column-gap: 15px;
+        .btn-back {
+            display: flex;
+            align-items: center;
+        }
+    }
+}

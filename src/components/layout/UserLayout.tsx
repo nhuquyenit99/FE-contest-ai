@@ -1,7 +1,7 @@
 import { Content, Footer} from 'antd/lib/layout/layout';
 import Layout from 'antd/lib/layout/layout';
 import CustomHeader from './CustomHeader';
-import { HeaderRoutes } from 'modules/pages/ContestantPage/BaseUserPage';
+import { HeaderRoutes } from 'modules/Contestant/BaseUserPage';
 type Props = {
     headerRoutes: HeaderRoutes,
     headerRouter: JSX.Element

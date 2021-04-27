@@ -1,0 +1,85 @@
+.app-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    .header {
+        .web-name {
+            position: sticky;
+            top: 0;
+            font-size: 20px;
+            background-color: #183256;
+            height: 50px;
+            padding-left: 50px;
+            display: flex;
+            align-items: center;
+            color: white;
+            text-transform: uppercase;
+            font-weight: bold;
+            .anticon {
+                margin-right: 5px;
+                font-size: 18px;
+            }
+        }
+        .web-name:hover {
+            color: wheat;
+        }
+        .welcome {
+            font-size: 50px;
+            color: white;
+            height: 200px;
+            padding-left: 50px;
+            display: flex;
+            align-items: center;
+            background: url('../../../../assets/header-bg.jpg');
+            text-shadow: 2px 2px #0F00FF;
+        }
+    }
+    .main-body {
+        flex: 1;
+        padding: 0 12vw;
+        display: flex;
+        .main-content {
+            background: white;
+            height: 100%;
+            flex: 1;
+            padding: 50px 20px;
+        }
+        .right-side-bar {
+            width: 30%;
+            padding: 30px 20px;
+            .section-header {
+                color: #4f5964;
+                text-transform: uppercase;
+                font-weight: bold;
+                font-size: 16px;
+                line-height: 20px; 
+                border-bottom: 1px solid #dee2e6;
+                margin-bottom: 20px;
+            }
+            .list-contest-item {
+                display: flex;
+                row-gap: 15px;
+                flex-direction: column;
+                margin-bottom: 50px;
+            }
+            .link-direct {
+                display: flex;
+                justify-content: center;
+                .ant-btn-primary {
+                    font-size: 18px;
+                    text-transform: uppercase;
+                    padding: 20px 40px;
+                    display: flex;
+                    align-items: center;
+                }
+            }
+            
+        }
+    }
+    .footer {
+        height: 50px;
+        background-color: #ccc;
+        text-align: center;
+        line-height: 50px;
+    }
+}

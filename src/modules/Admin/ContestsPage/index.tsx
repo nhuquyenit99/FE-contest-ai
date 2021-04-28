@@ -9,7 +9,7 @@ export type Item = Contest&{
     key: number,
 }
 type ListItems = Item[];
-export default function LanguagePage() {
+export default function ContestPage() {
     const [data, setData] = useState<ListItems>([]);
     const [shouldRefreshData, setShouldRefreshData] = useState(false);
     const refreshData = () => {

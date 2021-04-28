@@ -8,11 +8,11 @@ import CustomPagination from './Pagination';
 import { PaginationQuery } from '../../../services/user';
 
 type Item = User&{
-    // key: number,
+    key: number,
 }
 type ListItems = Item[];
 
-export default function LanguagePage() {
+export default function UserPage() {
     const [data, setData] = useState<ListItems>([]);
     const [count, setCount] = useState(0);
     const [page, setPage] = useState(1);
@@ -28,8 +28,9 @@ export default function LanguagePage() {
                 let {results, count} = resp;
                 let listUser: ListUser = results;
                 let listData: ListItems = listUser.map((item: User) => {
-                    let midData = {
+                    let midData:Item = {
                         ...item,
+                        key: item._id
                     };
                     return midData;
                 });
@@ -49,6 +50,12 @@ export default function LanguagePage() {
         }
     }, [shouldRefreshData]);
     const columns = [
+        {
+            title: 'Id',
+            dataIndex: '_id',
+            key: '_id',
+            render: text => <a>{text}</a>,
+        },
         {
             title: 'Username',
             dataIndex: 'username',

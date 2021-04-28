@@ -6,6 +6,7 @@ const REGISTER_API_ADDRESS = API_ADDRESS.concat('/api/register/');
 const LOGIN_API_ADDRESS = API_ADDRESS.concat('/api/login/');
 
 export type User = {
+    _id: number,
     username: string,
     first_name?:string,
     last_name?: string,
@@ -17,11 +18,6 @@ export type ListUser = User[]
 type RespLogin = {
     access_token: string,
     refresh_token: string,
-    user: {
-        username: string,
-        first_name: string,
-        last_name: string
-    }
 }
 type AllUserRespone = {
     count: number,

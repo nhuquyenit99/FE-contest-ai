@@ -38,7 +38,7 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
         this.setupModule();
         const token = readCookie('access_token');
         if (token) {
-            DataAccess.Get('auth/userinfo').then(res => {
+            DataAccess.Get('api/auth/userinfo').then(res => {
                 console.log(res);
                 // const user = {
                 //     _id: res.data._id,

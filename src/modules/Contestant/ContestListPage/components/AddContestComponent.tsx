@@ -20,7 +20,7 @@ export default function AddContestComponent(props) {
                 fetchAddLanguage(values)
                     .then(resp => {
                         notification.success({
-                            message: 'Added language successfully',
+                            message: 'Added contest successfully',
                             style: {
                                 width: 600,
                             },
@@ -89,15 +89,11 @@ export default function AddContestComponent(props) {
             </Form.Item>
         </Form>
     );
-
-    const addContestProps = {
-        title: 'Add contest',
-        handleOk,
-        handleCancel,
-    };
     return (
-        <Card {...addContestProps}>
-            {childAddContestComponent}
-        </Card>
+        <div>
+            <Card title='Add contest'>
+                {childAddContestComponent}
+            </Card>
+        </div>
     );
 }

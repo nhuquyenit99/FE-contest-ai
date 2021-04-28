@@ -10,9 +10,9 @@ export default function ContestListPage(props) {
     const showAddContest = () => {
         setIsShowAddContest(true);
     };
-    
+
     const buttonAddContest = <Button type="primary" onClick={showAddContest}>Add contest</Button>;
-    
+
 
     useEffect(() => {
         fetchAllContest()
@@ -23,17 +23,25 @@ export default function ContestListPage(props) {
     }, []);
 
     const renderListContest = () => {
-        return dataList.map(
-            (contest, idx) => 
-                <CardContest key={idx} contest={contest} style={{ marginBottom: '30px' }}></CardContest>);
+        // <CardContest key={idx} contest={contest} style={{ marginBottom: '30px' }}></CardContest>);
+        return <>
+            {
+                dataList.map(
+                    (contest, idx) => 
+                        <CardContest key={idx} contest={contest} style={{ marginBottom: '30px' }}></CardContest>)
+            }
+        </>;
     };
     const addContestProps = {
         setIsShowAddContest
     };
     return <>
-        <Card {...props} title="List contests" extra={[buttonAddContest]}>
+        <Card key="List contests" {...props} title="List contests"
+            extra={buttonAddContest}
+        >
             {
-                isShowAddContest? <AddContest {...addContestProps}/>: renderListContest()
+                isShowAddContest? <AddContest {...addContestProps}/>:
+                    renderListContest()
             }
         </Card>
     </>;

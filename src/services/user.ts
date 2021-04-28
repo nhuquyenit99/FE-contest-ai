@@ -17,9 +17,11 @@ export type ListUser = User[]
 type RespLogin = {
     access_token: string,
     refresh_token: string,
-    username: string,
-    first_name: string,
-    last_name: string
+    user: {
+        username: string,
+        first_name: string,
+        last_name: string
+    }
 }
 type AllUserRespone = {
     count: number,

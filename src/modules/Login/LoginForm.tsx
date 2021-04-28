@@ -3,6 +3,7 @@ import { Redirect } from 'react-router';
 import { fetchLogin } from 'services/user';
 import { useHistory } from 'react-router-dom';
 import { createCookie, readCookie } from 'utils/cookie';
+import { createSuper } from 'typescript';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
@@ -26,6 +27,7 @@ export default function LoginForm(props) {
                 });
                 createCookie('access_token', resp.data.access_token);
                 createCookie('refresh_token', resp.data.refresh_token);
+                createCookie('user', resp.data.user);
                 history.push('/');
             })
             .catch(err => {

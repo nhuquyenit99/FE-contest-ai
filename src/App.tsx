@@ -5,6 +5,7 @@ import { Module, RootModule } from './core';
 import './App.scss';
 import { DataAccess } from './access';
 // import { UserContext } from './context';
+import { readCookie } from 'utils/cookie';
 
 const INSTALLED_MODULE: any = {
     'modules': require('./modules/'),
@@ -35,23 +36,24 @@ class RootApplication extends React.Component<{}, { loading: boolean }> {
         this.setState({ loading: true });
         // Setup module
         this.setupModule();
-        // const token = localStorage.getItem('token');
-        // if (token) {
-        //     DataAccess.Get('auth').then(res => {
-        //         const user = {
-        //             _id: res.data._id,
-        //             avatar: res.data.avatar,
-        //             displayName: res.data.display_name
-        //         };
-        //         this.context.updateUser(user, () => this.setState({loading: false}));
-        //     }).catch(e => {
-        //         console.log('Error > ', e);
-        //         this.setState({loading: false});
-        //     });
+        const token = readCookie('access_token');
+        if (token) {
+            DataAccess.Get('auth/userinfo').then(res => {
+                console.log(res);
+                // const user = {
+                //     _id: res.data._id,
+                //     avatar: res.data.avatar,
+                //     displayName: res.data.display_name
+                // };
+                // this.context.updateUser(user, () => this.setState({loading: false}));
+            }).catch(e => {
+                console.log('Error > ', e);
+                this.setState({loading: false});
+            });
 
-        // } else {
-        //     this.setState({ loading: false }); 
-        // }
+        } else {
+            this.setState({ loading: false }); 
+        }
         this.setState({ loading: false });
     }
 

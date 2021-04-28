@@ -35,10 +35,10 @@ const fetchAxios = <T>(config: ConfigType): Promise<T> => {
         .then(data => data.data)
         .catch(err => {
             if (err.response.status === 401) {
-                fetchRefreshToken()?.then(access_obj => {
-                    if (!access_obj) return;
+                fetchRefreshToken()?.then(access_resp => {
+                    if (!access_resp) return;
                     eraseCookie('access_token');
-                    createCookie('access_token', access_obj.access);
+                    createCookie('access_token', access_resp.access);
                 });
                 console.log('refresh');
             }

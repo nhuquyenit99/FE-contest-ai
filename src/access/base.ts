@@ -1,4 +1,5 @@
-import { readCookie } from 'utils/cookie';
+import { fetchRefreshToken } from 'services/token';
+import { readCookie, eraseCookie, createCookie } from 'utils/cookie';
 
 const axios = require('axios');
 
@@ -31,9 +32,18 @@ const fetchAxios = <T>(config: ConfigType): Promise<T> => {
         .then(response => {
             return response as Promise<{ data: T }>;
         })
-        .then(data => data.data);
+        .then(data => data.data)
+        .catch(err => {
+            if (err.response.status === 401) {
+                fetchRefreshToken()?.then(access_obj => {
+                    if (!access_obj) return;
+                    eraseCookie('access_token');
+                    createCookie('access_token', access_obj.access);
+                });
+                console.log('refresh');
+            }
+        });
 };
-
 
 
 

@@ -25,6 +25,7 @@ export default function LoginForm(props) {
                     },
                 });
                 createCookie('access_token', resp.data.access_token);
+                createCookie('refresh_token', resp.data.refresh_token);
                 history.push('/');
             })
             .catch(err => {

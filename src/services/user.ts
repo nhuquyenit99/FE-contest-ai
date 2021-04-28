@@ -16,7 +16,7 @@ export type User = {
 export type ListUser = User[]
 type RespLogin = {
     access_token: string,
-    reset_token: string,
+    refresh_token: string,
     username: string,
     first_name: string,
     last_name: string

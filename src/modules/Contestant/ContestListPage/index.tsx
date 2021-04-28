@@ -17,6 +17,7 @@ export default function ContestListPage(props) {
     useEffect(() => {
         fetchAllContest()
             .then(resp => {
+                console.log(resp);
                 setDataList(resp);
             });
     }, []);

@@ -26,7 +26,6 @@ export default function LanguagePage() {
         fetchAllUserPagination(query)
             .then(resp => {
                 let {results, count} = resp;
-                // console.log(results);
                 let listUser: ListUser = results;
                 let listData: ListItems = listUser.map((item: User) => {
                     let midData = {
@@ -34,8 +33,6 @@ export default function LanguagePage() {
                     };
                     return midData;
                 });
-                console.log(listUser);
-                console.log(resp);
                 setCount(count);
                 setData(listData);
             })

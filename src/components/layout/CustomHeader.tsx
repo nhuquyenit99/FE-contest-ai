@@ -10,11 +10,14 @@ import {
 import { NavLink } from 'react-router-dom';
 import SettingDropdown from './SettingDropdown';
 import { HeaderRoutes } from 'modules/Contestant/BaseUserPage/index';
+import { useContext } from 'react';
+import { UserContext } from '../../context/index';
 const { Header } = Layout;
 type CustomHeaderProps = {
     routes: HeaderRoutes
 }
 function CustomHeader({ routes }: CustomHeaderProps) {
+    const {displayName} = useContext(UserContext);
     return (
         <Header className='__header-wrapper__'>
             <Row>
@@ -37,7 +40,7 @@ function CustomHeader({ routes }: CustomHeaderProps) {
                 <Col style={{ marginLeft: 'auto' }}>
                     <Space size="large" align="end">
                         <CustomBadge></CustomBadge>
-                        <AvatarContainer dark></AvatarContainer>
+                        <AvatarContainer displayName={displayName} dark></AvatarContainer>
                         <SettingDropdown></SettingDropdown>
                     </Space>
                 </Col>

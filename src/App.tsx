@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { NotFoundPage, Loading } from './components';
 import { Module, RootModule } from './core';
@@ -6,79 +6,77 @@ import './App.scss';
 import { DataAccess } from './access';
 // import { UserContext } from './context';
 import { readCookie } from 'utils/cookie';
+import { UserContext } from 'context';
+import { fetchGetInfo } from 'services/auth';
+import { UserContextProvider } from './context/index';
+import { useEffect, useContext } from 'react';
 
 const INSTALLED_MODULE: any = {
     'modules': require('./modules/'),
 };
 
-class RootApplication extends React.Component<{}, { loading: boolean }> {
-    rootModule: RootModule;
-    constructor(props: {}) {
-        super(props);
-        this.state = {
-            loading: true,
-        };
-        this.rootModule = new RootModule();
-    }
-    componentDidMount() {
-        this.init();
-    }
-
-    setupModule() {
+const rootModule:RootModule = new RootModule();
+function RootApplication() {
+    const [loading, setLoading] = useState(true);
+    const {updateUser, displayName} = useContext(UserContext);
+    
+    useEffect(() => {
+        init();
+    }, []);
+    const setupModule = () => {
         for (let key in INSTALLED_MODULE) {
             const module = new Module(key);
             INSTALLED_MODULE[key].setup(module);
-            this.rootModule.register(module);
+            rootModule.register(module);
+            console.log(rootModule);
         }
-    }
+    };
 
-    async init() {
-        this.setState({ loading: true });
+    const init = async () => {
+        setLoading(true);
         // Setup module
-        this.setupModule();
+        setupModule();
         const token = readCookie('access_token');
         if (token) {
-            DataAccess.Get('api/auth/userinfo').then(res => {
-                console.log(res);
-                // const user = {
-                //     _id: res.data._id,
-                //     avatar: res.data.avatar,
-                //     displayName: res.data.display_name
-                // };
-                // this.context.updateUser(user, () => this.setState({loading: false}));
+            fetchGetInfo().then(res => {
+                const { _id, username, first_name, last_name } = res;
+                const user = {
+                    _id,
+                    username,
+                    displayName: first_name + ' ' + last_name
+                };
+                console.log(user);
+                console.log(displayName);
+                updateUser(user);
             }).catch(e => {
                 console.log('Error > ', e);
-                this.setState({loading: false});
+                setLoading(false);
             });
 
         } else {
-            this.setState({ loading: false }); 
+            setLoading(false);
         }
-        this.setState({ loading: false });
-    }
+        setLoading(false);
+    };
 
-    componentWillUnmount() {
-    }
-
-    renderRoute() {
-        return Object.entries(this.rootModule.routes()).map(([key, route]) => {
+    const renderRoute = () => {
+        return Object.entries(rootModule.routes()).map(([key, route]) => {
             return <Route key={route.path} {...route} />;
         });
-    }
+    };
 
-    render() {
-        if (this.state.loading) {
-            return <Loading />;
-        }
-        return (
+    if (loading) {
+        return <Loading />;
+    }
+    return (
+        <UserContextProvider>
             <BrowserRouter basename="/">
                 <Switch>
-                    {this.renderRoute()}
+                    {renderRoute()}
                     <Route component={NotFoundPage} />
                 </Switch>
             </BrowserRouter>
-        );
-    }
+        </UserContextProvider>
+    );
 }
-// RootApplication.contextType = UserContext;
 export { RootApplication };

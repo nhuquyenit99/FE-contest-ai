@@ -1,4 +1,5 @@
-import { readCookie } from 'utils/cookie';
+import { fetchRefreshToken } from 'services/token';
+import { readCookie, eraseCookie, createCookie } from 'utils/cookie';
 
 const axios = require('axios');
 
@@ -8,79 +9,77 @@ const headers = {
 const BASE_URL = 'http://127.0.0.1:8000';
 
 const CLOUD_NAME = 'dj5xafymg';
-const APIPost = <T>(url: string, data?: T): Promise<T> => {
+type ConfigType = {
+    method: string,
+    url: string,
+    data?: any,
+    params?: any,
+}
+const getBaseConfigAxios = (config: ConfigType) => {
     const token = readCookie('access_token');
-    return axios({
-        method: 'POST',
+    const {method, url, data, params} = config;
+    return {
+        method: method,
         url: `${BASE_URL}/${url}`,
         headers: token ? { ...headers, 'Authorization': `Bearer ${token}` } : headers,
+        params: params,
         data: data
-    })
+    };
+};
+
+const fetchAxios = <T>(config: ConfigType): Promise<T> => {
+    return axios(getBaseConfigAxios({...config}))
         .then(response => {
-            if (response.statusText !== 'OK') {
-                throw new Error(response.statusText);
-            }
             return response as Promise<{ data: T }>;
         })
-        .then(data => {
-            return data.data;
+        .then(data => data.data)
+        .catch(err => {
+            if (err.response.status === 401) {
+                fetchRefreshToken()?.then(access_resp => {
+                    if (!access_resp) return;
+                    eraseCookie('access_token');
+                    createCookie('access_token', access_resp.access);
+                });
+                console.log('refresh');
+            }
         });
 };
 
-const APIGet = <T>(url: string): Promise<T> => {
-    const token = readCookie('access_token');
-    return axios({
+
+
+const APIPost = <T>(url: string, data?: any): Promise<T> => {
+    let config :ConfigType = {
+        method: 'POST',
+        url,
+        data
+    };
+    return fetchAxios(config);
+};
+
+const APIGet = <T>(url: string, params?: object): Promise<T> => {
+    let config :ConfigType = {
         method: 'GET',
-        url: `${BASE_URL}/${url}`,
-        headers: token ? { ...headers, 'Authorization': `Bearer ${token}` } : headers,
-    })
-        .then(response => {
-            if (response.statusText !== 'OK') {
-                throw new Error(response.statusText);
-            }
-            return response as Promise<{ data: T }>;
-        })
-        .then(data => {
-            return data.data;
-        });
+        url,
+        params
+    };
+    return fetchAxios(config);
 };
 
 const APIDelete = <T>(url: string, data?: string): Promise<T> => {
-    const token = readCookie('access_token');
-    return axios({
+    let config :ConfigType = {
         method: 'DELETE',
-        url: `${BASE_URL}/${url}`,
-        headers: token ? { ...headers, 'Authorization': `Bearer ${token}` } : headers,
-        data: data
-    })
-        .then(response => {
-            console.log(response);
-            if (response.statusText !== 'OK') {
-                throw new Error(response.statusText);
-            }
-            return response as Promise<{ data: T }>;
-        })
-        .then(data => {
-            return data.data;
-        });
+        url,
+        data
+    };
+    return fetchAxios(config);
 };
-const APIPut = <T>(url: string, data: T): Promise<T> => {
-    const token = readCookie('access_token');
-    return axios({
+const APIPut = <T>(url: string, data: any): Promise<T> => {
+    let config :ConfigType = {
         method: 'PUT',
-        url: `${BASE_URL}/${url}`,
-        headers: token ? { ...headers, 'Authorization': `Bearer ${token}` } : headers,
-        data: data
-    }).then(response => {
-        console.log(response);
-        if (response.statusText !== 'OK') {
-            throw new Error(response.statusText);
-        }
-        return response as Promise<{ data: T }>;
-    })
-        .then(data => {
-            return data.data;
-        });
+        url,
+        data
+    };
+    return fetchAxios(config);
 };
 const IMAGEPost = (data: any) => {
     return axios({

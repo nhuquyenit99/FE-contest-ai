@@ -3,49 +3,41 @@ import { DataAccess } from '../access';
 import { CategoryType, UserType } from '../models';
 
 type UserContextType = {
-    _id: string
+    _id: number
     displayName: string,
-    avatar: string,
-    followUsers: UserType[],
-    followCategories: CategoryType[],
+    username: string,
     logout: () => void
     updateUser: (newInfo: UserInfo) => void
     updateAvatar: (imageURL: string) => void
 }
 
 export const UserContext = React.createContext<UserContextType>({
-    _id: '',
+    _id: 0,
     displayName: '',
-    avatar: '',
-    followUsers: [],
-    followCategories: [],
+    username: '',
     logout: () => undefined,
     updateUser: (newInfo: UserInfo) => undefined,
     updateAvatar: (imageURL: string) => undefined
 });
 
 type StateType = {
-    _id: string
+    _id: number
     displayName: string
-    avatar: string
-    followUsers: UserType[],
-    followCategories: CategoryType[],
+    username: string
 }
 
 type UserInfo = {
-    _id: string
+    _id: number
     displayName: string
-    avatar: string
+    username: string
 }
 export class UserContextProvider extends React.Component<any, StateType> {
     constructor(props: any) {
         super(props);
         this.state = {
-            _id: '',
-            displayName: '',
-            avatar: '',
-            followUsers: [],
-            followCategories: [],
+            _id: 0,
+            displayName: 'Test Display name',
+            username: '',
         };
     }
 
@@ -54,7 +46,7 @@ export class UserContextProvider extends React.Component<any, StateType> {
         this.setState(prev => {
             return {
                 ...prev,
-                _id: '',
+                _id: 0,
                 displayName: '',
                 avatar: ''
             };
@@ -63,13 +55,14 @@ export class UserContextProvider extends React.Component<any, StateType> {
     }
 
     updateUser = (newInfo: UserInfo, cb?: () => void) => {
+        console.log('sdfsdf');
+        console.log(newInfo);
         this.setState(prev => {
             return {
                 ...prev,
                 ...newInfo,
             };
-        }, () => {
-        });
+        }, cb);
     }
     updateAvatar = (imageUrl: string) => {
         this.setState(prev => {

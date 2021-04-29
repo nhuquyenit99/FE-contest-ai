@@ -15,7 +15,7 @@ function ProblemDetail() {
                     <Title level={2} className="problem-title">Problem Title</Title>
                     <Text>Score: 2</Text>
                 </Col>
-                <Col span={12}>
+                <Col style={{marginLeft: 'auto', marginRight: '15px', justifyContent: 'flex-end'}}>
                     <Countdown title="Time remaining" value={deadline} format="HH:mm:ss" />
                 </Col>
             </Row>,

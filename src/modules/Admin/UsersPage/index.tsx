@@ -1,28 +1,40 @@
 import { useState } from 'react';
-import {Table} from 'antd';
+import { Table} from 'antd';
 import { useEffect } from 'react';
-import { fetchAllUser, User } from 'services/user';
-import { ListUser } from '../../../services/user';
+import { fetchAllUserPagination, User, ListUser, fetchAllUser } from 'services/user';
+import RoleTag from './RoleTag';
+import { RoleTagEnum } from './RoleTag';
+import CustomPagination from './Pagination';
+import { PaginationQuery } from '../../../services/user';
 
 type Item = User&{
-    // key: number,
+    key: number,
 }
 type ListItems = Item[];
 
-export default function LanguagePage() {
+export default function UserPage() {
     const [data, setData] = useState<ListItems>([]);
     const [count, setCount] = useState(0);
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
     const [shouldRefreshData, setShouldRefreshData] = useState(false);
     const refreshData = () => {
-        fetchAllUser()
+        let query: PaginationQuery = {
+            limit: pageSize,
+            offset: (page-1)*pageSize
+        };
+        fetchAllUserPagination(query)
             .then(resp => {
-                let listUser: ListUser = resp.results;
+                let {results, count} = resp;
+                let listUser: ListUser = results;
                 let listData: ListItems = listUser.map((item: User) => {
-                    let midData = {
+                    let midData:Item = {
                         ...item,
+                        key: item._id
                     };
                     return midData;
                 });
+                setCount(count);
                 setData(listData);
             })
             .catch(err => console.log(err));
@@ -30,7 +42,7 @@ export default function LanguagePage() {
 
     useEffect(() => {
         refreshData();
-    }, []);
+    }, [page, pageSize]);
     useEffect(() => {
         if (shouldRefreshData) {
             refreshData();
@@ -38,6 +50,12 @@ export default function LanguagePage() {
         }
     }, [shouldRefreshData]);
     const columns = [
+        {
+            title: 'Id',
+            dataIndex: '_id',
+            key: '_id',
+            render: text => <a>{text}</a>,
+        },
         {
             title: 'Username',
             dataIndex: 'username',
@@ -48,6 +66,14 @@ export default function LanguagePage() {
             title: 'Role',
             dataIndex: 'role',
             key: 'role',
+            render: (role, obj) => {
+                // let tagRenders = [];
+                return <>
+                    {obj.is_admin && <RoleTag role={RoleTagEnum.ADMIN}/>}
+                    {obj.is_organizer && <RoleTag role={RoleTagEnum.ORGANIZER}/>}
+                    <RoleTag role={RoleTagEnum.CONTESTANT}/>
+                </>;
+            }
         },
         {
             title: 'Created At',
@@ -66,20 +92,24 @@ export default function LanguagePage() {
         //     ),
         // },
     ];
-    const change = (a: number, b: number | undefined) => {
-        console.log(a, b);
+    const onPageChange = (page: number) => {
+        setPage(page);
     };
-
+    const onShowSizeChanger = (curr: number, size: number) => {
+        setPageSize(size);
+    };
     return (
         <>
             <Table
                 rowKey='_id'
                 columns={columns}
                 dataSource={data}
-                pagination={{
-                    showSizeChanger: true
-                }}
+                pagination={false}
             />
+            <CustomPagination
+                total={count} 
+                onPageChange={onPageChange} 
+                onShowSizeChanger={onShowSizeChanger}/>
         </>
     );
 }

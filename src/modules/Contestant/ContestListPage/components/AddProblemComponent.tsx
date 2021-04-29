@@ -169,14 +169,8 @@ export default function AddProblemComponent(props) {
             </Form.Item>
         </Form>
     );
-
-    const addProblemProps = {
-        title: 'Add contest',
-        handleOk,
-        handleCancel,
-    };
     return (
-        <Card {...addProblemProps}>
+        <Card title='Add contest'>
             {childAddContestComponent}
         </Card>
     );

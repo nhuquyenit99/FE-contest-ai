@@ -6,18 +6,18 @@ const REGISTER_API_ADDRESS = API_ADDRESS.concat('/api/register/');
 const LOGIN_API_ADDRESS = API_ADDRESS.concat('/api/login/');
 
 export type User = {
+    _id: number,
     username: string,
     first_name?:string,
     last_name?: string,
     created: string,
+    is_admin: boolean,
+    is_organizer: boolean
 }
 export type ListUser = User[]
 type RespLogin = {
     access_token: string,
-    reset_token: string,
-    username: string,
-    first_name: string,
-    last_name: string
+    refresh_token: string,
 }
 type AllUserRespone = {
     count: number,
@@ -25,8 +25,15 @@ type AllUserRespone = {
     previous: string,
     results: ListUser
 }
+export type PaginationQuery = {
+    limit: number,
+    offset: number
+}
 const fetchAllUser = () : Promise<AllUserRespone>=> {
     return DataAccess.Get<AllUserRespone>(USER_PATH);
+};
+const fetchAllUserPagination = (query: PaginationQuery) : Promise<AllUserRespone>=> {
+    return DataAccess.Get<AllUserRespone>(USER_PATH, query);
 };
 
 const fetchLogin = (username: string, password: string) => {
@@ -56,7 +63,9 @@ const fetchRegister = (username: string, password: string) => {
 export {
     fetchLogin,
     fetchAllUser,
+    fetchAllUserPagination,
     fetchRegister,
+    
     // fetchAddLanguage,
     // fetchDeleteLanguage,
     // fetchUpdateLanguage,

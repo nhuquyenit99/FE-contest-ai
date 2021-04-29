@@ -33,6 +33,7 @@ export class RootModule {
 
     routes(): Record<string, RouteConfig> {
         let allRoutes = {};
+        console.log(this.__module);
         Object.entries(this.__module).forEach(([key, module]) => {
             console.log('=>', module.getRoute());
             allRoutes = {...allRoutes, ...Object.assign({}, module.getRoute())};

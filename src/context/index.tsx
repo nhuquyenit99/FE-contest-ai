@@ -1,6 +1,6 @@
 import React from 'react';
 import { DataAccess } from '../access';
-import { CategoryType, UserType } from '../models';
+import { useContext } from 'react';
 
 type UserContextType = {
     _id: number
@@ -36,7 +36,7 @@ export class UserContextProvider extends React.Component<any, StateType> {
         super(props);
         this.state = {
             _id: 0,
-            displayName: 'Test Display name',
+            displayName: '',
             username: '',
         };
     }

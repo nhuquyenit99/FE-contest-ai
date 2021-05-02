@@ -1,25 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { NotFoundPage, Loading } from './components';
 import { Module, RootModule } from './core';
 import './App.scss';
-import { DataAccess } from './access';
-// import { UserContext } from './context';
 import { readCookie } from 'utils/cookie';
-import { UserContext } from 'context';
 import { fetchGetInfo } from 'services/auth';
-import { UserContextProvider } from './context/index';
-import { useEffect, useContext } from 'react';
+import { useEffect} from 'react';
+import { UserContext } from './context/index';
 
 const INSTALLED_MODULE: any = {
     'modules': require('./modules/'),
 };
 
-const rootModule:RootModule = new RootModule();
+const rootModule: RootModule = new RootModule();
 function RootApplication() {
     const [loading, setLoading] = useState(true);
-    const {updateUser, displayName} = useContext(UserContext);
-    
+    const { updateUser } = useContext(UserContext);
+
     useEffect(() => {
         init();
     }, []);
@@ -46,7 +43,7 @@ function RootApplication() {
                     displayName: first_name + ' ' + last_name
                 };
                 console.log(user);
-                console.log(displayName);
+                console.log(updateUser);
                 updateUser(user);
             }).catch(e => {
                 console.log('Error > ', e);
@@ -68,15 +65,14 @@ function RootApplication() {
     if (loading) {
         return <Loading />;
     }
+    console.log('render');
     return (
-        <UserContextProvider>
-            <BrowserRouter basename="/">
-                <Switch>
-                    {renderRoute()}
-                    <Route component={NotFoundPage} />
-                </Switch>
-            </BrowserRouter>
-        </UserContextProvider>
+        <BrowserRouter basename="/">
+            <Switch>
+                {renderRoute()}
+                <Route component={NotFoundPage} />
+            </Switch>
+        </BrowserRouter>
     );
 }
 export { RootApplication };

@@ -1,5 +1,6 @@
 import { Card, Tabs } from 'antd';
 import Layout from 'antd/lib/layout/layout';
+import Dashboard from './components/Dashboard';
 import ListProblem from './components/ListProblem';
 import { ProblemContainer } from './components/ProblemContainer/index';
 import SampleCodeContainer from './components/SampleCodeContainer';
@@ -14,7 +15,7 @@ export function ContestPage() {
                         <ProblemContainer></ProblemContainer>
                     </TabPane>
                     <TabPane tab="Dashboard" key="2">
-                    Content of Tab Pane 2
+                        <Dashboard></Dashboard>
                     </TabPane>
                     <TabPane tab="Sample Code" key="3">
                         <SampleCodeContainer></SampleCodeContainer>

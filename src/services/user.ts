@@ -4,13 +4,41 @@ import { DataAccess } from 'access/base';
 const USER_PATH = 'api/user/';
 const REGISTER_API_ADDRESS = API_ADDRESS.concat('/api/register/');
 const LOGIN_API_ADDRESS = API_ADDRESS.concat('/api/login/');
-const fetchAllUser = () => {
-    return DataAccess.Get(USER_PATH);
+
+export type User = {
+    _id: number,
+    username: string,
+    first_name?:string,
+    last_name?: string,
+    created: string,
+    is_admin: boolean,
+    is_organizer: boolean
+}
+export type ListUser = User[]
+type RespLogin = {
+    access_token: string,
+    refresh_token: string,
+}
+type AllUserRespone = {
+    count: number,
+    next: string,
+    previous: string,
+    results: ListUser
+}
+export type PaginationQuery = {
+    limit: number,
+    offset: number
+}
+const fetchAllUser = () : Promise<AllUserRespone>=> {
+    return DataAccess.Get<AllUserRespone>(USER_PATH);
+};
+const fetchAllUserPagination = (query: PaginationQuery) : Promise<AllUserRespone>=> {
+    return DataAccess.Get<AllUserRespone>(USER_PATH, query);
 };
 
 const fetchLogin = (username: string, password: string) => {
     const body = {username, password};
-    return axios.post(LOGIN_API_ADDRESS, body);
+    return axios.post<RespLogin>(LOGIN_API_ADDRESS, body);
 };
 
 
@@ -35,7 +63,9 @@ const fetchRegister = (username: string, password: string) => {
 export {
     fetchLogin,
     fetchAllUser,
+    fetchAllUserPagination,
     fetchRegister,
+    
     // fetchAddLanguage,
     // fetchDeleteLanguage,
     // fetchUpdateLanguage,

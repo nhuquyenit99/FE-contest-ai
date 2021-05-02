@@ -1,14 +1,39 @@
-import { Module } from '../core';
-import AdminPage from './pages/AdminPage';
-import BaseUserPage from './pages/BaseUserPage';
-const routes = [
+import { Module } from 'core';
+import AdminPage from './Admin';
+import BaseUserPage from './Contestant/BaseUserPage';
+import LoginPage from './Login/index';
+import { HomePage } from './Home';
+import { DetailPage } from './Home/pages/detail-page';
+type ModuleRoute = {
+    path: string,
+    exact: boolean,
+    component: () => JSX.Element
+};
+
+type ModuleRoutes = ModuleRoute[];
+const routes: ModuleRoutes = [
+    {
+        path: '/',
+        exact: true,
+        component: HomePage, 
+    },
+    {
+        path: '/detail/:id',
+        exact: true,
+        component: DetailPage, 
+    },
     {
         path: '/admin',
         exact: false,
         component: AdminPage, 
     },
     {
-        path: '/',
+        path: '/login',
+        exact: true,
+        component: LoginPage,  
+    },
+    {
+        path: '/contestant',
         exact: false,
         component: BaseUserPage,
     },

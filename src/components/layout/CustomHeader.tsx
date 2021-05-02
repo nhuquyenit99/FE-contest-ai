@@ -9,16 +9,26 @@ import {
 } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 import SettingDropdown from './SettingDropdown';
+import { HeaderRoutes } from 'modules/Contestant/BaseUserPage/index';
+import { useContext } from 'react';
+import { UserContext } from '../../context/index';
 const { Header } = Layout;
-function CustomHeader(props) {
-    const {routes, isAuthenticated} = props;
+type CustomHeaderProps = {
+    routes: HeaderRoutes
+}
+function CustomHeader({ routes }: CustomHeaderProps) {
+    const {displayName} = useContext(UserContext);
     return (
-        <Header>
+        <Header className='__header-wrapper__'>
             <Row>
                 <Col xs={16}>
-                    <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+                    <Menu 
+                        className="__menu-nav-wrapper__" 
+                        theme="dark" 
+                        mode="horizontal" 
+                        defaultSelectedKeys={['1']}>
                         {
-                            routes.map((route, idx) => 
+                            routes.map((route, idx) =>
                                 <Menu.Item key={idx}>
                                     <NavLink to={route.path}>
                                         {route.label}
@@ -27,10 +37,10 @@ function CustomHeader(props) {
                         }
                     </Menu>
                 </Col>
-                <Col>
-                    <Space align='end' size="large">
+                <Col style={{ marginLeft: 'auto' }}>
+                    <Space size="large" align="end">
                         <CustomBadge></CustomBadge>
-                        <AvatarContainer dark></AvatarContainer>
+                        <AvatarContainer displayName={displayName} dark></AvatarContainer>
                         <SettingDropdown></SettingDropdown>
                     </Space>
                 </Col>

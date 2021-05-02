@@ -21,8 +21,8 @@ export function useEntityData<T>(url: string | undefined, keyUpdate?: any, defau
         try {
             if (!url) return;
             setLoading(true);
-            const res = await DataAccess.Get(url);
-            setData(res.data);
+            const res: any = await DataAccess.Get(url);
+            setData(res?.data);
             setStatus(res?.status?.toString());
         } catch (e) {
             console.error('Fetch entity error', e);
@@ -64,7 +64,7 @@ export function useEntityDataList<T>(url: string | undefined, page?: number, tex
         try {
             if (!url) return;
             setLoading(true);
-            const res = await DataAccess.Get(`${url}${page ? `?page=${page}` : ''}${textSearch ? `&query=${textSearch}` : ''}`);
+            const res: any = await DataAccess.Get(`${url}${page ? `?page=${page}` : ''}${textSearch ? `&query=${textSearch}` : ''}`);
             setData(res.data);
             setStatus(res?.status?.toString());
         } catch (e) {

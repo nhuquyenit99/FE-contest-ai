@@ -18,7 +18,7 @@ type LanguagePut = {
 type ListLanguage = Language[];
 
 const fetchAllLanguage = () : Promise<ListLanguage> => {
-    return DataAccess.Get<ListLanguage>(LANGUAGE_PATH);
+    return DataAccess.Get(LANGUAGE_PATH);
 };
 const fetchAddLanguage = (body: LanguagePost) => {
     return DataAccess.Post(LANGUAGE_PATH, body);

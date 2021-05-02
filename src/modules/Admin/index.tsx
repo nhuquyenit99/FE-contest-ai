@@ -3,13 +3,14 @@ import { Route, Switch } from 'react-router-dom';
 import LanguagePage from './LanguagePage';
 import ContestsPage from './ContestsPage';
 import UsersPage from './UsersPage';
-import FilesPage from './FilesPage/index';
+import FilesPage from './FilesPage';
 import {
     FileOutlined,
     CommentOutlined,
     CrownOutlined,
     UserOutlined,
 } from '@ant-design/icons';
+import SampleCodePage from './SampleCodePage';
 export type MyRoute = {
     icon: any,
     label: string,
@@ -48,6 +49,12 @@ const routes: ListMyRoutes = [
         path: '/admin/files',
         component: FilesPage
     },
+    {
+        icon: FileOutlined,
+        label: 'Sample Code Help',
+        path: '/admin/samplecode',
+        component: SampleCodePage
+    }
 ];
 
 export default function AdminPage() {

@@ -8,7 +8,7 @@ export default function SampleCodeContainer() {
         fetchSampleCodeHelp()
             .then(resp => {
                 console.log(resp);
-                setContent(resp.html_content);
+                setContent(resp?.html_content);
             });
     }, []);
 

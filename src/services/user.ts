@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { API_ADDRESS } from 'const/api';
 import { DataAccess } from 'access/base';
 const USER_PATH = 'api/user/';
-const REGISTER_API_ADDRESS = API_ADDRESS.concat('/api/register/');
-const LOGIN_API_ADDRESS = API_ADDRESS.concat('/api/login/');
+const REGISTER_API_ADDRESS = 'api/register/';
+const LOGIN_API_ADDRESS = 'api/login/';
 
 export type User = {
     _id: number,
@@ -38,13 +37,13 @@ const fetchAllUserPagination = (query: PaginationQuery) : Promise<AllUserRespone
 
 const fetchLogin = (username: string, password: string) => {
     const body = {username, password};
-    return axios.post<RespLogin>(LOGIN_API_ADDRESS, body);
+    return DataAccess.Post<RespLogin>(LOGIN_API_ADDRESS, body);
 };
 
 
 const fetchRegister = (username: string, password: string) => {
     const body = {username, password};
-    return axios.post(REGISTER_API_ADDRESS, body);
+    return DataAccess.Post(REGISTER_API_ADDRESS, body);
 };
 // const fetchAddLanguage = (body) => {
 //     return axios.post(LANGUAGE_API_ADDRESS, body);

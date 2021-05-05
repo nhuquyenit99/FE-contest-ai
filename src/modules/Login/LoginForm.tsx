@@ -25,8 +25,8 @@ export default function LoginForm(props) {
                         width: 600,
                     },
                 });
-                createCookie('access_token', resp.data.access_token);
-                createCookie('refresh_token', resp.data.refresh_token);
+                createCookie('access_token', resp.access_token);
+                createCookie('refresh_token', resp.refresh_token);
                 history.push('/');
             })
             .catch(err => {

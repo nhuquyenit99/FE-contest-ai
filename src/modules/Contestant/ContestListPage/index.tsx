@@ -26,7 +26,7 @@ export default function ContestListPage(props) {
         // <CardContest key={idx} contest={contest} style={{ marginBottom: '30px' }}></CardContest>);
         return <>
             {
-                dataList.map(
+                dataList?.map(
                     (contest, idx) => 
                         <CardContest key={idx} contest={contest} style={{ marginBottom: '30px' }}></CardContest>)
             }

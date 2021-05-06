@@ -1,8 +1,10 @@
-import { Route, Switch } from 'react-router';
+import { Redirect, Route, Switch } from 'react-router';
 import { HomePage } from '../HomePage';
 import {ContestPage} from 'modules/Contestant/ContestPage';
 import Logo from 'components/core/Logo';
 import UserLayout from 'components/layout/UserLayout';
+import { UserContext } from 'context';
+import { useContext } from 'react';
 type HeaderRoute = {
     label: string,
     path: string,
@@ -32,6 +34,8 @@ const routes:HeaderRoutes = [
     },
 ];
 export default function BaseUserPage() {
+    const { getIsAuthenticated } = useContext(UserContext);
+    let isAuthen = getIsAuthenticated();
     const headerRouter:JSX.Element = (
         <Switch>
             {
@@ -39,5 +43,8 @@ export default function BaseUserPage() {
             }
         </Switch>
     );
+    console.log(isAuthen);
+    if (!isAuthen)
+        return <Redirect to='/login'></Redirect>;
     return <UserLayout headerRoutes={routes} headerRouter={headerRouter}></UserLayout>;
 }

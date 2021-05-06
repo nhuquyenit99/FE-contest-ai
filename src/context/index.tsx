@@ -1,12 +1,15 @@
 import React from 'react';
 import { DataAccess } from '../access';
 import { useContext } from 'react';
+import { eraseCookie, readCookie } from 'utils/cookie';
 
 type UserContextType = {
     _id: number
     displayName: string,
     username: string,
+    isAuthenticated: boolean,
     logout: () => void
+    getIsAuthenticated: () => boolean,
     updateUser: (newInfo: UserInfo) => void
     updateAvatar: (imageURL: string) => void
 }
@@ -15,7 +18,9 @@ export const UserContext = React.createContext<UserContextType>({
     _id: 0,
     displayName: '',
     username: '',
+    isAuthenticated: false,
     logout: () => undefined,
+    getIsAuthenticated: () => false,
     updateUser: (newInfo: UserInfo) => undefined,
     updateAvatar: (imageURL: string) => undefined
 });
@@ -23,13 +28,15 @@ export const UserContext = React.createContext<UserContextType>({
 type StateType = {
     _id: number
     displayName: string
-    username: string
+    username: string,
+    isAuthenticated: boolean
 }
 
 type UserInfo = {
     _id: number
     displayName: string
-    username: string
+    username: string,
+    isAuthenticated: boolean
 }
 export class UserContextProvider extends React.Component<any, StateType> {
     constructor(props: any) {
@@ -38,9 +45,20 @@ export class UserContextProvider extends React.Component<any, StateType> {
             _id: 0,
             displayName: '',
             username: '',
+            isAuthenticated: false
         };
     }
-
+    getIsAuthenticated = () => {
+        console.log(readCookie('access_token') !== '');
+        console.log(this.state);
+        let isAuthenticated = (readCookie('access_token') !== ''
+            && this.state.username !== '');
+        
+        if (this.state.isAuthenticated !== isAuthenticated) {
+            this.setState({isAuthenticated});
+        }
+        return isAuthenticated;
+    }
     logout = () => {
         DataAccess.Delete('logout');
         this.setState(prev => {
@@ -51,12 +69,11 @@ export class UserContextProvider extends React.Component<any, StateType> {
                 avatar: ''
             };
         });
-        localStorage.removeItem('token');
+        eraseCookie('access_token');
+        eraseCookie('refresh_token');
     }
 
     updateUser = (newInfo: UserInfo, cb?: () => void) => {
-        console.log('sdfsdf');
-        console.log(newInfo);
         this.setState(prev => {
             return {
                 ...prev,
@@ -76,6 +93,7 @@ export class UserContextProvider extends React.Component<any, StateType> {
         return (
             <UserContext.Provider value={{
                 ...this.state,
+                getIsAuthenticated: this.getIsAuthenticated,
                 updateUser: this.updateUser,
                 logout: this.logout,
                 updateAvatar: this.updateAvatar

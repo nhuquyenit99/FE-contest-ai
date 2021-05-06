@@ -4,6 +4,9 @@ import { fetchLogin } from 'services/user';
 import { useHistory } from 'react-router-dom';
 import { createCookie, readCookie } from 'utils/cookie';
 import { createSuper } from 'typescript';
+import { fetchGetInfo } from 'services/auth';
+import { useContext } from 'react';
+import { UserContext } from '../../context/index';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
@@ -14,6 +17,7 @@ const tailLayout = {
 
 export default function LoginForm(props) {
     const history = useHistory();
+    const {updateUser} = useContext(UserContext);
     const onFinish = (values: any) => {
         console.log('Success:', values);
         const {username, password} = values;
@@ -27,7 +31,23 @@ export default function LoginForm(props) {
                 });
                 createCookie('access_token', resp.access_token);
                 createCookie('refresh_token', resp.refresh_token);
-                history.push('/');
+                return resp.access_token;
+            }).then(accessToken => {
+                if (accessToken) {
+                    fetchGetInfo().then(res => {
+                        const { _id, username, first_name, last_name } = res;
+                        const user = {
+                            _id,
+                            username,
+                            displayName: first_name + ' ' + last_name,
+                            isAuthenticated: true
+                        };
+                        updateUser(user);
+                    }).catch(e => {
+                        console.log('Error > ', e);
+                    });
+                    history.push('/contestant');
+                }
             })
             .catch(err => {
                 console.log(err);

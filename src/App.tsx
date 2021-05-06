@@ -40,10 +40,9 @@ function RootApplication() {
                 const user = {
                     _id,
                     username,
-                    displayName: first_name + ' ' + last_name
+                    displayName: first_name + ' ' + last_name,
+                    isAuthenticated: true
                 };
-                console.log(user);
-                console.log(updateUser);
                 updateUser(user);
             }).catch(e => {
                 console.log('Error > ', e);

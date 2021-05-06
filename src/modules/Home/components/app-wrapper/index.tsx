@@ -4,6 +4,7 @@ import { HomeOutlined } from '@ant-design/icons';
 import { UpcomingContestItem } from '../upcoming-contest-item';
 import { defaultContestItem } from 'models';
 import './style.scss';
+import { Link } from 'react-router-dom';
 
 
 type AppWrapperProps = {
@@ -34,9 +35,9 @@ export function AppWrapper ({
                         <UpcomingContestItem data={defaultContestItem}/>
                         <UpcomingContestItem data={defaultContestItem}/>
                     </div>
-                    <a href='/contestant' target='_blank'  className='link-direct'>
+                    <Link to='contestant' className='link-redirect'>
                         <Button type='primary' shape='round' danger>Attend now!</Button>
-                    </a>
+                    </Link>
                 </div>
             </div>
             <div className='footer'>

@@ -3,6 +3,7 @@ import { DataAccess } from 'access/base';
 const USER_PATH = 'api/user/';
 const REGISTER_API_ADDRESS = 'api/register/';
 const LOGIN_API_ADDRESS = 'api/login/';
+const ATTENDED_CONTEST_ADDRESS = 'api/user/attended-contest/';
 
 export type User = {
     _id: number,
@@ -45,6 +46,15 @@ const fetchRegister = (username: string, password: string) => {
     const body = {username, password};
     return DataAccess.Post(REGISTER_API_ADDRESS, body);
 };
+
+export type AttendedContest = {
+    _id: number,
+    title: string,
+};
+
+const fetchAttendedContest = (id: number) : Promise<AttendedContest[]>=>  {
+    return DataAccess.Get(ATTENDED_CONTEST_ADDRESS+id);
+};
 // const fetchAddLanguage = (body) => {
 //     return axios.post(LANGUAGE_API_ADDRESS, body);
 // };
@@ -64,7 +74,7 @@ export {
     fetchAllUser,
     fetchAllUserPagination,
     fetchRegister,
-    
+    fetchAttendedContest
     // fetchAddLanguage,
     // fetchDeleteLanguage,
     // fetchUpdateLanguage,

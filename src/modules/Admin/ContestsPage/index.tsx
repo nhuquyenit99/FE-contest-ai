@@ -61,19 +61,19 @@ export default function ContestPage() {
             dataIndex: 'created',
             key: 'created',
         },
-        {
-            title: 'Language',
-            dataIndex: 'language',
-            render: (languages) => (
-                <Space size="middle">
-                    {
-                        languages.map(language => {
-                            return language;
-                        })
-                    }
-                </Space>
-            ),
-        }
+        // {
+        //     title: 'Language',
+        //     dataIndex: 'language',
+        //     render: (languages) => (
+        //         <Space size="middle">
+        //             {
+        //                 languages.map(language => {
+        //                     return language;
+        //                 })
+        //             }
+        //         </Space>
+        //     ),
+        // }
         // {
         //     title: 'Action',
         //     key: 'action',

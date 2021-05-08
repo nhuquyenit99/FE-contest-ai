@@ -1,9 +1,10 @@
 import CardContest from './components/CardContest';
-import { Button, Card } from 'antd';
+import { Button, Card, Skeleton } from 'antd';
 import { useEffect, useState } from 'react';
 import { fetchAllContest, ListContests } from 'services/contest';
 import AddContest from './components/AddContest';
 export default function ContestListPage(props) {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [dataList, setDataList] = useState<ListContests>([]);
     const [isShowAddContest, setIsShowAddContest] = useState(false);
 
@@ -15,8 +16,10 @@ export default function ContestListPage(props) {
 
 
     useEffect(() => {
+        setIsLoading(true);
         fetchAllContest()
             .then(resp => {
+                setIsLoading(false);
                 console.log(resp);
                 setDataList(resp);
             });
@@ -41,7 +44,9 @@ export default function ContestListPage(props) {
         >
             {
                 isShowAddContest? <AddContest {...addContestProps}/>:
-                    renderListContest()
+                    <Skeleton loading={isLoading}>
+                        {renderListContest()}
+                    </Skeleton>    
             }
         </Card>
     </>;

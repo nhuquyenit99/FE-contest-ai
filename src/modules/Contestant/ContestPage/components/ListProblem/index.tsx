@@ -1,4 +1,5 @@
 import { Divider, List, Typography } from 'antd';
+import { NavLink } from 'react-router-dom';
 import ProblemListItem from './ProblemListItem';
 export enum ProblemStatusEnum {
     PENDING,
@@ -11,28 +12,27 @@ export type Problem = {
     status: ProblemStatusEnum
     ranking?: number,
 }
-const data:Problem[] = [
-    {
-        title: 'Problem 1',
-        status: ProblemStatusEnum.READY,
-    },
-    {
-        title: 'Problem 2',
-        status: ProblemStatusEnum.SUCCESSED,
-        ranking: 30
-    },
-    {
-        title: 'Problem 3',
-        status: ProblemStatusEnum.FAILED,
-        ranking: 30
-    },
-    {
-        title: 'Problem 4',
-        status: ProblemStatusEnum.PENDING,
-        ranking: 30
-    }
-];
-export default function ListProblem() {
+
+type ListProblemProps = {
+    listProblem?: {
+        title: string,
+    }[],
+    currentProblemPst: number,
+    setCurrentProblemPst: (idx: number) => void
+}
+export default function ListProblem(
+    {   
+        listProblem, 
+        setCurrentProblemPst, 
+        currentProblemPst
+    }: ListProblemProps) {
+    let data = listProblem?.map(problem => {
+        let newProblem: Problem = {
+            ...problem,
+            status: ProblemStatusEnum.READY
+        };
+        return newProblem;
+    });
     return <>
         <Divider orientation="left">List problems</Divider>
         <List
@@ -40,11 +40,19 @@ export default function ListProblem() {
             footer={<div>Footer</div>}
             bordered
             dataSource={data}
-            renderItem={(item: Problem, idx: number) => (
-                <List.Item style={{borderRadius: '5px', background: '#eee', marginBottom: '3px'}}>
-                    <ProblemListItem item={item} idx={idx+1}></ProblemListItem>
-                </List.Item>
-            )}
+            renderItem={(item: Problem, idx: number) => {
+                let selectiveStyle =  currentProblemPst===idx? {
+                    background: '#eee'
+                }: {};
+                return (
+                    <List.Item 
+                        style={{...selectiveStyle, borderRadius: '5px', marginBottom: '3px'}}
+                        onClick={() => setCurrentProblemPst(idx)}
+                    >
+                        <ProblemListItem item={item} idx={idx+1}></ProblemListItem>
+                    </List.Item>
+                );
+            }}
         />
     </>;
 }

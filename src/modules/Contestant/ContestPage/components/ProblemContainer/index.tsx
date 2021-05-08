@@ -3,12 +3,18 @@ import UploadFile from './components/UploadFile';
 import Layout from 'antd/lib/layout/layout';
 import { Alert, Button, Card, Progress, Space } from 'antd';
 import ProblemDetail from './components/ProblemDetail';
+import { Problem } from 'services/problem';
 
-export function ProblemContainer() {
+type ProblemContainerProps = {
+    problem: Problem
+}
+
+export function ProblemContainer({problem}: ProblemContainerProps) {
+    
     return (
         <Layout>
             <Card>
-                <ProblemDetail></ProblemDetail>
+                <ProblemDetail problem={problem}></ProblemDetail>
                 <div>
                     <UploadFile label="Upload file model"></UploadFile>
                     <UploadFile label="Upload file test code"></UploadFile>

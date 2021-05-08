@@ -29,7 +29,7 @@ const routes:HeaderRoutes = [
     {
         label: 'Contest',
         path: '/contestant/contest',
-        exact: true,
+        exact: false,
         component: ContestPage
     },
 ];

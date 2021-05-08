@@ -30,10 +30,10 @@ export type PaginationQuery = {
     offset: number
 }
 const fetchAllUser = () : Promise<AllUserRespone>=> {
-    return DataAccess.Get<AllUserRespone>(USER_PATH);
+    return DataAccess.Get(USER_PATH);
 };
 const fetchAllUserPagination = (query: PaginationQuery) : Promise<AllUserRespone>=> {
-    return DataAccess.Get<AllUserRespone>(USER_PATH, query);
+    return DataAccess.Get(USER_PATH, query);
 };
 
 const fetchLogin = (username: string, password: string) => {

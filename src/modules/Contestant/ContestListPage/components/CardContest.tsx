@@ -51,8 +51,8 @@ export default function CardContest(props: CardContestProps) {
             </div>
             {
                 contestStatus === ContestStatusEnum.EXPIRED ? 
-                    <NavLink to="contestant/contest"><Button type='primary'>Dashboard</Button></NavLink>
-                    : <NavLink to="contestant/contest"><Button type="primary">Attend</Button></NavLink>
+                    <NavLink to={`contestant/contest/?id=${contest._id}`}><Button type='primary'>Dashboard</Button></NavLink>
+                    : <NavLink to={`contestant/contest/?id=${contest._id}`}><Button type="primary">Attend</Button></NavLink>
             }
         </Space>
     </div>;

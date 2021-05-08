@@ -2,6 +2,7 @@ import { Menu, Dropdown, Button } from 'antd';
 import { MenuFoldOutlined } from '@ant-design/icons';
 import { useContext } from 'react';
 import { UserContext } from '../../context/index';
+import { NavLink } from 'react-router-dom';
 function HamburgerMenu(logout: React.MouseEventHandler) {
     return (
         <Menu>
@@ -11,11 +12,11 @@ function HamburgerMenu(logout: React.MouseEventHandler) {
                 </a>
             </Menu.Item>
             <Menu.Item>
-                <a rel="noopener noreferrer" href="/login">
-                    <Button onClick={ logout }>
+                <Button onClick={ logout }>
+                    <NavLink to='/'>
                         Logout
-                    </Button>
-                </a>
+                    </NavLink>
+                </Button>
             </Menu.Item>
         </Menu>
     );

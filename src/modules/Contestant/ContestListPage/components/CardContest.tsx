@@ -1,4 +1,5 @@
 import { Button, Card, Space, Typography} from 'antd';
+import { NavLink } from 'react-router-dom';
 import CardContestTitle from './CardContestTitle';
 const { Text, Link } = Typography;
 type CardContestProps = {
@@ -50,8 +51,8 @@ export default function CardContest(props: CardContestProps) {
             </div>
             {
                 contestStatus === ContestStatusEnum.EXPIRED ? 
-                    <a href="/contest"><Button type='primary'>Dashboard</Button></a>
-                    : <a href="/contest"><Button type="primary">Attend</Button></a>
+                    <NavLink to="contestant/contest"><Button type='primary'>Dashboard</Button></NavLink>
+                    : <NavLink to="contestant/contest"><Button type="primary">Attend</Button></NavLink>
             }
         </Space>
     </div>;

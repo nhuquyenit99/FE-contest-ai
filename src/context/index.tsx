@@ -2,6 +2,7 @@ import React from 'react';
 import { DataAccess } from '../access';
 import { useContext } from 'react';
 import { eraseCookie, readCookie } from 'utils/cookie';
+import { Redirect, useHistory, withRouter } from 'react-router-dom';
 
 type UserContextType = {
     _id: number
@@ -60,7 +61,6 @@ export class UserContextProvider extends React.Component<any, StateType> {
         return isAuthenticated;
     }
     logout = () => {
-        DataAccess.Delete('logout');
         this.setState(prev => {
             return {
                 ...prev,
@@ -71,6 +71,7 @@ export class UserContextProvider extends React.Component<any, StateType> {
         });
         eraseCookie('access_token');
         eraseCookie('refresh_token');
+        return <Redirect to='/'/>;
     }
 
     updateUser = (newInfo: UserInfo, cb?: () => void) => {
@@ -103,3 +104,4 @@ export class UserContextProvider extends React.Component<any, StateType> {
         );
     }
 }
+

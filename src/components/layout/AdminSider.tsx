@@ -22,11 +22,11 @@ export default function AdminSider({ routes }: Props) {
     let onCollapse = collapsed => {
         setCollapsed(collapsed);
     };
-    console.log(userInfo.username);
+    
     return (
         <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
             <div style={{ marginLeft: collapsed ? '20px' : '12px' }}>
-                <AvatarContainer displayName={userInfo.displayName} dark collapsed={collapsed}/>;
+                <AvatarContainer displayName={userInfo.displayName} dark collapsed={collapsed} />;
             </div>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                 {
@@ -43,8 +43,8 @@ export default function AdminSider({ routes }: Props) {
                 }
 
                 <Menu.Item icon={<LogoutOutlined />}>
-                    <NavLink to="/">
-                        <Button onClick={logOut}>
+                    <NavLink to='/'>
+                        <Button onClick={userInfo.logout}>
                             Log out
                         </Button>
                     </NavLink>

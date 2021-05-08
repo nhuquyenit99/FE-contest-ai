@@ -79,6 +79,10 @@ export default function UserPage() {
             title: 'Created At',
             dataIndex: 'created',
             key: 'created',
+            render: created => {
+                let date = new Date(created);
+                return date.toLocaleString();
+            },
         },
         // {
         //     title: 'Action',

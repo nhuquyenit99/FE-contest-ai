@@ -3,6 +3,7 @@ import { Space, Table} from 'antd';
 import { useEffect } from 'react';
 import { fetchAllContest } from 'services/contest';
 import { Contest } from 'services/contest';
+import locale from 'antd/lib/date-picker/locale/en_US';
 
 
 export type Item = Contest&{
@@ -55,12 +56,21 @@ export default function ContestPage() {
             title: 'Created User',
             dataIndex: 'created_user',
             key: 'created_user',
+            render: created_user => {
+                let display_name = created_user?.first_name + ' ' +created_user?.last_name;
+                return display_name;
+            }
         },
         {
             title: 'Created At',
             dataIndex: 'created',
             key: 'created',
-        },
+            render: created => {
+                let date = new Date(created);
+                return date.toLocaleString();
+        
+            },
+        }
         // {
         //     title: 'Language',
         //     dataIndex: 'language',

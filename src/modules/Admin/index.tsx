@@ -5,12 +5,14 @@ import ContestsPage from './ContestsPage';
 import UsersPage from './UsersPage';
 import FilesPage from './FilesPage';
 import {
+    PieChartOutlined,
     FileOutlined,
     CommentOutlined,
     CrownOutlined,
     UserOutlined,
 } from '@ant-design/icons';
 import SampleCodePage from './SampleCodePage';
+import { ReportPage } from './ReportPage';
 export type MyRoute = {
     icon: any,
     label: string,
@@ -19,12 +21,12 @@ export type MyRoute = {
 }
 export type ListMyRoutes = MyRoute[];
 const routes: ListMyRoutes = [
-    // {
-    //     icon: PieChartOutlined,
-    //     label: 'Dashboard',
-    //     path: '/admin/languages',
-    //     component: NotFoundPage
-    // },
+    {
+        icon: PieChartOutlined,
+        label: 'Dashboard',
+        path: '/admin/dashboard',
+        component: ReportPage
+    },
     {
         icon: CrownOutlined,
         label: 'Contests',
@@ -54,7 +56,8 @@ const routes: ListMyRoutes = [
         label: 'Sample Code Help',
         path: '/admin/samplecode',
         component: SampleCodePage
-    }
+    },
+
 ];
 
 export default function AdminPage() {

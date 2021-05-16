@@ -1,46 +1,54 @@
-# Getting Started with Create React App
+# Xây dựng 1 website có tên là “BKDN AI Contest” sử dụng Web Framework Django với các chức năng:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 1. Yêu cầu chức năng:
 
-## Available Scripts
+    a. Trang login:
 
-In the project directory, you can run:
+        i. Cần phân quyền người dùng:
 
-### `yarn start`
+            1. Admin
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+            2. Người tạo cuộc thi AI
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+            3. Người tham gia cuộc thi
 
-### `yarn test`
+    b. Trang Home:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+        i. Có thể xem thông tin ngày giờ tổ chức các cuộc thi.
+        
+        ii. Có thể xem chi tiết từng cuộc thi bao gồm: đề thi, bảng ranking (xếp hạng theo độ chính xác),...
+    
+    c. Trang Admin:
+        
+        i. Có thể quản lý account
+        
+        ii. Có thể quản lý các cuộc thiiii. Quản lý ngôn ngữ (Python, Java, C/C++...) cho phép sử dụng
+    
+    d. Trang dành cho người tạo cuộc thi:
+        i. Có thể quản lý các đề bài thi bao gồm: Yêu cầu, dữ liệu mẫu, dữ liệu huấn luyện, dữ liệu kiểm thử
+        
+        ii. Có thể upload code kiểm tra ouput của code kiểm thử của thí sinh trên dữ liệu kiểm thử có độ chính xác là bao nhiêu.
+        
+        iii. Có thể quản lý thời gian cuộc thi gồm: thời hạn đăng ký, thời gian bắt đầu, thời gian kết thúc, thời gian thực thi code kiểm thử.
+        
+        iv. Có thể thêm hoặc xóa đăng ký thông qua danh sách account của thí sinh.
+        
+        v. Có thể kiểm tra code của các thí sinh
+        
+    e. Trang dành cho thí sinh:
+    
+        i. Có thể xem thông tin các cuộc thi
 
-### `yarn build`
+        ii. Có thể đăng ký tham gia cuộc thi
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+        iii. Có thể nộp: mô hình đã train bằng file, Code huấn luyện và code kiểm thử. Có thể lựa chọn ngôn ngữ (Python, Java, C/C++...) để thực thi code kiểm thử
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 2. Yêu cầu kỹ thuật:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    a. Mỗi lần thí sinh upload mô hình và code kiểm thử, hệ thống phải tự động build code và thực thi code đó, đồng thời thực thi code kiểm tra để tính độ chính xác của mô hình, cập nhật bảng ranking. Phải tính đến trường hợp thời gian thưc thi quá lâu thì phải hủy process.
 
-### `yarn eject`
+    b. Có thể triển khai trên 100 thí sinh cùng kết nối và tham gia cuộc thi
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    c. Triển khai cấu hình trên Ubuntu Server 18.04 LTS. Viết tài liệu triển khai.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+    d. Triển khai đặt tên miền và cài đặt chứng thực SSL. Viết tài liệu triển khai.

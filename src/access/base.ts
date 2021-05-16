@@ -1,3 +1,4 @@
+import { rejects } from 'node:assert';
 import { fetchRefreshToken } from 'services/token';
 import { readCookie, eraseCookie, createCookie } from 'utils/cookie';
 
@@ -29,7 +30,7 @@ const getBaseConfigAxios = (config: ConfigType) => {
 
 const fetchAxios = <T>(config: ConfigType): Promise<T> => {
     return axios(getBaseConfigAxios({...config}))
-        .then(response => {
+        .then((response, err) => {
             return response as Promise<{ data: T }>;
         })
         .then(data => data.data)
@@ -42,6 +43,7 @@ const fetchAxios = <T>(config: ConfigType): Promise<T> => {
                 });
                 console.log('refresh');
             }
+            throw err;
         });
 };
 

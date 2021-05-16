@@ -40,8 +40,8 @@ const fetchLogin = (username: string, password: string) => {
     return DataAccess.Post<RespLogin>(LOGIN_API_ADDRESS, body);
 };
 
-const fetchRegister = (username: string, password: string) => {
-    const body = {username, password};
+const fetchRegister = (form) => {
+    const body = {...form};
     return DataAccess.Post(REGISTER_API_ADDRESS, body);
 };
 

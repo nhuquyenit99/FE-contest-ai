@@ -38,8 +38,7 @@ export default function RegistrationForm() {
     const [form] = Form.useForm();
 
     const onFinish = (values: any) => {
-        const {username, password} = values;
-        fetchRegister(username, password)
+        fetchRegister(values)
             .then(resp => {
                 notification.success({
                     message: 'Register successfully',
@@ -47,6 +46,7 @@ export default function RegistrationForm() {
                         width: 600,
                     },
                 });
+                window.location.href='/login';
             })
             .catch(err => {
                 const {data} = err.response;

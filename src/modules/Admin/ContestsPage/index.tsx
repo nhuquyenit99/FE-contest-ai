@@ -68,7 +68,6 @@ export default function ContestPage() {
             render: created => {
                 let date = new Date(created);
                 return date.toLocaleString();
-        
             },
         }
         // {

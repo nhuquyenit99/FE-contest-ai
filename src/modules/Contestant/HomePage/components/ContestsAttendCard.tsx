@@ -1,7 +1,6 @@
 import { Card } from 'antd';
-import { List, Avatar, Button, Skeleton } from 'antd';
+import { List, Skeleton } from 'antd';
 import { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import { fetchAttendedContest } from 'services/user';
 import { UserContext } from '../../../../context/index';
 import { AttendedContest } from '../../../../services/user';

@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { Table} from 'antd';
+import { Space, Table} from 'antd';
 import { useEffect } from 'react';
-import { fetchAllUserPagination, User, ListUser, fetchAllUser } from 'services/user';
+import { fetchAllUserPagination, User, ListUser} from 'services/user';
 import RoleTag from './RoleTag';
 import { RoleTagEnum } from './RoleTag';
 import CustomPagination from './Pagination';
 import { PaginationQuery } from '../../../services/user';
+import DeleteButton from '../../../components/core/DeleteButton';
+import ModalDeleteUser from './components/ModalDeleteUser';
+
 
 type Item = User&{
     key: number,
@@ -18,6 +21,9 @@ export default function UserPage() {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [shouldRefreshData, setShouldRefreshData] = useState(false);
+    const [isDeleteLanguageModalVisible, setIsDeleteLanguageModalVisible] = useState(false);
+    const [selectedId, setSelectedId] = useState(-1);
+
     const refreshData = () => {
         let query: PaginationQuery = {
             limit: pageSize,
@@ -84,24 +90,33 @@ export default function UserPage() {
                 return date.toLocaleString();
             },
         },
-        // {
-        //     title: 'Action',
-        //     key: 'action',
-        //     dataIndex: '_id',
-        //     render: (_id, record) => (
-        //         <Space size="middle">
-        //             <EditButton onClick={showEditItem}></EditButton>
-        //             <DeleteButton onClick={showDeleteItem} id={_id}></DeleteButton>
-        //         </Space>
-        //     ),
-        // },
+        {
+            title: 'Action',
+            key: 'action',
+            dataIndex: '_id',
+            render: (_id, record) => (
+                <Space size="middle">
+                    <DeleteButton id={_id} onClick={showDeleteItem}></DeleteButton>
+                </Space>
+            ),
+        },
     ];
+    const showDeleteItem = (e) => {
+        setIsDeleteLanguageModalVisible(true);
+    };
     const onPageChange = (page: number) => {
         setPage(page);
     };
     const onShowSizeChanger = (curr: number, size: number) => {
         setPageSize(size);
     };
+    const deleteUserModalProps = {
+        _id: selectedId,
+        visible: isDeleteLanguageModalVisible,
+        setVisible: setIsDeleteLanguageModalVisible,
+        setShouldRefreshData,
+    };
+
     return (
         <>
             <Table
@@ -109,11 +124,17 @@ export default function UserPage() {
                 columns={columns}
                 dataSource={data}
                 pagination={false}
+                onRow={(record) =>{
+                    return {
+                        onClick: event => setSelectedId(record._id),
+                    };
+                }}
             />
             <CustomPagination
                 total={count} 
                 onPageChange={onPageChange} 
                 onShowSizeChanger={onShowSizeChanger}/>
+            <ModalDeleteUser {...deleteUserModalProps}/>
         </>
     );
 }

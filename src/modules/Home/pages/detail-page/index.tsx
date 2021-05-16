@@ -47,7 +47,7 @@ export function DetailPage () {
                         <ListProblems data={ListProblem} />
                     </Tabs.TabPane>
                     <Tabs.TabPane tab="Ranking" key="Ranking">
-                    Content of Tab Pane 2
+                        Content of Tab Pane 2
                     </Tabs.TabPane>
                 </Tabs>
             </div>

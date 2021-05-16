@@ -16,9 +16,6 @@ export function ContestCardItem ({data}: {data: ContestItem}) {
                 <div className='time'>
                     {`${moment(data.time_start).format('DD/MM/YYYY')} - ${moment(data.time_end).format('DD/MM/YYYY')}`}
                 </div>
-                <div className='languages'>
-                    {data.language.join(', ')}
-                </div>
             </div>
         </a>
     );

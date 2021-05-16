@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Steps, Button, message, Space } from 'antd';
-import { ArrowLeftOutlined } from '@ant-design/icons';
 import { AddContestComponent, AddProblemComponent} from '../../components';
-import './add-contest.scss';
 import { UserContext } from 'context';
+import { OrganizerPageWrapper } from 'modules/Organizer/components';
+import './add-contest.scss';
+
 const { Step } = Steps;
 const steps = [
     {
@@ -24,7 +25,6 @@ export function AddContestPage() {
     const [current, setCurrent] = useState(0);
     const userContext = useContext(UserContext);
     console.log('userContext', userContext);
-    // const {setIsShowAddContest} = props;
 
     const next = () => {
         setCurrent(current + 1);
@@ -34,17 +34,8 @@ export function AddContestPage() {
         setCurrent(current - 1);
     };
     return (
-        <div className='add-contest-page'>
-            <div className='header'>
-                <a href='/organizer' className='btn-back'>
-                    <Button shape='round'>
-                        <ArrowLeftOutlined />
-                            Back
-                    </Button>
-                </a>
-                <span>Add contest</span>
-            </div>
-            <div className='main-body'>
+        <OrganizerPageWrapper showBackButton title='ADD CONTEST'>
+            <div className='add-contest-content'> 
                 <Steps current={current}>
                     {steps.map(item => (
                         <Step key={item.title} title={item.title} />
@@ -54,7 +45,7 @@ export function AddContestPage() {
                 <div className="steps-action">
                     <Space>
                         {current < steps.length - 1 && (
-                            <Button type="primary" onClick={() => next()}>
+                            <Button type="primary" onClick={() => next()} shape='round'>
                             Next
                             </Button>
                         )}
@@ -71,6 +62,7 @@ export function AddContestPage() {
                     </Space>
                 </div>
             </div>
-        </div>
+            
+        </OrganizerPageWrapper>
     );
 };

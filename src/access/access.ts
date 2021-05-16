@@ -1,8 +1,7 @@
 import {useCallback, useState, useEffect} from 'react';
-import {HTTP_STATUS_CODE} from '../const/http-status';
 import { DataAccess } from './base';
 export type UseEntityData<T> = {
-    status: HTTP_STATUS_CODE;
+   error: boolean
     loading: boolean,
     data?: T,
     reload: () => void
@@ -11,8 +10,7 @@ export type UseEntityData<T> = {
 export function useEntityData<T>(url: string | undefined, keyUpdate?: any, defaultData?: T): UseEntityData<T> {
     let [data, setData] = useState<T>();
     const [loading, setLoading] = useState(true);
-    const [errorStatus, setStatus] = useState<HTTP_STATUS_CODE>('200');
-
+    const [error, setError] = useState(false);
     const reload = () => {
         fetchUser();
     };
@@ -23,14 +21,9 @@ export function useEntityData<T>(url: string | undefined, keyUpdate?: any, defau
             setLoading(true);
             const res: any = await DataAccess.Get(url);
             setData(res?.data);
-            setStatus(res?.status?.toString());
         } catch (e) {
             console.error('Fetch entity error', e);
-            if (e.response) {
-                setStatus(e.response?.status?.toString());
-            } else {
-                setStatus('500');
-            }
+            setError(true);
         } finally {
             setLoading(false);
         }
@@ -45,39 +38,33 @@ export function useEntityData<T>(url: string | undefined, keyUpdate?: any, defau
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [url, defaultData, keyUpdate]);
 
-    return { loading, data, status: errorStatus, reload };
+    return { loading, data, error, reload };
 }
 
 export type UseEntityDataList<T> = {
-    status: HTTP_STATUS_CODE;
+    error: boolean
     loading: boolean,
-    data?: T,
+    data?: T[],
 };
 
 
 export function useEntityDataList<T>(url: string | undefined, page?: number, textSearch?: string): UseEntityDataList<T> {
-    let [data, setData] = useState<T>();
+    let [data, setData] = useState<T[]>();
     const [loading, setLoading] = useState(true);
-    const [errorStatus, setStatus] = useState<HTTP_STATUS_CODE>('200');
-
+    const [error, setError] = useState(false);
     const fetchUser = useCallback(async () => {
         try {
             if (!url) return;
             setLoading(true);
             const res: any = await DataAccess.Get(`${url}${page ? `?page=${page}` : ''}${textSearch ? `&query=${textSearch}` : ''}`);
-            setData(res.data);
-            setStatus(res?.status?.toString());
+            setData(res);
         } catch (e) {
             console.error('Fetch entity error', e);
-            if (e.response) {
-                setStatus(e.response?.status?.toString());
-            } else {
-                setStatus('500');
-            }
+            setError(true);
         } finally {
             setLoading(false);
         }
-    }, [url, page]);
+    }, [url, page, textSearch]);
 
     useEffect(() => {
         if (url) {
@@ -88,5 +75,5 @@ export function useEntityDataList<T>(url: string | undefined, page?: number, tex
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [url, page]);
 
-    return { loading, data, status: errorStatus };
+    return { loading, data, error };
 }

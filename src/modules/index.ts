@@ -4,7 +4,7 @@ import BaseUserPage from './Contestant/BaseUserPage';
 import LoginPage from './Login/index';
 import { HomePage } from './Home';
 import { DetailPage } from './Home/pages/detail-page';
-import { AddContestPage, OrganizerHomePage } from './Organizer';
+import { AddContestPage, EditContestPage, OrganizerHomePage } from './Organizer';
 type ModuleRoute = {
     path: string,
     exact: boolean,
@@ -52,6 +52,11 @@ const routes: ModuleRoutes = [
         path: '/organizer/add-contest',
         exact: true,
         component: AddContestPage,
+    },
+    {
+        path: '/organizer/detail/:id',
+        exact: true,
+        component: EditContestPage,
     },
 ];
 export function setup(module: Module) {

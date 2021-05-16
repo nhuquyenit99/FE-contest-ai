@@ -1,8 +1,6 @@
 import React from 'react';
-import { DataAccess } from '../access';
-import { useContext } from 'react';
 import { eraseCookie, readCookie } from 'utils/cookie';
-import { Redirect, useHistory, withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 type UserContextType = {
     _id: number
@@ -11,7 +9,7 @@ type UserContextType = {
     isAuthenticated: boolean,
     logout: () => void
     getIsAuthenticated: () => boolean,
-    updateUser: (newInfo: UserInfo) => void
+    updateUser: (newInfo: UserInfo, cb?: () => void) => void
     updateAvatar: (imageURL: string) => void
 }
 
@@ -22,7 +20,7 @@ export const UserContext = React.createContext<UserContextType>({
     isAuthenticated: false,
     logout: () => undefined,
     getIsAuthenticated: () => false,
-    updateUser: (newInfo: UserInfo) => undefined,
+    updateUser: (newInfo: UserInfo, cb?: () => void) => undefined,
     updateAvatar: (imageURL: string) => undefined
 });
 

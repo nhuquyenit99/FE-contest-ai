@@ -5,7 +5,7 @@ import { Spin } from 'antd';
 export function Loading() {
     return (
         <div className='loading'>
-            <h2>Welcome to Write down!</h2>
+            <h2>Welcome to AI Contest!</h2>
             <div className='gif'>
                 <img src={gif} alt="Loading..." />
             </div>

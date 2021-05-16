@@ -72,6 +72,7 @@ function RootApplication() {
                 <Route component={NotFoundPage} />
             </Switch>
         </BrowserRouter>
+
     );
 }
 export { RootApplication };

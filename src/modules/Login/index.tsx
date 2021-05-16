@@ -1,5 +1,6 @@
 import { Card} from 'antd';
 import {useState} from 'react';
+import { useParams } from 'react-router';
 import LoginForm from './LoginForm';
 import RegistrationForm from './RegisterForm';
 const tabList = [
@@ -18,13 +19,14 @@ const contentList = {
     register: <RegistrationForm></RegistrationForm>,
 };
 export default function LoginPage() {
+    const {type} = useParams<any>();
     const [key, setKey] = useState('login');
     const onTabChange = (key) => {
         setKey(key);
     };
     return <>
         <Card style={{margin: 'auto',  width: '800px' }}
-            tabList={tabList}
+            tabList={type !== 'admin' ? tabList : tabList.slice(0,1)}
             activeTabKey={key}
             onTabChange={key => {
                 onTabChange(key);

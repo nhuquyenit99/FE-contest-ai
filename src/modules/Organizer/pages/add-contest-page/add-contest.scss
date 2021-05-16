@@ -1,0 +1,33 @@
+.add-contest-page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .main-body {
+        width: 60vw;
+        padding: 50px 0;
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+        .steps-action {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .steps-content .ant-card{
+            border-color: #ddd;
+        }
+    }
+    .header {
+        position: sticky;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        padding-left: 30px;
+        background-color: #0f71cc;;
+        color: white;
+        text-transform: uppercase;
+        font-size: 20px;
+        width: 100%;
+        column-gap: 20px;
+        text-shadow: 1px 1px #91aace;
+    }
+}

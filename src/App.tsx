@@ -2,11 +2,11 @@ import React, { useContext, useState } from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { NotFoundPage, Loading } from './components';
 import { Module, RootModule } from './core';
-import './App.scss';
 import { readCookie } from 'utils/cookie';
 import { fetchGetInfo } from 'services/auth';
 import { useEffect} from 'react';
 import { UserContext } from './context/index';
+import './App.scss';
 
 const INSTALLED_MODULE: any = {
     'modules': require('./modules/'),
@@ -19,6 +19,7 @@ function RootApplication() {
 
     useEffect(() => {
         init();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const setupModule = () => {
         for (let key in INSTALLED_MODULE) {

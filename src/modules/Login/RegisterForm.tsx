@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Form,
     Input,
-    Select,
     Button,
     notification,
 } from 'antd';
 import { fetchRegister } from 'services/user';
-
-const { Option } = Select;
-
 
 const formItemLayout = {
     labelCol: {
@@ -63,13 +59,12 @@ export default function RegistrationForm() {
 
     };
 
-    const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
+    // const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
 
-
-    const websiteOptions = autoCompleteResult.map(website => ({
-        label: website,
-        value: website,
-    }));
+    // const websiteOptions = autoCompleteResult.map(website => ({
+    //     label: website,
+    //     value: website,
+    // }));
 
     return (
         <Form

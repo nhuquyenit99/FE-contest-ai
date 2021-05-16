@@ -12,7 +12,7 @@ const renderStatus = (status: ContestStatusEnum) => {
     return <Tag color="volcano-inverse">Upcoming</Tag>;
 };
 export default function CardContestTitle(props) {
-    const {title, language, status, created_user} = props;
+    const {title, status, created_user} = props;
     console.log(status);
     const avatarContainerProps = {
         displayName: created_user?.first_name + ' ' + created_user?.last_name

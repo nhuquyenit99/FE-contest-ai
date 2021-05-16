@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { Space, Table} from 'antd';
+import { Table} from 'antd';
 import { useEffect } from 'react';
 import { fetchAllContest } from 'services/contest';
 import { Contest } from 'services/contest';
-import locale from 'antd/lib/date-picker/locale/en_US';
 
 
 export type Item = Contest&{

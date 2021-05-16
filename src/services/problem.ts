@@ -1,5 +1,4 @@
 import { DataAccess } from '../access/base';
-import ListProblem from '../modules/Contestant/ContestPage/components/ListProblem/index';
 const PROBLEM_PATH = 'api/problem/';
 
 export type Problem = {

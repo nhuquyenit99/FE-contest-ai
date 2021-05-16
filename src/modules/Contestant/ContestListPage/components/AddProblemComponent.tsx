@@ -1,8 +1,7 @@
-import CustomModal from 'components/core/CustomModal';
-import { Card, Form, Input, notification, DatePicker, Row, Col, Checkbox, Upload, Button } from 'antd';
+import { Card, Form, Input, notification, Row, Col, Checkbox, Upload, Button } from 'antd';
 import { fetchAddLanguage } from 'services/language';
 import { UploadOutlined } from '@ant-design/icons';
-const { RangePicker } = DatePicker;
+
 const formItemLayout = {
     labelCol: {
         xs: { span: 24 },
@@ -45,12 +44,12 @@ export default function AddProblemComponent(props) {
             .catch(err => { });
     };
 
-    const handleCancel = () => {
-        setIsAddLanguageModalVisible(false);
-    };
-    const rangeConfig = {
-        rules: [{ type: 'array' as const, required: true, message: 'Please select time!' }],
-    };
+    // const handleCancel = () => {
+    //     setIsAddLanguageModalVisible(false);
+    // };
+    // const rangeConfig = {
+    //     rules: [{ type: 'array' as const, required: true, message: 'Please select time!' }],
+    // };
     const childAddContestComponent = (
         <Form
             form={form}

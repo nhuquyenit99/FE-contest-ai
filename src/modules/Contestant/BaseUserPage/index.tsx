@@ -3,8 +3,7 @@ import { HomePage } from '../HomePage';
 import {ContestPage} from 'modules/Contestant/ContestPage';
 import UserLayout from 'components/layout/UserLayout';
 import { readCookie } from 'utils/cookie';
-import { useContext } from 'react';
-import { UserContext } from 'context';
+
 type HeaderRoute = {
     label: string,
     path: string,

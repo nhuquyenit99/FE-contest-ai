@@ -1,12 +1,7 @@
 import React from 'react';
-import Logo from '../core/Logo';
-import { Col, Layout, Menu, Row, Space, Button } from 'antd';
-import CustomAvatar from '../core/CustomAvatar';
+import { Col, Layout, Menu, Row, Space } from 'antd';
 import AvatarContainer from '../core/AvatarContainer';
 import CustomBadge from '../core/CustomBadge';
-import {
-    MenuFoldOutlined
-} from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 import SettingDropdown from './SettingDropdown';
 import { HeaderRoutes } from 'modules/Contestant/BaseUserPage/index';

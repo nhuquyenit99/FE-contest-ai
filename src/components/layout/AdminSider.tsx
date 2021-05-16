@@ -3,9 +3,7 @@ import { Layout, Menu, Button } from 'antd';
 import { NavLink } from 'react-router-dom';
 import AvatarContainer from 'components/core/AvatarContainer';
 import { LogoutOutlined } from '@ant-design/icons';
-import logOut from 'services/logout';
 import { ListMyRoutes, MyRoute } from 'modules/Admin/index';
-import { UserContextProvider } from 'context';
 import { UserContext } from '../../context/index';
 const { Sider } = Layout;
 interface Props {

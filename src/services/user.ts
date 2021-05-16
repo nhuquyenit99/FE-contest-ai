@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { DataAccess } from 'access/base';
 const USER_PATH = 'api/user/';
 const REGISTER_API_ADDRESS = 'api/register/';

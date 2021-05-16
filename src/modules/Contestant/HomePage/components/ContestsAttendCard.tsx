@@ -1,11 +1,9 @@
 import { Card } from 'antd';
-import { List, Avatar, Button, Skeleton } from 'antd';
+import { List, Skeleton } from 'antd';
 import { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import { fetchAttendedContest } from 'services/user';
 import { UserContext } from '../../../../context/index';
 import { AttendedContest } from '../../../../services/user';
-let count = 4;
 type Item = AttendedContest&{
     loading: boolean,   
 }
@@ -14,8 +12,8 @@ type ListItem = Item[];
 
 export default function ContestsAttendCard(props) {
     const [initLoading, setInitLoading] = useState(true);
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState<ListItem>([]);
+    // const [loading, setLoading] = useState(false);
+    // const [data, setData] = useState<ListItem>([]);
     const [list, setList] = useState<ListItem>([]);
     const {_id} = useContext(UserContext);
     useEffect(() => {
@@ -29,10 +27,10 @@ export default function ContestsAttendCard(props) {
                 };
             });
             console.log(lst);
-            setData(lst);
+            // setData(lst);
             setList(lst);
         });
-    }, []);
+    }, [_id]);
 
 
     // const onLoadMore = () => {

@@ -4,11 +4,9 @@ import Dashboard from './components/Dashboard';
 import ListProblem from './components/ListProblem';
 import { ProblemContainer } from './components/ProblemContainer/index';
 import SampleCodeContainer from './components/SampleCodeContainer';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { fetchProblemIdContest, Problem } from 'services/problem';
-import Title from 'antd/lib/typography/Title';
-import { ListContests } from '../../../services/contest';
 
 const { TabPane } = Tabs;
 export function ContestPage() {
@@ -29,6 +27,7 @@ export function ContestPage() {
                 }
                 setIsLoading(false);
             });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const listProblemsProps = {

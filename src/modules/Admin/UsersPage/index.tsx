@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Table} from 'antd';
 import { useEffect } from 'react';
-import { fetchAllUserPagination, User, ListUser, fetchAllUser } from 'services/user';
+import { fetchAllUserPagination, User, ListUser } from 'services/user';
 import RoleTag from './RoleTag';
 import { RoleTagEnum } from './RoleTag';
 import CustomPagination from './Pagination';
@@ -42,12 +42,14 @@ export default function UserPage() {
 
     useEffect(() => {
         refreshData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, pageSize]);
     useEffect(() => {
         if (shouldRefreshData) {
             refreshData();
             setShouldRefreshData(false);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [shouldRefreshData]);
     const columns = [
         {

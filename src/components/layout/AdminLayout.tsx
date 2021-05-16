@@ -1,5 +1,4 @@
 import Layout, { Content } from 'antd/lib/layout/layout';
-import { useState } from 'react';
 import { Redirect } from 'react-router';
 import { readCookie } from 'utils/cookie';
 import AdminSider from './AdminSider';

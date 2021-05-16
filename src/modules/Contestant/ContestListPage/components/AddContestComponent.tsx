@@ -1,4 +1,3 @@
-import CustomModal from 'components/core/CustomModal';
 import { Card, Form, Input, notification, DatePicker, Row, Col, Checkbox } from 'antd';
 import { fetchAddLanguage } from 'services/language';
 const { RangePicker } = DatePicker;
@@ -32,8 +31,8 @@ export default function AddContestComponent(props) {
             .catch(err => { });
     };
 
-    const handleCancel = () => {
-    };
+    // const handleCancel = () => {
+    // };
     const rangeConfig = {
         rules: [{ type: 'array' as const, required: true, message: 'Please select time!' }],
     };

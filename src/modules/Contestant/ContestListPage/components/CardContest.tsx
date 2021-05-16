@@ -1,7 +1,7 @@
 import { Button, Card, Space, Typography} from 'antd';
 import { NavLink } from 'react-router-dom';
 import CardContestTitle from './CardContestTitle';
-const { Text, Link } = Typography;
+const { Text } = Typography;
 type CardContestProps = {
     style?: any,
     contest: {

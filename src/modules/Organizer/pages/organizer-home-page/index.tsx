@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Button, Space } from 'antd';
-import { Redirect, useHistory } from 'react-router';
+import { Redirect } from 'react-router';
 import SettingDropdown from 'components/layout/SettingDropdown';
 import { readCookie } from 'utils/cookie';
 import CustomBadge from 'components/core/CustomBadge';

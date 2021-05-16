@@ -4,6 +4,8 @@ import { useState, useEffect, useContext } from 'react';
 import { fetchAttendedContest } from 'services/user';
 import { UserContext } from '../../../../context/index';
 import { AttendedContest } from '../../../../services/user';
+import { NavLink } from 'react-router-dom';
+let count = 4;
 type Item = AttendedContest&{
     loading: boolean,   
 }
@@ -62,7 +64,9 @@ export default function ContestsAttendCard(props) {
                 dataSource={list}
                 renderItem={(item: Item) => (
                     <List.Item
-                        actions={[<a key="list-loadmore-edit">Detail</a>]}
+                        actions={[<NavLink 
+                            to={`/contestant/contest/?id=${item._id}`} 
+                            key="list-loadmore-edit">Detail</NavLink>]}
                     >
                         <Skeleton avatar title loading={item.loading} active>
                             <div>{item.title}</div>

@@ -20,10 +20,10 @@ const fetchAllContest = (): Promise<AllContestResponse> => {
 //     return axios.post(CONTEST_API_ADDRESS, body);
 // };
 
-// const fetchDeleteContest = (id) => {
-//     const apiDeleteContestId = CONTEST_API_ADDRESS.concat(id).concat('/');
-//     return axios.delete(apiDeleteContestId);
-// };
+const fetchDeleteContest = (id) => {
+    const apiDeleteContestId = CONTEST_PATH.concat(id).concat('/');
+    return DataAccess.Delete(apiDeleteContestId);
+};
 
 // const fetchUpdateContest = (id, newObj) => {
 //     const apiUpdateContestId = CONTEST_API_ADDRESS.concat(id).concat('/');
@@ -32,6 +32,7 @@ const fetchAllContest = (): Promise<AllContestResponse> => {
 
 export {
     fetchAllContest,
+    fetchDeleteContest
     // fetchAddContest,
     // fetchDeleteContest,
     // fetchUpdateContest,

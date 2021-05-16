@@ -1,13 +1,16 @@
+import React, { useEffect, useState } from 'react';
+import { Card, Skeleton } from 'antd';
 import CardContest from './components/CardContest';
-import { Card } from 'antd';
-import { useEffect, useState } from 'react';
 import { fetchAllContest, ListContests } from 'services/contest';
 export default function ContestListPage(props) {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [dataList, setDataList] = useState<ListContests>([]);
 
     useEffect(() => {
+        setIsLoading(true);
         fetchAllContest()
             .then(resp => {
+                setIsLoading(false);
                 console.log(resp);
                 setDataList(resp);
             });
@@ -22,7 +25,9 @@ export default function ContestListPage(props) {
     };
     return <>
         <Card key="List contests" {...props} title="List contests">
-            {renderListContest()}
+            <Skeleton loading={isLoading}>
+                {renderListContest()}
+            </Skeleton>    
         </Card>
     </>;
 }

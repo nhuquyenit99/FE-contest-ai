@@ -1,17 +1,22 @@
 import { useState } from 'react';
-import { Table} from 'antd';
+import { Space, Table } from 'antd';
 import { useEffect } from 'react';
 import { fetchAllContest } from 'services/contest';
 import { Contest } from 'services/contest';
+import DeleteButton from 'components/core/DeleteButton';
+import ModalDelete from './components/ModalDelete';
 
 
-export type Item = Contest&{
+export type Item = Contest & {
     key: number,
 }
 type ListItems = Item[];
 export default function ContestPage() {
     const [data, setData] = useState<ListItems>([]);
     const [shouldRefreshData, setShouldRefreshData] = useState(false);
+    const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+    const [selectedId, setSelectedId] = useState(-1);
+    
     const refreshData = () => {
         fetchAllContest()
             .then(listContests => {
@@ -56,7 +61,7 @@ export default function ContestPage() {
             dataIndex: 'created_user',
             key: 'created_user',
             render: created_user => {
-                let display_name = created_user?.first_name + ' ' +created_user?.last_name;
+                let display_name = created_user?.first_name + ' ' + created_user?.last_name;
                 return display_name;
             }
         },
@@ -67,9 +72,8 @@ export default function ContestPage() {
             render: created => {
                 let date = new Date(created);
                 return date.toLocaleString();
-        
             },
-        }
+        },
         // {
         //     title: 'Language',
         //     dataIndex: 'language',
@@ -84,26 +88,40 @@ export default function ContestPage() {
         //     ),
         // }
         // {
-        //     title: 'Action',
-        //     key: 'action',
-        //     dataIndex: '_id',
-        //     render: (_id, record) => (
-        //         <Space size="middle">
-        //             <EditButton onClick={showEditItem}></EditButton>
-        //             <DeleteButton onClick={showDeleteItem} id={_id}></DeleteButton>
-        //         </Space>
-        //     ),
-        // },
+        {
+            title: 'Action',
+            key: 'action',
+            dataIndex: '_id',
+            render: (_id, record) => (
+                <Space size="middle">
+                    <DeleteButton onClick={showDeleteItem} id={_id}></DeleteButton>
+                </Space>
+            ),
+        },
     ];
 
-
+    const showDeleteItem = () => {
+        setIsDeleteModalVisible(true); 
+    };
+    const deleteModalProps = {
+        _id: selectedId,
+        visible: isDeleteModalVisible,
+        setVisible: setIsDeleteModalVisible,
+        setShouldRefreshData,
+    };
     return (
         <>
             <Table
                 rowKey='_id'
                 columns={columns}
                 dataSource={data}
+                onRow={(record) =>{
+                    return {
+                        onClick: event => setSelectedId(record._id),
+                    };
+                }}
             />
+            <ModalDelete {...deleteModalProps}/>
         </>
     );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import {
     Form,
     Input,
@@ -34,21 +34,19 @@ export default function RegistrationForm() {
     const [form] = Form.useForm();
 
     const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
-        const {username, password} = values;
-        fetchRegister(username, password)
+        // const {value, password} = values
+        fetchRegister(values)
             .then(resp => {
-                console.log(resp);
                 notification.success({
                     message: 'Register successfully',
                     style: {
                         width: 600,
                     },
                 });
+                window.location.href='/login';
             })
             .catch(err => {
                 const {data} = err.response;
-                // console.log(err);
                 notification.error({
                     message: data.error_message,
                     style: {
@@ -78,6 +76,7 @@ export default function RegistrationForm() {
             }}
             scrollToFirstError
         >
+        
             {/* <Form.Item
                 name="email"
                 label="E-mail"
@@ -97,6 +96,32 @@ export default function RegistrationForm() {
             <Form.Item
                 name="username"
                 label="Username"
+                rules={[
+                    {
+                        required: true,
+                        message: 'Please input your username!',
+                    },
+                ]}
+                hasFeedback
+            >
+                <Input />
+            </Form.Item>
+            <Form.Item
+                name="first_name"
+                label="First name"
+                rules={[
+                    {
+                        required: true,
+                        message: 'Please input your first name!',
+                    },
+                ]}
+                hasFeedback
+            >
+                <Input />
+            </Form.Item>
+            <Form.Item
+                name="last_name"
+                label="Last name"
                 rules={[
                     {
                         required: true,

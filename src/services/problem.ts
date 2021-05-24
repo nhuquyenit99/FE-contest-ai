@@ -15,11 +15,11 @@ export type Problem = {
 }
 export type ListProblems = Problem[];
 type AllProblemResponse = ListProblems;
-const fetchProblemIdContest = (querySearch: string): Promise<AllProblemResponse> => {
+const fetchProblemWithContestId = (querySearch: string): Promise<AllProblemResponse> => {
     let newQuerySearch = querySearch.replace('id', 'contest_id');
     return DataAccess.Get(PROBLEM_PATH+newQuerySearch);
 };
 
 export {
-    fetchProblemIdContest
+    fetchProblemWithContestId
 };

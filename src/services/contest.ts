@@ -1,4 +1,5 @@
 import { DataAccess } from '../access/base';
+import { Problem } from './problem';
 const CONTEST_PATH = 'api/contest/';
 
 export type Contest = {
@@ -13,6 +14,7 @@ export type Contest = {
 }
 export type ListContests = Contest[];
 type AllContestResponse = ListContests;
+
 const fetchAllContest = (): Promise<AllContestResponse> => {
     return DataAccess.Get<AllContestResponse>(CONTEST_PATH);
 };

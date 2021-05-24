@@ -1,6 +1,7 @@
 import { Button, Card, Space, Typography} from 'antd';
 import { NavLink } from 'react-router-dom';
 import CardContestTitle from './CardContestTitle';
+import { CardContestContent } from './CardContestContent';
 const { Text } = Typography;
 type CardContestProps = {
     style?: any,
@@ -39,9 +40,6 @@ export default function CardContest(props: CardContestProps) {
     };
 
     let contestStatus = getContestStatus();
-
-    
-
     const rightBlock = <div className="__time-block__">
         <Space>
             <div>
@@ -65,7 +63,7 @@ export default function CardContest(props: CardContestProps) {
                 } 
                 extra={rightBlock}
             >
-                {contest.description}
+                <CardContestContent contest_id={contest._id}></CardContestContent>
             </Card>
         </div>
     );

@@ -6,7 +6,7 @@ import { ProblemContainer } from './components/ProblemContainer/index';
 import SampleCodeContainer from './components/SampleCodeContainer';
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { fetchProblemIdContest, Problem } from 'services/problem';
+import { fetchProblemWithContestId, Problem } from 'services/problem';
 
 const { TabPane } = Tabs;
 export function ContestPage() {
@@ -18,9 +18,8 @@ export function ContestPage() {
     let { search } = history.location;
     useEffect(() => {
         setIsLoading(true);
-        fetchProblemIdContest(search) // search: ?id=123123dfas
+        fetchProblemWithContestId(search) // search: ?id=123123dfas
             .then((res) => {
-                console.log(res);
                 if (res.length > 0) {
                     setListProblems(res);
                     setCurrentProblemPst(0);

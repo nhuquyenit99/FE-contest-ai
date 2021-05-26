@@ -25,8 +25,9 @@ export type ALlContestWithProblemsResponse = BaseListResponse &{
 const fetchAllContest = (): Promise<AllContestResponse> => {
     return DataAccess.Get<AllContestResponse>(CONTEST_PATH);
 };
-const fetchAllContestWithProblems = (): Promise<ALlContestWithProblemsResponse> => {
-    return DataAccess.Get(CONTEST_PROBLEM_PATH);
+const fetchAllContestWithProblems = (params?:string): Promise<ALlContestWithProblemsResponse> => {
+    params = params?params:'';
+    return DataAccess.Get(CONTEST_PROBLEM_PATH+params);
 };
 
 
@@ -34,6 +35,7 @@ const fetchDeleteContest = (id) => {
     const apiDeleteContestId = CONTEST_PATH.concat(id).concat('/');
     return DataAccess.Delete(apiDeleteContestId);
 };
+
 
 // const fetchUpdateContest = (id, newObj) => {
 //     const apiUpdateContestId = CONTEST_API_ADDRESS.concat(id).concat('/');

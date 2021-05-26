@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { fetchAllUserPagination, User, ListUser} from 'services/user';
 import RoleTag from './RoleTag';
 import { RoleTagEnum } from './RoleTag';
-import CustomPagination from './Pagination';
+import CustomPagination from '../../../components/layout/Pagination';
 import { PaginationQuery } from '../../../services/user';
 import DeleteButton from '../../../components/core/DeleteButton';
 import ModalDeleteUser from './components/ModalDeleteUser';
@@ -106,11 +106,14 @@ export default function UserPage() {
     const showDeleteItem = (e) => {
         setIsDeleteLanguageModalVisible(true);
     };
-    const onPageChange = (page: number) => {
-        setPage(page);
-    };
-    const onShowSizeChanger = (curr: number, size: number) => {
-        setPageSize(size);
+    const paginationProps = {
+        total: count,
+        onPageChange: (page: number) => {
+            setPage(page);
+        },
+        onShowSizeChanger: (curr: number, size: number) => {
+            setPageSize(size);
+        }
     };
     const deleteUserModalProps = {
         _id: selectedId,
@@ -132,10 +135,7 @@ export default function UserPage() {
                     };
                 }}
             />
-            <CustomPagination
-                total={count} 
-                onPageChange={onPageChange} 
-                onShowSizeChanger={onShowSizeChanger}/>
+            <CustomPagination {...paginationProps}/>
             <ModalDeleteUser {...deleteUserModalProps}/>
         </>
     );

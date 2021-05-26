@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { Card, List, Skeleton } from 'antd';
+import { Card, List, Pagination, Skeleton } from 'antd';
 import CardContest from './components/CardContest';
 import { fetchAllContestWithProblems, ListContests } from 'services/contest';
 import { ALlContestWithProblemsResponse } from 'services/contest';
 import { ConstestWithProblems } from 'services/contest';
+import CustomPagination from 'components/layout/Pagination';
 export default function ContestListPage(props) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [count, setCount] = useState<number>(0);
+    const [page, setPage] = useState<number>(1);
     const [dataList, setDataList] = useState<ConstestWithProblems[]>();
-
+    const limit = 10;
     useEffect(() => {
         setIsLoading(true);
-        fetchAllContestWithProblems()
+        fetchAllContestWithProblems(`?limit=${limit}&offset=${(page-1)*limit}`)
             .then((resp: ALlContestWithProblemsResponse) => {
                 setIsLoading(false);
-                console.log(resp);
+                setCount(resp.count);
                 setDataList(resp.results);
             });
-    }, []);
+    }, [page]);
 
     const renderListContest = () => {
         return <List
@@ -31,11 +34,20 @@ export default function ContestListPage(props) {
         >
         </List>;
     };
+
+    const paginationProps = {
+        total: count,
+        onPageChange: (page: number) => {
+            setPage(page);
+        },
+    };
+
     return <>
         <Card key="List contests" {...props} title="List contests">
             <Skeleton loading={isLoading}>
                 {renderListContest()}
             </Skeleton>    
+            <CustomPagination {...paginationProps}></CustomPagination>
         </Card>
     </>;
 }

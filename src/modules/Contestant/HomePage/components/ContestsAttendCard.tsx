@@ -19,6 +19,7 @@ export default function ContestsAttendCard(props) {
     const [list, setList] = useState<ListItem>([]);
     const {_id} = useContext(UserContext);
     useEffect(() => {
+        if (_id === 0) return;
         fetchAttendedContest(_id).then(res => {
             console.log(res);
             setInitLoading(false);

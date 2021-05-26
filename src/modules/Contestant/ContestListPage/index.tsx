@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { Card, List, Skeleton } from 'antd';
 import CardContest from './components/CardContest';
-import { fetchAllContest, ListContests } from 'services/contest';
+import { fetchAllContestWithProblems, ListContests } from 'services/contest';
+import { ALlContestWithProblemsResponse } from 'services/contest';
+import { ConstestWithProblems } from 'services/contest';
 export default function ContestListPage(props) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [dataList, setDataList] = useState<ListContests>([]);
+    const [dataList, setDataList] = useState<ConstestWithProblems[]>();
 
     useEffect(() => {
         setIsLoading(true);
-        fetchAllContest()
-            .then(resp => {
+        fetchAllContestWithProblems()
+            .then((resp: ALlContestWithProblemsResponse) => {
                 setIsLoading(false);
                 console.log(resp);
-                setDataList(resp);
+                setDataList(resp.results);
             });
     }, []);
 
     const renderListContest = () => {
         return <List
             dataSource={dataList}
-            renderItem={(contest, idx) => {
+            renderItem={(contest:ConstestWithProblems, idx) => {
                 return <List.Item 
                     style={{display: 'block'}}
                 >

@@ -1,26 +1,34 @@
 import { DataAccess } from '../access/base';
-import { Problem } from './problem';
+import { BaseListResponse } from './base';
 const CONTEST_PATH = 'api/contest/';
-
+const CONTEST_PROBLEM_PATH = CONTEST_PATH + 'problems/';
 export type Contest = {
     _id: number,
     title: string,
     created_user?: number,
     created: string,
     contestants: number[];
-    language: number[],
     time_start: string,
     time_end: string,
 }
+export type ConstestWithProblems = Contest & { 
+    problems: {
+        title: string 
+    }[],
+}
 export type ListContests = Contest[];
 type AllContestResponse = ListContests;
+export type ALlContestWithProblemsResponse = BaseListResponse &{
+    results: ConstestWithProblems[]
+} 
 
 const fetchAllContest = (): Promise<AllContestResponse> => {
     return DataAccess.Get<AllContestResponse>(CONTEST_PATH);
 };
-// const fetchAddContest = (body) => {
-//     return axios.post(CONTEST_API_ADDRESS, body);
-// };
+const fetchAllContestWithProblems = (): Promise<ALlContestWithProblemsResponse> => {
+    return DataAccess.Get(CONTEST_PROBLEM_PATH);
+};
+
 
 const fetchDeleteContest = (id) => {
     const apiDeleteContestId = CONTEST_PATH.concat(id).concat('/');
@@ -34,7 +42,8 @@ const fetchDeleteContest = (id) => {
 
 export {
     fetchAllContest,
-    fetchDeleteContest
+    fetchDeleteContest,
+    fetchAllContestWithProblems
     // fetchAddContest,
     // fetchDeleteContest,
     // fetchUpdateContest,

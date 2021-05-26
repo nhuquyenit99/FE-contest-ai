@@ -2,23 +2,11 @@ import { Button, Card, Space, Typography} from 'antd';
 import { NavLink } from 'react-router-dom';
 import CardContestTitle from './CardContestTitle';
 import { CardContestContent } from './CardContestContent';
+import { ConstestWithProblems } from '../../../../services/contest';
 const { Text } = Typography;
 type CardContestProps = {
     style?: any,
-    contest: {
-        created: string,
-        created_user?: {
-            _id: number,
-            first_name: string,
-            last_name: string,
-            username: string
-        } | number,
-        time_end: string,
-        time_start: string,
-        title: string,
-        _id: number,
-        description?: string,
-    }
+    contest: ConstestWithProblems
 }
 export enum ContestStatusEnum {
     EXPIRED,
@@ -27,7 +15,7 @@ export enum ContestStatusEnum {
 }
 export default function CardContest(props: CardContestProps) {
     const { style, contest} = props;
-    let {description, ...titleProps} = contest;
+    let {...titleProps} = contest;
     const time_end = new Date(contest.time_end);
     const time_start = new Date(contest.time_start);
     
@@ -63,7 +51,9 @@ export default function CardContest(props: CardContestProps) {
                 } 
                 extra={rightBlock}
             >
-                <CardContestContent contest_id={contest._id}></CardContestContent>
+                {
+                    (contest.problems?.length > 0) &&<CardContestContent contest_id={contest._id} problems={contest.problems}></CardContestContent>
+                }
             </Card>
         </div>
     );

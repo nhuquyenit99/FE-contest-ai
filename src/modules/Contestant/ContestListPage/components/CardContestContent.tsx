@@ -1,36 +1,34 @@
-import { List, Typography } from 'antd';
+import { List, Skeleton, Typography } from 'antd';
 import { useEffect, useState } from 'react';
-import { fetchProblemWithContestId, ListProblems } from 'services/problem';
+import { ListProblems } from 'services/problem';
 import { Problem } from 'services/problem';
 type CardContestContentProps = {
     contest_id;
+    problems: {
+        title: string
+    }[];
 };
 
 export function CardContestContent(props: CardContestContentProps) {
-    const [listProblems, setListProblems] = useState<Problem[]>([]);
-    useEffect(() => {
-        if (!props.contest_id) return;
-
-        let qs = '?id=' + props.contest_id;
-        fetchProblemWithContestId(qs)
-            .then((resp: ListProblems) => {
-                setListProblems(resp);
-            })
-            .catch((err) => {
-
-            });
-    }, []);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const listProblems = props.problems;
+    // const [listProblems, setListProblems] = useState([]);
     return <div className='__card-contest-content__'>
-        <List
-            dataSource={listProblems}
-            renderItem={
-                (item:Problem, idx: number) => (
-                    <List.Item>
-                        <Typography.Text mark>[{idx+1}]</Typography.Text> {item.title}
-                    </List.Item>
-                )
-            }
-        >
-        </List>
+        {
+            (listProblems?.length > 0 || !isLoading) &&
+            <Skeleton loading={isLoading}>
+                <List
+                    dataSource={listProblems}
+                    renderItem={
+                        (item: {title: string}, idx: number) => (
+                            <List.Item>
+                                <Typography.Text mark>[{idx + 1}]</Typography.Text> {item.title}
+                            </List.Item>
+                        )
+                    }
+                >
+                </List>
+            </Skeleton>
+        }
     </div>;
 }

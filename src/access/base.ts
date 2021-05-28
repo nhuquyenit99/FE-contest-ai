@@ -4,8 +4,12 @@ import { readCookie, eraseCookie, createCookie } from 'utils/cookie';
 
 const axios = require('axios');
 
-const headers = {
+const json_headers = {
     'Content-Type': 'application/json',
+};
+const multipart_headers = {
+    'Content-Type': 'multipart/form-data',
+    'Accept': '*/*'
 };
 const BASE_URL = 'http://127.0.0.1:8000';
 
@@ -16,9 +20,9 @@ type ConfigType = {
     data?: any,
     params?: any,
 }
-const getBaseConfigAxios = (config: ConfigType) => {
+const getBaseConfigAxios = (config: ConfigType, headers) => {
     const token = readCookie('access_token');
-    const {method, url, data, params} = config;
+    const { method, url, data, params } = config;
     return {
         method: method,
         url: `${BASE_URL}/${url}`,
@@ -28,8 +32,8 @@ const getBaseConfigAxios = (config: ConfigType) => {
     };
 };
 
-const fetchAxios = <T>(config: ConfigType): Promise<T> => {
-    return axios(getBaseConfigAxios({...config}))
+const fetchAxios = <T>(config: ConfigType, headers): Promise<T> => {
+    return axios(getBaseConfigAxios({ ...config }, headers))
         .then((response, err) => {
             return response as Promise<{ data: T }>;
         })
@@ -50,38 +54,38 @@ const fetchAxios = <T>(config: ConfigType): Promise<T> => {
 
 
 const APIPost = <T>(url: string, data?: any): Promise<T> => {
-    let config :ConfigType = {
+    let config: ConfigType = {
         method: 'POST',
         url,
         data
     };
-    return fetchAxios(config);
+    return fetchAxios(config, json_headers);
 };
 
 const APIGet = <T>(url: string, params?: object): Promise<T> => {
-    let config :ConfigType = {
+    let config: ConfigType = {
         method: 'GET',
         url,
         params
     };
-    return fetchAxios(config);
+    return fetchAxios(config, json_headers);
 };
 
 const APIDelete = <T>(url: string, data?: string): Promise<T> => {
-    let config :ConfigType = {
+    let config: ConfigType = {
         method: 'DELETE',
         url,
         data
     };
-    return fetchAxios(config);
+    return fetchAxios(config, json_headers);
 };
 const APIPut = <T>(url: string, data: any): Promise<T> => {
-    let config :ConfigType = {
+    let config: ConfigType = {
         method: 'PUT',
         url,
         data
     };
-    return fetchAxios(config);
+    return fetchAxios(config, json_headers);
 };
 const IMAGEPost = (data: any) => {
     return axios({
@@ -94,10 +98,26 @@ const IMAGEPost = (data: any) => {
         },
     });
 };
+const FilePost = (url: string, data: any) => {
+    const formData = new FormData();
+    Object.keys(data).map(name => {
+        formData.append(name, data[name]);
+        return name;
+    });
+
+    let config: ConfigType = {
+        method: 'POST',
+        url,
+        data: formData
+    };
+    return fetchAxios(config, multipart_headers);
+};
+
 export const DataAccess = {
     Get: APIGet,
     Post: APIPost,
     Delete: APIDelete,
     Put: APIPut,
     IMAGEPost,
+    FilePost
 };

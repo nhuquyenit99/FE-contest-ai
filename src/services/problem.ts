@@ -12,6 +12,10 @@ export type Problem = {
     train_data: string,
     test_data: string,
     time_executed_limit: number,
+    languages: {
+        _id: number,
+        name: string,
+    }[]
 }
 export type ListProblems = Problem[];
 type AllProblemResponse = ListProblems;

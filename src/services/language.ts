@@ -7,6 +7,10 @@ export type Language = {
     path: string,
     created: string
 };
+export type LanguageName = {
+    _id: number,
+    name: string,
+}
 type LanguagePost = {
     name: string,
     path: string

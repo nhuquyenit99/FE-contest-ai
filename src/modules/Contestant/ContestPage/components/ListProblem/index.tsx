@@ -1,5 +1,6 @@
 import { Divider, List } from 'antd';
 import ProblemListItem from './ProblemListItem';
+import { ListProblems } from 'services/problem';
 export enum ProblemStatusEnum {
     PENDING,
     SUCCESSED,
@@ -20,11 +21,13 @@ type ListProblemProps = {
     setCurrentProblemPst: (idx: number) => void
 }
 export default function ListProblem(
-    {   
-        listProblem, 
-        setCurrentProblemPst, 
+    props: ListProblemProps) {
+    const {
+        listProblem,
+        setCurrentProblemPst,
         currentProblemPst
-    }: ListProblemProps) {
+    } = props;
+    
     let data = listProblem?.map(problem => {
         let newProblem: Problem = {
             ...problem,
@@ -40,15 +43,15 @@ export default function ListProblem(
             bordered
             dataSource={data}
             renderItem={(item: Problem, idx: number) => {
-                let selectiveStyle =  currentProblemPst===idx? {
+                let selectiveStyle = currentProblemPst === idx ? {
                     background: '#eee'
-                }: {};
+                } : {};
                 return (
-                    <List.Item 
-                        style={{...selectiveStyle, borderRadius: '5px', marginBottom: '3px'}}
+                    <List.Item
+                        style={{ ...selectiveStyle, borderRadius: '5px', marginBottom: '3px' }}
                         onClick={() => setCurrentProblemPst(idx)}
                     >
-                        <ProblemListItem item={item} idx={idx+1}></ProblemListItem>
+                        <ProblemListItem item={item} idx={idx + 1}></ProblemListItem>
                     </List.Item>
                 );
             }}

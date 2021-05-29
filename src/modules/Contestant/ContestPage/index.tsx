@@ -7,6 +7,7 @@ import SampleCodeContainer from './components/SampleCodeContainer';
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { fetchProblemWithContestId, Problem } from 'services/problem';
+import { MySubmissions } from './components/MySubmissions';
 
 const { TabPane } = Tabs;
 export function ContestPage() {
@@ -54,7 +55,10 @@ export function ContestPage() {
                                     <TabPane tab="Dashboard" key="2">
                                         <Dashboard></Dashboard>
                                     </TabPane>
-                                    <TabPane tab="Sample Code" key="3">
+                                    <TabPane tab="My Submissions" key='3'>
+                                        <MySubmissions problem_id={listProblems[currentProblemPst]?._id}></MySubmissions>
+                                    </TabPane>
+                                    <TabPane tab="Sample Code" key="4">
                                         <SampleCodeContainer></SampleCodeContainer>
                                     </TabPane>
                                 </Tabs>

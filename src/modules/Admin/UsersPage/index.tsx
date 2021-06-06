@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Space, Table} from 'antd';
+import { Button, Space, Switch, Table} from 'antd';
 import { useEffect } from 'react';
 import { fetchAllUserPagination, User, ListUser} from 'services/user';
 import RoleTag from './RoleTag';
@@ -8,6 +8,10 @@ import CustomPagination from '../../../components/layout/Pagination';
 import { PaginationQuery } from '../../../services/user';
 import DeleteButton from '../../../components/core/DeleteButton';
 import ModalDeleteUser from './components/ModalDeleteUser';
+import Text from 'antd/lib/typography/Text';
+import { fetchAdminPermissionAuth, fetchOrganizerPermissionAuth } from 'services/auth';
+import { AdminPermissionAuthResponse, OrganizerPermissionAuthResponse } from '../../../services/auth';
+import COLOR from 'const/color';
 
 
 type Item = User&{
@@ -57,6 +61,25 @@ export default function UserPage() {
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [shouldRefreshData]);
+
+    const setAdminPermissionAuth = (user_id, checked) => {
+        fetchAdminPermissionAuth(user_id, checked)
+            .then((response: AdminPermissionAuthResponse) => {
+                setShouldRefreshData(true);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+    const setOrganizerPermissionAuth = (user_id, checked) => {
+        fetchOrganizerPermissionAuth(user_id, checked)
+            .then((response: OrganizerPermissionAuthResponse) => {
+                setShouldRefreshData(true);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
     const columns = [
         {
             title: 'Id',
@@ -96,11 +119,28 @@ export default function UserPage() {
             title: 'Action',
             key: 'action',
             dataIndex: '_id',
-            render: (_id, record) => (
-                <Space size="middle">
-                    <DeleteButton id={_id} onClick={showDeleteItem}></DeleteButton>
-                </Space>
-            ),
+            render: (_id, record) => {
+                let {is_admin, is_organizer} = record;
+                return (
+                    <Space size="middle">
+                        <Switch style={{
+                            backgroundColor: 
+                                is_admin?
+                                    COLOR.light_blue: COLOR.light_black
+                        }} checked={is_admin}
+                        onChange={(checked) => setAdminPermissionAuth(_id, checked)} 
+                        ></Switch>
+
+                        <Switch style={{
+                            backgroundColor: 
+                                is_organizer?COLOR.light_green: COLOR.light_black
+                        }} checked={is_organizer}
+                        onChange={(checked) => setOrganizerPermissionAuth(_id, checked)}
+                        ></Switch>
+                        <DeleteButton id={_id} onClick={showDeleteItem}></DeleteButton>
+                    </Space>
+                );
+            },
         },
     ];
     const showDeleteItem = (e) => {

@@ -15,6 +15,7 @@ export type Problem = {
     languages: {
         _id: number,
         name: string,
+        file_extensions: string
     }[]
 }
 export type ListProblems = Problem[];

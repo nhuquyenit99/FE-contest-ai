@@ -18,6 +18,7 @@ type ProblemContainerProps = {
 
 export function ProblemContainer({ problem }: ProblemContainerProps) {
     const [language, setLanguage] = useState<LanguageName>(problem.languages[0]);
+    console.log(language);
     const onFinish = (values: any) => {
         console.log('Received values of form: ', values);
         const fileFields = Object.keys(values);
@@ -83,7 +84,7 @@ export function ProblemContainer({ problem }: ProblemContainerProps) {
                                 >
                                     <Upload
                                         {...uploadProps}
-                                        accept=".cpp,.py,.js"
+                                        accept={language.file_extensions}
                                     >
                                         <Button icon={<UploadOutlined />}>Click to upload</Button>
                                     </Upload>
@@ -94,7 +95,7 @@ export function ProblemContainer({ problem }: ProblemContainerProps) {
                                 >
                                     <Upload
                                         {...uploadProps}
-                                        accept=".cpp,.py,.js"
+                                        accept={language.file_extensions}
                                     >
                                         <Button icon={<UploadOutlined />}>Click to upload</Button>
                                     </Upload>
@@ -105,7 +106,7 @@ export function ProblemContainer({ problem }: ProblemContainerProps) {
                                 >
                                     <Upload
                                         {...uploadProps}
-                                        accept=".cpp,.py,.js"
+                                        accept={language.file_extensions}
                                     >
                                         <Button icon={<UploadOutlined />}>Click to upload</Button>
                                     </Upload>

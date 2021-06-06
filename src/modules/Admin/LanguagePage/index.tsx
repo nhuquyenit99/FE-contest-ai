@@ -65,6 +65,11 @@ export default function LanguagePage() {
             key: 'path',
         },
         {
+            title: 'File exts',
+            dataIndex: 'file_extensions',
+            key: 'file_extensions'
+        },
+        {
             title: 'Created At',
             dataIndex: 'created',
             key: 'created',

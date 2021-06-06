@@ -135,7 +135,7 @@ export default function UserPage() {
                             backgroundColor: 
                                 is_organizer?COLOR.light_green: COLOR.light_black
                         }} checked={is_organizer}
-                        onChange={(checked) => setOrganizerPermissionAuth(_id, checked)}
+                        onChange={(checked, ) => setOrganizerPermissionAuth(_id, checked)}
                         ></Switch>
                         <DeleteButton id={_id} onClick={showDeleteItem}></DeleteButton>
                     </Space>

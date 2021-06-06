@@ -10,14 +10,17 @@ export type Language = {
 export type LanguageName = {
     _id: number,
     name: string,
+    file_extensions: string
 }
 type LanguagePost = {
     name: string,
-    path: string
+    path: string,
+    file_extensions: string
 };
 type LanguagePut = {
     name: string,
-    path: string
+    path: string,
+    file_extensions: string
 };
 type ListLanguage = Language[];
 

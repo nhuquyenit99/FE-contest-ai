@@ -26,6 +26,12 @@ const renderChildComponent = (
                 name='path'>
                 <Input size="large" placeholder='Path' />
             </Form.Item>
+            <Form.Item
+                label='File extensions'
+                name='file_extensions'>
+                <Input size="large" placeholder='File extensions' />
+            </Form.Item>
+
         </Form>
     );
 };

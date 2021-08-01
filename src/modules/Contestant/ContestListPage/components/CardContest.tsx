@@ -10,7 +10,7 @@ type CardContestProps = {
 }
 export enum ContestStatusEnum {
     EXPIRED,
-    IN_PROGRESS,
+    ON_GOING,
     UPCOMING
 }
 export default function CardContest(props: CardContestProps) {
@@ -23,7 +23,7 @@ export default function CardContest(props: CardContestProps) {
         const now = new Date();
         let status = now > time_end? ContestStatusEnum.EXPIRED
             : (now < time_start? ContestStatusEnum.UPCOMING
-                : ContestStatusEnum.IN_PROGRESS);
+                : ContestStatusEnum.ON_GOING);
         return status;
     };
 

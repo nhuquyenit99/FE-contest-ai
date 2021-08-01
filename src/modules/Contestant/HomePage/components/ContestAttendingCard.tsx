@@ -1,62 +1,36 @@
 import { Card } from 'antd';
 import { List, Skeleton } from 'antd';
 import { useState, useEffect, useContext } from 'react';
-import { fetchAttendedContest } from 'services/user';
-import { UserContext } from '../../../../context/index';
-import { AttendedContest } from '../../../../services/user';
+import { ContestAndScore, fetchMyContests } from 'services/user/fetch_my_contest';
+import { UserContext } from 'context/index';
 import { NavLink } from 'react-router-dom';
-let count = 4;
-type Item = AttendedContest&{
+
+type Item = ContestAndScore&{
     loading: boolean,   
 }
 
 type ListItem = Item[];
 
-export default function ContestsAttendCard(props) {
+export default function ContestsAttendingCard(props) {
     const [initLoading, setInitLoading] = useState(true);
-    // const [loading, setLoading] = useState(false);
-    // const [data, setData] = useState<ListItem>([]);
     const [list, setList] = useState<ListItem>([]);
     const {_id} = useContext(UserContext);
     useEffect(() => {
-        if (_id === 0) return;
-        fetchAttendedContest(_id).then(res => {
+        fetchMyContests(_id, 'ongoing').then(res => {
             console.log(res);
             setInitLoading(false);
-            let lst:ListItem = res?.map(item => {
+            let lst:ListItem = res?.results.map(item => {
                 return {
                     ...item,
                     loading: false,
                 };
             });
-            console.log(lst);
-            // setData(lst);
             setList(lst);
         });
     }, [_id]);
 
-
-    // const onLoadMore = () => {
-    //     setLoading(true);
-    // };
-    // const loadMore =
-    //     !initLoading && !loading ? (
-    //         <div
-    //             style={{
-    //                 textAlign: 'center',
-    //                 marginTop: 12,
-    //                 height: 32,
-    //                 lineHeight: '32px',
-    //             }}
-    //         >
-    //             <Button>loading more</Button>
-    //         </div>
-    //     ) : null;
-
-
     return (
-        <Card {...props} title="Attended Contests">
-            {/* {list} */}
+        <Card {...props} title="My Attending Contests">
             <List
                 className="demo-loadmore-list"
                 loading={initLoading}
@@ -66,11 +40,12 @@ export default function ContestsAttendCard(props) {
                 renderItem={(item: Item) => (
                     <List.Item
                         actions={[<NavLink 
-                            to={`/contestant/contest/?id=${item._id}`} 
+                            to={`/contestant/contest/?id=${item.contest._id}`} 
                             key="list-loadmore-edit">Detail</NavLink>]}
                     >
                         <Skeleton avatar title loading={item.loading} active>
-                            <div>{item.title}</div>
+                            <div>{item.contest.title}</div>
+                            <div>{item.total_score}</div>
                         </Skeleton>
                     </List.Item>
                 )}

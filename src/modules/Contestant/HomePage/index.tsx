@@ -1,13 +1,19 @@
 import { Layout } from 'antd';
 import ContestListPage from '../ContestListPage/index';
-import ContestsAttendCard from './components/ContestsAttendCard';
+import ContestsAttendedCard from './components/ContestsAttendedCard';
+import ContestsAttendingCard from './components/ContestAttendingCard';
+import ContestsWillAttendCard from './components/ContestWillAttendingCard';
 
 export function HomePage() {
 
     return (
         <Layout style={{ flexDirection: 'row' }}>
             <ContestListPage style={{ width: '75%' }}></ContestListPage>
-            <ContestsAttendCard style={{ width: '25%' }}></ContestsAttendCard>
+            <div style={{ width: '25%' }}>
+                <ContestsAttendedCard></ContestsAttendedCard>
+                <ContestsAttendingCard></ContestsAttendingCard>
+                <ContestsWillAttendCard></ContestsWillAttendCard>
+            </div>
         </Layout>
     );
 

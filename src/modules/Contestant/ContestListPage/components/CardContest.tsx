@@ -1,8 +1,9 @@
-import { Button, Card, Space, Typography} from 'antd';
+import { Button, Card, Space, Typography, notification } from 'antd';
 import { NavLink } from 'react-router-dom';
 import CardContestTitle from './CardContestTitle';
 import { CardContestContent } from './CardContestContent';
 import { ConstestWithProblems } from '../../../../services/contest';
+import { fetchRegisterContest } from 'services/user/fetch_register_contest';
 const { Text } = Typography;
 type CardContestProps = {
     style?: any,
@@ -26,6 +27,25 @@ export default function CardContest(props: CardContestProps) {
                 : ContestStatusEnum.ON_GOING);
         return status;
     };
+    const clickAttend = () => {
+        fetchRegisterContest(contest._id).then((res) => {
+            // Redirect to other pages
+            let url = `contestant/contest/?id=${contest._id}`;
+            if (res.status === 'success') {
+                notification.success({
+                    message: res.message
+                });
+            } else {
+                notification.error({
+                    message: res.message
+                });
+            }
+        }).catch((err) => {
+            notification.error({
+                message: err.message
+            });
+        });
+    };
 
     let contestStatus = getContestStatus();
     const rightBlock = <div className="__time-block__">
@@ -38,7 +58,7 @@ export default function CardContest(props: CardContestProps) {
             {
                 contestStatus === ContestStatusEnum.EXPIRED ? 
                     <NavLink to={`contestant/contest/?id=${contest._id}`}><Button type='primary'>Dashboard</Button></NavLink>
-                    : <NavLink to={`contestant/contest/?id=${contest._id}`}><Button type="primary">Attend</Button></NavLink>
+                    : <Button type="primary" onClick={clickAttend}>Attend</Button>
             }
         </Space>
     </div>;

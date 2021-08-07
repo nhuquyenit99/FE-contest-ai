@@ -1,7 +1,7 @@
-enum CONTEST_STATUS_ENUM {
+enum ContestStatusEnum {
     EXPIRED = 'expired',
     ONGOING = 'ongoing',
     UPCOMING = 'upcoming',
 }
 
-export default CONTEST_STATUS_ENUM;
+export default ContestStatusEnum;

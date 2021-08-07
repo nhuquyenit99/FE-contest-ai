@@ -1,12 +1,13 @@
 import { Space, Tag } from 'antd';
 import Text from 'antd/lib/typography/Text';
 import AvatarContainer from 'components/core/AvatarContainer';
-import { ContestStatusEnum } from './CardContest';
+import ContestStatusEnum from 'const/contest_status';
+
 const renderStatus = (status: ContestStatusEnum) => {
     if (status === ContestStatusEnum.EXPIRED) {
         return <Tag color="red-inverse">Expired</Tag>;
     }
-    if (status === ContestStatusEnum.ON_GOING) {
+    if (status === ContestStatusEnum.ONGOING) {
         return <Tag color="green-inverse">On going</Tag>;
     };
     return <Tag color="volcano-inverse">Upcoming</Tag>;

@@ -1,20 +1,19 @@
 import { Button, Card, Space, Typography, notification } from 'antd';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import CardContestTitle from './CardContestTitle';
 import { CardContestContent } from './CardContestContent';
-import { ConstestWithProblems } from '../../../../services/contest';
+import { ConstestWithProblems } from 'services/contest';
 import { fetchRegisterContest } from 'services/user/fetch_register_contest';
+import ContestStatusEnum from 'const/contest_status';
+
 const { Text } = Typography;
 type CardContestProps = {
     style?: any,
     contest: ConstestWithProblems
 }
-export enum ContestStatusEnum {
-    EXPIRED,
-    ON_GOING,
-    UPCOMING
-}
+
 export default function CardContest(props: CardContestProps) {
+    const history = useHistory();
     const { style, contest} = props;
     let {...titleProps} = contest;
     const time_end = new Date(contest.time_end);
@@ -24,7 +23,7 @@ export default function CardContest(props: CardContestProps) {
         const now = new Date();
         let status = now > time_end? ContestStatusEnum.EXPIRED
             : (now < time_start? ContestStatusEnum.UPCOMING
-                : ContestStatusEnum.ON_GOING);
+                : ContestStatusEnum.ONGOING);
         return status;
     };
     const clickAttend = () => {
@@ -40,6 +39,7 @@ export default function CardContest(props: CardContestProps) {
                     message: res.message
                 });
             }
+            history.push(url);
         }).catch((err) => {
             notification.error({
                 message: err.message

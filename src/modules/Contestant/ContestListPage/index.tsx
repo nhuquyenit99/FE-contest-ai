@@ -14,7 +14,7 @@ export default function ContestListPage(props) {
     const [count, setCount] = useState<number>(0);
     const [page, setPage] = useState<number>(1);
     const [dataList, setDataList] = useState<ConstestWithProblems[]>();
-    const [filter, setFilter] = useState<ContestStatus>(ContestStatus.all);
+    const [filter, setFilter] = useState<any>(ContestStatus[ContestStatus.all]);
 
     const limit = 10;
     useEffect(() => {

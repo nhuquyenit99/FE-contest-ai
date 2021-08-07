@@ -26,10 +26,6 @@ const fetchAllContestWithProblems = (show_problems: boolean, contest_status: Con
             params += `offset=${paginationProps.offset}&`;
         }
     }
-    console.log(contest_status);
-    console.log(ContestStatus[contest_status]);
-    console.log(ContestStatus.all.toString());
-    console.log(contest_status.toString());
     if (ContestStatus[contest_status].toString() !== ContestStatus.all.toString()) {
         params += `status=${contest_status}&`;
     }

@@ -15,9 +15,13 @@ export function ContestPage() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [listProblems, setListProblems] = useState<Problem[]>([]);
     const [currentProblemPst, setCurrentProblemPst] = useState<number>(-1);
+    const [currentContestId, setCurrentContestId] = useState<any>(-1);
 
-    let { search } = history.location;
     useEffect(() => {
+        let { search } = history.location;
+        let params = new URLSearchParams(search);
+        let contestId = params.get('id');
+        setCurrentContestId(contestId);
         setIsLoading(true);
         fetchProblemWithContestId(search) // search: ?id=123123dfas
             .then((res) => {
@@ -53,7 +57,7 @@ export function ContestPage() {
                                         <ProblemContainer problem={listProblems[currentProblemPst]}></ProblemContainer>
                                     </TabPane>
                                     <TabPane tab="Dashboard" key="2">
-                                        <Dashboard></Dashboard>
+                                        <Dashboard contest_id={currentContestId}></Dashboard>
                                     </TabPane>
                                     <TabPane tab="My Submissions" key='3'>
                                         <MySubmissions problem_id={listProblems[currentProblemPst]?._id}></MySubmissions>

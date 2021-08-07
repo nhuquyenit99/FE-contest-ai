@@ -1,25 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { Card, List, Pagination, Skeleton } from 'antd';
 import CardContest from './components/CardContest';
-import { fetchAllContestWithProblems, ListContests } from 'services/contest';
+import { ListContests } from 'services/contest';
 import { ALlContestWithProblemsResponse } from 'services/contest';
 import { ConstestWithProblems } from 'services/contest';
 import CustomPagination from 'components/layout/Pagination';
+import FilterContest from './components/FilterContest';
+import { ContestStatus, fetchAllContestWithProblems } from 'services/user/fetch_all_contest_with_problems';
+
+
 export default function ContestListPage(props) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [count, setCount] = useState<number>(0);
     const [page, setPage] = useState<number>(1);
     const [dataList, setDataList] = useState<ConstestWithProblems[]>();
+    const [filter, setFilter] = useState<ContestStatus>(ContestStatus.all);
+
     const limit = 10;
     useEffect(() => {
         setIsLoading(true);
-        fetchAllContestWithProblems(`?limit=${limit}&offset=${(page-1)*limit}`)
+        fetchAllContestWithProblems(true, filter, {
+            limit,
+            offset: (page-1)*limit,
+        })
             .then((resp: ALlContestWithProblemsResponse) => {
                 setIsLoading(false);
                 setCount(resp.count);
                 setDataList(resp.results);
             });
-    }, [page]);
+    }, [page, filter]);
 
     const renderListContest = () => {
         return <List
@@ -41,9 +50,17 @@ export default function ContestListPage(props) {
             setPage(page);
         },
     };
+    const FilterContestProps = {
+        setFilter
+    };
 
     return <>
-        <Card key="List contests" {...props} title="List contests">
+        <Card 
+            key="List contests" {...props} 
+            title="List contests" 
+            extra={<FilterContest 
+                {...FilterContestProps}/>
+            }>
             <Skeleton loading={isLoading}>
                 {renderListContest()}
             </Skeleton>    

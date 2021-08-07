@@ -1,94 +1,98 @@
 import { Table, Tabs } from 'antd';
+import { useEffect, useState } from 'react';
+import './style.scss';
 
 const { TabPane } = Tabs;
 const columns = [
     {
         title: 'Rank',
         dataIndex: 'rank',
-        key: 'rank',
-        render: (rank) => {
-            return rank;
+        render: (rank: number, row: any) => {
+            if (row.total_score === 0) {
+                return <div className="rank rank-n">{rank}</div>;
+            }
+            if (rank === 1)
+                return <div className="rank rank-1">1</div>;
+            if (rank === 2) 
+                return <div className="rank rank-2">2</div>;
+            if (rank === 3) 
+                return <div className="rank rank-3">3</div>;
+            
+            return <div className="rank rank-n">{rank}</div>;
+
         }
     },
     {
         title: 'Created by',
-        dataIndex: 'created_by',
-        key: 'created_by',
+        dataIndex: 'user',
+        key: 'user',
+        render: (user) => {
+            return (
+                <span>
+                    {user.first_name} {user.last_name}
+                </span>
+            );
+        }
     },
     {
-        title: 'Accuracy',
-        dataIndex: 'accuracy',
-        key: 'accuracy',
-    },
-    {
-        title: 'Language',
-        dataIndex: 'language',
-        key: 'language',
-    },
-    {
-        title: 'Created At',
-        dataIndex: 'created_at',
-        key: 'created_at',
-    },
+        title: 'Total score',
+        dataIndex: 'total_score',
+        key: 'total_score',    
+    }
 ];
-const data = [{
-    title: 'Problem 1',
-    results: [
-        {
-            created_by: 'dainguyen',
-            accuracy: 0.83,
-            created_at: '',
-            language: 'javascript'
-        },
-        {
-            created_by: 'nghiale',
-            accuracy: 0.84,
-            created_at: '',
-            language: 'python'
-        }
-    ]
-},
-{
-    title: 'Problem 2',
-    results: [
-        {
-            created_by: 'dainguyen',
-            accuracy: 0.83,
-            created_at: '',
-            language: 'javascript'
-        },
-        {
-            created_by: 'nghiale',
-            accuracy: 0.84,
-            created_at: '',
-            language: 'python'
-        }
-    ]
-}, {
-    title: 'Problem 3',
-    results: [
-        {
-            rank: 2,
-            created_by: 'dainguyen',
-            accuracy: 0.83,
-            created_at: '',
-            language: 'javascript'
-        },
-        {
-            rank: 1,
-            created_by: 'nghiale',
-            accuracy: 0.84,
-            created_at: '',
-            language: 'python'
-        }
-    ]
-}];
-export default function Dashboard() {
-    return <div className='__dashboard-container__'>
+
+const data = [
+    {
+        pos: 1,
+        created_by: 'User 1'
+    }
+];
+
+interface DashboardProps {
+    contest_id: number;
+}
+
+export default function Dashboard(props: DashboardProps) {
+    const [data, setData] = useState<{rank: number, user: any, total_score: number}[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        let ws = new WebSocket(`ws://localhost:8000/ws/contest/${props.contest_id}/rank`);
+        ws.onopen = () => {
+            console.log('WebSocket connection opened.');
+        };
+        ws.onclose = () => {
+            console.log('WebSocket connection closed.');
+        };
+        ws.onmessage = (message) => {
+            setIsLoading(true);
+            let data = JSON.parse(message.data);
+            let newData = data.results.map((result, index) => {
+                return {
+                    ...result,
+                    rank: index+1
+                };
+            });
+            setData(newData);
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 500);
+        };
+
+        return () => {
+            ws.close();
+        };
+    }, []);
+    return <div className='dashboard-container'>
         <Tabs defaultActiveKey="0">
-            <TabPane tab="All" key="0">
+            <TabPane tab="All" key="0" >
+                <Table className="dashboard-table-wrapper" 
+                    columns={columns} 
+                    dataSource={data} 
+                    loading={isLoading}
+                />
             </TabPane>
-            {
+            {/* {
                 data.map((dataItem, idx: number) => {
                     return (
                         <TabPane tab={dataItem.title} key={idx+1}>
@@ -96,7 +100,7 @@ export default function Dashboard() {
                         </TabPane>
                     );
                 })
-            }
+            } */}
         </Tabs>
 
     </div>;

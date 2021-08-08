@@ -47,11 +47,7 @@ export default function MyContestsCard(props: ContestsProps) {
                 // loadMore={loadMore}
                 dataSource={list}
                 renderItem={(item: Item) => (
-                    <List.Item
-                        // actions={[<NavLink 
-                        //     to={`/contestant/contest/?id=${item.contest._id}`} 
-                            // key="list-loadmore-edit">Detail</NavLink>]}
-                    >
+                    <List.Item>
                         <Skeleton avatar title loading={item.loading} active>
                             <MyContestItem contest={item.contest} total_score={item.total_score}></MyContestItem>
                         </Skeleton>

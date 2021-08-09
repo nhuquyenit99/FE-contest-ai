@@ -30,7 +30,6 @@ export function ReportPage() {
     useEffect(() => {
         fetchReport()
             .then((res) => {
-                console.log(res);
                 setData(res);
                 Object.keys(res).map((key, idx) => {
                     cardItems[idx]['count'] = res[key];

@@ -35,7 +35,6 @@ export class RootModule {
         let allRoutes = {};
         console.log(this.__module);
         Object.entries(this.__module).forEach(([key, module]) => {
-            console.log('=>', module.getRoute());
             allRoutes = {...allRoutes, ...Object.assign({}, module.getRoute())};
         });
         return allRoutes;

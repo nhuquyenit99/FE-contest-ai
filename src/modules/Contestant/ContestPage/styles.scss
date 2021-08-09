@@ -1,0 +1,15 @@
+@import '_color.scss';
+
+.problem-detail__container {
+    .problem-score {
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-weight: bold;
+        color: $white;
+        background-color: $light-red;
+
+        span {
+            font-size: 1.3em;
+        }
+    }
+}

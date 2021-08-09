@@ -18,7 +18,6 @@ type ProblemContainerProps = {
 
 export function ProblemContainer({ problem }: ProblemContainerProps) {
     const [language, setLanguage] = useState<LanguageName>(problem.languages[0]);
-    console.log(language);
     const onFinish = (values: any) => {
         console.log('Received values of form: ', values);
         const fileFields = Object.keys(values);

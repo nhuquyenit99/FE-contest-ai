@@ -12,11 +12,13 @@ type ProblemDetailProps = {
 }
 function ProblemDetail({problem}: ProblemDetailProps) {
     return (
-        <div className="contest">
+        <div className="problem-detail__container">
             <Row gutter={24}>
-                <Col span={12}>
+                <Col span={16}>
                     <Title level={2} className="problem-title">{problem?.title}</Title>
-                    <Text>Score: {problem?.score}</Text>
+                    <Text className="problem-score">Score: <span>
+                        {problem?.score}
+                    </span></Text>
                 </Col>
                 <Col style={{marginLeft: 'auto', marginRight: '15px', justifyContent: 'flex-end'}}>
                     <Countdown title="Time remaining" value={deadline} format="HH:mm:ss" />

@@ -6,6 +6,5 @@ const removeTokens = () => {
 };
 
 export default function logOut() {
-    console.log('logout');
     removeTokens();
 }

@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 import { MySubmissions } from './components/MySubmissions';
 import { fetchProblemsOnContestId } from 'services/user/fetch_problems_on_contest_id';
 import { Problem } from 'services/user/fetch_problems_on_contest_id';
+import './styles.scss';
+
 
 const { TabPane } = Tabs;
 export function ContestPage() {

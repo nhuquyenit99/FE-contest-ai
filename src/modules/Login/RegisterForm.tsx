@@ -46,6 +46,7 @@ export default function RegistrationForm() {
                 window.location.href='/login';
             })
             .catch(err => {
+                console.log(err);
                 const {data} = err.response;
                 notification.error({
                     message: data.error_message,

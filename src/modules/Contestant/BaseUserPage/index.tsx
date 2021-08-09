@@ -3,6 +3,7 @@ import { HomePage } from '../HomePage';
 import {ContestPage} from 'modules/Contestant/ContestPage';
 import UserLayout from 'components/layout/UserLayout';
 import { readCookie } from 'utils/cookie';
+import AccountInfo from '../AccountInfo';
 
 type HeaderRoute = {
     label: string,
@@ -25,18 +26,13 @@ const routes:HeaderRoutes = [
         exact: true,
         component: HomePage
     },
-    {
-        label: 'Contest',
-        path: '/contestant/contest/',
-        exact: false,
-        component: ContestPage
-    },
 ];
 export default function BaseUserPage() {
     const token = readCookie('access_token');
     const headerRouter:JSX.Element = (
         <Switch>
             {routes.map(route => <Route key={route.path} {...route}></Route>)}
+            <Route key={'/contestant/user'} path="/contestant/user/:userId" component={AccountInfo} />
         </Switch>
     );
     if (!token)

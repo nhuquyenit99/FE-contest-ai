@@ -83,13 +83,13 @@ export default function UserPage() {
             title: 'Id',
             dataIndex: '_id',
             key: '_id',
-            render: text => <a>{text}</a>,
+            render: text => text,
         },
         {
             title: 'Username',
             dataIndex: 'username',
             key: 'username',
-            render: text => <a>{text}</a>,
+            render: text => text,
         },
         {
             title: 'Role',

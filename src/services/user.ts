@@ -2,7 +2,6 @@ import { DataAccess } from 'access/base';
 const USER_PATH = 'api/user/';
 const REGISTER_API_ADDRESS = 'api/register/';
 const LOGIN_API_ADDRESS = 'api/login/';
-const ATTENDED_CONTEST_ADDRESS = 'api/user/attended-contest/';
 
 export type User = {
     _id: number,

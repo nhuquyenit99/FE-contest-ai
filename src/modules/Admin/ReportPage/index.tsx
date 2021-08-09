@@ -1,4 +1,4 @@
-import { Card, Col, Row } from 'antd';
+import { Col, Row } from 'antd';
 import CardCount from './components/CardCount';
 import { useEffect, useState } from 'react';
 import { fetchReport } from 'services/report';
@@ -25,6 +25,7 @@ let cardItems = [
     },
 ];
 export function ReportPage() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [data, setData] = useState({});
     useEffect(() => {
         fetchReport()
@@ -33,12 +34,12 @@ export function ReportPage() {
                 setData(res);
                 Object.keys(res).map((key, idx) => {
                     cardItems[idx]['count'] = res[key];
+                    return cardItems;
                 });
             });
     });
     return <div className='__report-page__'>
         <Row style={{width: '100%'}} gutter={[16, 16]}>
-
             {
                 cardItems.map((it) => {
                     return <Col span={6}>

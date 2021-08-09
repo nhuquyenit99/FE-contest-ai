@@ -1,5 +1,4 @@
-import { DataAccess } from '../access/base';
-const PROBLEM_PATH = 'api/problem/';
+import { DataAccess } from 'access/base';
 
 export type Problem = {
     _id: number,
@@ -20,12 +19,10 @@ export type Problem = {
 }
 export type ListProblems = Problem[];
 type AllProblemResponse = ListProblems;
-const fetchProblemWithContestId = (querySearch: string): Promise<AllProblemResponse> => {
-    let newQuerySearch = querySearch.replace('id', 'contest_id');
-    console.log(PROBLEM_PATH+newQuerySearch);
-    return DataAccess.Get(PROBLEM_PATH+newQuerySearch);
+const fetchProblemsOnContestId = (contest_id: string): Promise<AllProblemResponse> => {
+    return DataAccess.Get('api/nuser/problem?contest_id='+contest_id);
 };
 
 export {
-    fetchProblemWithContestId
+    fetchProblemsOnContestId
 };

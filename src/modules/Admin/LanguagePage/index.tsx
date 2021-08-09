@@ -51,13 +51,13 @@ export default function LanguagePage() {
             title: 'Id',
             dataIndex: '_id',
             key: '_id',
-            render: text => <a>{text}</a>,
+            render: text => text,
         },
         {
             title: 'Language',
             dataIndex: 'name',
             key: 'language',
-            render: text => <a>{text}</a>,
+            render: text => text,
         },
         {
             title: 'Path',

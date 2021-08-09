@@ -1,12 +1,12 @@
 import { Redirect, Route, Switch } from 'react-router';
 import { HomePage } from '../HomePage';
-import {ContestPage} from 'modules/Contestant/ContestPage';
 import UserLayout from 'components/layout/UserLayout';
 import { readCookie } from 'utils/cookie';
 import AccountInfo from '../AccountInfo';
+import { ContestPage } from '../ContestPage';
 
 type HeaderRoute = {
-    label: string,
+    label?: string,
     path: string,
     exact: boolean,
     component: any
@@ -26,6 +26,11 @@ const routes:HeaderRoutes = [
         exact: true,
         component: HomePage
     },
+    {
+        path: '/contestant/contest',
+        exact: false,
+        component: ContestPage
+    },
 ];
 export default function BaseUserPage() {
     const token = readCookie('access_token');
@@ -37,5 +42,7 @@ export default function BaseUserPage() {
     );
     if (!token)
         return <Redirect to='/login/contestant'></Redirect>;
-    return <UserLayout headerRoutes={routes} headerRouter={headerRouter}></UserLayout>;
+    
+    let headerRoutes = routes.filter(route => route.label != null);
+    return <UserLayout headerRoutes={headerRoutes} headerRouter={headerRouter}></UserLayout>;
 }

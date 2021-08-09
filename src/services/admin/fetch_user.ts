@@ -12,10 +12,7 @@ export type User = {
     is_organizer: boolean
 }
 export type ListUser = User[]
-type RespLogin = {
-    access_token: string,
-    refresh_token: string,
-}
+
 type AllUserRespone = {
     count: number,
     next: string,

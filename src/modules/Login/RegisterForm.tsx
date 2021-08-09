@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
     Form,
     Input,
@@ -57,13 +56,6 @@ export default function RegistrationForm() {
             });
 
     };
-
-    // const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
-
-    // const websiteOptions = autoCompleteResult.map(website => ({
-    //     label: website,
-    //     value: website,
-    // }));
 
     return (
         <Form

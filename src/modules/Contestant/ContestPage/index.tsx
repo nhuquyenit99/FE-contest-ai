@@ -74,7 +74,8 @@ export function ContestPage() {
                                             contest_status={contestStatus}></ProblemContainer>
                                     </TabPane>
                                     <TabPane tab="Dashboard" key="2">
-                                        <Dashboard contest_id={currentContestId}></Dashboard>
+                                        <Dashboard contest_id={currentContestId}
+                                            contest_status={contestStatus}></Dashboard>
                                     </TabPane>
                                     <TabPane tab="My Submissions" key='3'>
                                         <MySubmissions problem_id={listProblems[currentProblemPst]?._id}></MySubmissions>

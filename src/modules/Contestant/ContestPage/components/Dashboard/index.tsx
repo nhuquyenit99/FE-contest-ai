@@ -1,4 +1,5 @@
 import { Table, Tabs } from 'antd';
+import ContestStatusEnum from 'const/contest_status';
 import { useEffect, useState } from 'react';
 import './style.scss';
 
@@ -50,6 +51,7 @@ const data = [
 
 interface DashboardProps {
     contest_id: number;
+    contest_status?: ContestStatusEnum;
 }
 
 export default function Dashboard(props: DashboardProps) {
@@ -57,31 +59,37 @@ export default function Dashboard(props: DashboardProps) {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        let ws = new WebSocket(`ws://localhost:8000/ws/contest/${props.contest_id}/rank`);
-        ws.onopen = () => {
-            console.log('WebSocket connection opened.');
-        };
-        ws.onclose = () => {
-            console.log('WebSocket connection closed.');
-        };
-        ws.onmessage = (message) => {
-            setIsLoading(true);
-            let data = JSON.parse(message.data);
-            let newData = data.results.map((result, index) => {
-                return {
-                    ...result,
-                    rank: index+1
-                };
-            });
-            setData(newData);
-            setTimeout(() => {
-                setIsLoading(false);
-            }, 500);
-        };
+        if (props.contest_status === ContestStatusEnum.ONGOING) {
+            let ws = new WebSocket(`ws://localhost:8000/ws/contest/${props.contest_id}/rank`);
+            ws.onopen = () => {
+                console.log('WebSocket connection opened.');
+            };
+            ws.onclose = () => {
+                console.log('WebSocket connection closed.');
+            };
+            ws.onmessage = (message) => {
+                setIsLoading(true);
+                let data = JSON.parse(message.data);
+                let newData = data.results.map((result, index) => {
+                    return {
+                        ...result,
+                        rank: index+1
+                    };
+                });
+                setData(newData);
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 500);
+            };
 
-        return () => {
-            ws.close();
-        };
+            return () => {
+                ws.close();
+            };
+        }
+
+        else if (props.contest_status === ContestStatusEnum.EXPIRED) {
+            // TODO: Fetch rank http api
+        }
     }, []);
     return <div className='dashboard-container'>
         <Tabs defaultActiveKey="0">

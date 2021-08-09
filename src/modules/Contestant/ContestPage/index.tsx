@@ -10,11 +10,15 @@ import { MySubmissions } from './components/MySubmissions';
 import { fetchProblemsOnContestId } from 'services/user/fetch_problems_on_contest_id';
 import { Problem } from 'services/user/fetch_problems_on_contest_id';
 import './styles.scss';
+import ContestStatusEnum from '../../../const/contest_status';
+import { fetchContestInfo } from 'services/user/fetch_contest_info';
+import { getContestStatus } from 'utils/time_utils';
 
 
 const { TabPane } = Tabs;
 export function ContestPage() {
     const history = useHistory();
+    const [contestStatus, setConstestStatus] = useState<ContestStatusEnum|undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [listProblems, setListProblems] = useState<Problem[]>([]);
     const [currentProblemPst, setCurrentProblemPst] = useState<number>(-1);
@@ -24,7 +28,6 @@ export function ContestPage() {
         let { search } = history.location;
         let params = new URLSearchParams(search);
         let contestId = params.get('id');
-        console.log(contestId);
         if (contestId) {
             setCurrentContestId(contestId);
             setIsLoading(true);
@@ -36,7 +39,14 @@ export function ContestPage() {
                     }
                     setIsLoading(false);
                 });
+            if (!contestStatus) {
+                fetchContestInfo(contestId).then((res) => {
+                    let contestStatus = getContestStatus(res.time_start, res.time_end);
+                    setConstestStatus(contestStatus);
+                });  
+            };
         }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -60,7 +70,8 @@ export function ContestPage() {
                             <div style={{ width: '75%', marginRight: '15px' }}>
                                 <Tabs defaultActiveKey="1">
                                     <TabPane tab="Problem" key="1">
-                                        <ProblemContainer problem={listProblems[currentProblemPst]}></ProblemContainer>
+                                        <ProblemContainer problem={listProblems[currentProblemPst]} 
+                                            contest_status={contestStatus}></ProblemContainer>
                                     </TabPane>
                                     <TabPane tab="Dashboard" key="2">
                                         <Dashboard contest_id={currentContestId}></Dashboard>

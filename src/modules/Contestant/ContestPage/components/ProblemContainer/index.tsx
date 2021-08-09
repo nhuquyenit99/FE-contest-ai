@@ -7,20 +7,25 @@ import { UploadOutlined } from '@ant-design/icons';
 import { fetchSubmitResult } from 'services/result';
 import { LanguageName } from 'services/language';
 import Text from 'antd/lib/typography/Text';
+import ContestStatusEnum from 'const/contest_status';
+import contest_status from 'const/contest_status';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
 };
 
 type ProblemContainerProps = {
-    problem: Problem
+    problem: Problem, 
+    contest_status?: ContestStatusEnum
 }
 
-export function ProblemContainer({ problem }: ProblemContainerProps) {
+export function ProblemContainer({ problem, contest_status}: ProblemContainerProps) {
     const [language, setLanguage] = useState<LanguageName>(problem.languages[0]);
+    
     const onFinish = (values: any) => {
         console.log('Received values of form: ', values);
         const fileFields = Object.keys(values);
+        // eslint-disable-next-line array-callback-return
         fileFields.map((field) => {
             const { file } = values[field];
             values[field] = file;
@@ -57,7 +62,8 @@ export function ProblemContainer({ problem }: ProblemContainerProps) {
     };
     return (
         <Layout>
-            <Card>
+            <Card className='problem-container__container'>
+                <div className="contest-status">{contest_status}</div>
                 <ProblemDetail problem={problem}></ProblemDetail>
                 <Row>
                     <Col xs={12} style={{margin: 'auto'}}>

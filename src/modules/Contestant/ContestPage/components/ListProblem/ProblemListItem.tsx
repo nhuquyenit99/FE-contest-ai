@@ -8,12 +8,15 @@ type ProblemListItemProps = {
 
 export default function ProblemListItem({ idx, item }: ProblemListItemProps) {
     return (
-
-        <Space>
-            <div>{idx}</div>
-            <ProblemStatusIcon status={item.status} />
-            {item.title}
-            {item.ranking}
-        </Space>
+        <div className="problem-list-item__container" >
+            <Space>
+                <div className="problem-index">{idx}</div>
+                <ProblemStatusIcon status={item.status} />
+                <div className="problem-title">
+                    {item.title}
+                </div>
+                {item.ranking}
+            </Space>
+        </div>
     );
 }

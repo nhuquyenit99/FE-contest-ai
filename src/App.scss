@@ -37,4 +37,15 @@
   }
 }
 
+.ant-layout-footer {
+  display: none;
+}
+
+form {
+  .ant-form-item {
+    display: block;
+    margin-bottom: 10px;
+  }
+}
+
 @import '~antd/dist/antd.css';

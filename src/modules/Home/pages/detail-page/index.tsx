@@ -1,35 +1,30 @@
-import { Button, Tabs } from 'antd';
+import React from 'react';
+import moment from 'moment';
+import { Button, Tabs, Spin, Empty } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { AppWrapper, ListProblems } from '../../components';
-import { ContestItem, defaultContestItem } from 'models';
-import React, { useEffect, useState } from 'react';
+import { ContestItem } from 'models';
 import { useParams } from 'react-router-dom';
+import { useEntityData } from 'access';
 import './detail.scss';
-
-const ListProblem = [
-    {
-        _id: '1',
-        name: 'Test',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-    },
-    {
-        _id: '2',
-        name: 'Test',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-    },
-    {
-        _id: '3',
-        name: 'Test',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-    }
-];
 
 export function DetailPage () {
     let { id } = useParams<any>();
-    const [data, setData] = useState<ContestItem>(defaultContestItem);
-    useEffect(() => {
-        //get data
-    },[]);
+    const {data, loading, error} = useEntityData<ContestItem>(`api/contest/${id}/`);
+
+    if (loading) {
+        return <AppWrapper>
+            <div className="loading-component">
+                <Spin />
+            </div>
+        </AppWrapper>;
+    }
+
+    if (error || !data) {
+        return <AppWrapper>
+            <Empty description='Sorry, something went wrong'/>
+        </AppWrapper>;
+    }
     return (
         <AppWrapper>
             <div className='contest-detail'>
@@ -43,11 +38,21 @@ export function DetailPage () {
                     <span>{`Detail: ${data.title}`}</span>
                 </h1>
                 <Tabs type="card">
+                    <Tabs.TabPane tab='Information' key='Information'>
+                        <div className='contest-info'>
+                            <div className='time'>
+                                {`Time: ${moment(data.time_start).format('DD/MM/YYYY')} - ${moment(data.time_end).format('DD/MM/YYYY')}`}
+                            </div>
+                            <div className='description'>
+                                {data.description}
+                            </div>
+                        </div>
+                    </Tabs.TabPane>
                     <Tabs.TabPane tab="Problems" key="Problems">
-                        <ListProblems data={ListProblem} />
+                        <ListProblems contestId={id}/>
                     </Tabs.TabPane>
                     <Tabs.TabPane tab="Ranking" key="Ranking">
-                        Content of Tab Pane 2
+                        Content of Tab Pane 3
                     </Tabs.TabPane>
                 </Tabs>
             </div>

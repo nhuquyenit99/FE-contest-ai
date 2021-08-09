@@ -60,6 +60,8 @@
                 display: flex;
                 row-gap: 15px;
                 flex-direction: column;
+            }
+            .list-contest-item:not(:empty) {
                 margin-bottom: 50px;
             }
             .link-direct {

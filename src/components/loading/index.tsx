@@ -1,7 +1,8 @@
 import React from 'react';
-import './style.scss';
 import gif from '../../assets/cool-loading-animated-gif-1.gif';
 import { Spin } from 'antd';
+import './style.scss';
+
 export function Loading() {
     return (
         <div className='loading'>

@@ -1,2 +1,2 @@
 export {DataAccess} from './base';
-export {useEntityData, useEntityDataList} from './access';
+export {useEntityData, useEntityDataList, useEntityDataListObj} from './access';

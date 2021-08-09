@@ -1,4 +1,3 @@
-import { rejects } from 'node:assert';
 import { fetchRefreshToken } from 'services/token';
 import { readCookie, eraseCookie, createCookie } from 'utils/cookie';
 
@@ -11,7 +10,7 @@ const multipart_headers = {
     'Content-Type': 'multipart/form-data',
     'Accept': '*/*'
 };
-const BASE_URL = 'http://127.0.0.1:8000';
+export const BASE_URL = 'http://127.0.0.1:8000';
 
 const CLOUD_NAME = 'dj5xafymg';
 type ConfigType = {

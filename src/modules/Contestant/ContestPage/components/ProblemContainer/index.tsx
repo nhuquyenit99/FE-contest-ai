@@ -27,9 +27,12 @@ export function ProblemContainer({ problem, contest_info}: ProblemContainerProps
     const [contest_status, setContestStatus] = useState<ContestStatusEnum>();
     const [wsData, setWsData] = useState();
     useEffect(() => {
+        if (!problem) return;
         setLanguage(problem.languages[0]);
-    }, [problem.languages]);
-
+    }, [problem]);
+    useEffect(() => {
+        setWsData(undefined);
+    }, [problem._id]);
     useEffect(() => {
         let contest_status = getContestStatus(contest_info.time_start, contest_info.time_end);
         setContestStatus(contest_status);
@@ -127,7 +130,7 @@ export function ProblemContainer({ problem, contest_info}: ProblemContainerProps
                         <Col xs={12} style={{margin: 'auto'}}>
                             <Space>
                                 {
-                                    problem.languages.map(lang => {
+                                    problem?.languages.map(lang => {
                                         return <Button
                                             type={lang._id === language?._id ? 'primary' : 'default'}
                                             onClick={() => setLanguage(lang)}

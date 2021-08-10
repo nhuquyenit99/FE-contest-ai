@@ -1,7 +1,7 @@
 import React, {forwardRef, useImperativeHandle, useState} from 'react';
 import { Empty, Modal, Table, Spin } from 'antd';
 import { Contestant } from 'models';
-import { useEntityDataListObj } from 'access/access';
+import { useEntityDataList } from 'access/access';
 import './style.scss';
 
 type ListContestantsModalProps = {
@@ -13,7 +13,7 @@ export const ListContestantsModal = forwardRef(({
 } : ListContestantsModalProps, ref) => {
     const [visible, setVisible] = useState(false);
 
-    const {loading, data} = useEntityDataListObj<Contestant>(`api/organizer/contest/${contestId}/contestants`);
+    const {loading, data} = useEntityDataList<Contestant>(`api/organizer/contest/${contestId}/contestants`);
 
     useImperativeHandle(ref, () => ({
         open: () => setVisible(true)

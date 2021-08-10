@@ -1,7 +1,9 @@
 import React from 'react';
 import { Collapse, Spin, Empty  } from 'antd';
 import { Problem } from 'models/problem';
-import { useEntityData, useEntityDataList } from 'access';
+import { useEntityDataList } from 'access';
+import { BASE_URL } from 'access/base';
+import './style.scss';
 
 export function ListProblems ({contestId}: {contestId: string}) {
     const {loading, data, error} = useEntityDataList<Problem>(`api/problem/?contest_id=${contestId}`);
@@ -15,26 +17,12 @@ export function ListProblems ({contestId}: {contestId: string}) {
         return <Empty description='Sorry, something went wrong'/>;
     }
     return (
-        <Collapse>
+        <Collapse className='problem-collapse'>
             {data.map((item, index) => (
                 <Collapse.Panel key={item._id} header={`${index + 1}. ${item.title}`} >
-                    <ProblemDescription url={item.description}/>
+                    <iframe src={`${BASE_URL}${item.description}`} title='Description' width='100%' height='400px' />
                 </Collapse.Panel>
             ))}
         </Collapse>
-    );
-}
-
-function ProblemDescription ({url}: {url: string}) {
-    const {loading, data} = useEntityData<any>(url.slice(1));
-    if (loading) {
-        return <div className="loading-component">
-            <Spin />
-        </div>;
-    }
-    return (
-        <div className='problem-'>
-            {data ?? <Empty />}
-        </div>
     );
 }

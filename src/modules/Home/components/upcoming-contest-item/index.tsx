@@ -3,10 +3,11 @@ import moment from 'moment';
 import { ContestItem } from 'models';
 import iconNew from 'assets/new-icon.png';
 import './style.scss';
+import { Link } from 'react-router-dom';
 
 export function UpcomingContestItem ({data}: {data: ContestItem}) {
     return (
-        <div className='contest-item'>
+        <Link className='contest-item' to={`/detail/${data._id}`}>
             <div className='prefix'>
                 <img src='https://image.flaticon.com/icons/png/512/42/42405.png' alt='contest-item-img'/>
             </div>
@@ -21,6 +22,6 @@ export function UpcomingContestItem ({data}: {data: ContestItem}) {
             <div className='suffix'>
                 <img src={iconNew} alt='suffix'/>
             </div>
-        </div>
+        </Link>
     );
 }

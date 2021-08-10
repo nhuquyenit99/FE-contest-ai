@@ -2,11 +2,12 @@ import React from 'react';
 import moment from 'moment';
 import { Button, Tabs, Spin, Empty } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { AppWrapper, ListProblems } from '../../components';
+import { AppWrapper, Dashboard, ListProblems } from '../../components';
 import { ContestItem } from 'models';
 import { useParams } from 'react-router-dom';
 import { useEntityData } from 'access';
 import './detail.scss';
+import { getContestStatus } from 'utils/time_utils';
 
 export function DetailPage () {
     let { id } = useParams<any>();
@@ -48,12 +49,16 @@ export function DetailPage () {
                             </div>
                         </div>
                     </Tabs.TabPane>
-                    <Tabs.TabPane tab="Problems" key="Problems">
-                        <ListProblems contestId={id}/>
-                    </Tabs.TabPane>
-                    <Tabs.TabPane tab="Ranking" key="Ranking">
-                        Content of Tab Pane 3
-                    </Tabs.TabPane>
+                    {moment(data.time_start).isBefore(moment()) && <>
+                        <Tabs.TabPane tab="Problems" key="Problems">
+                            <ListProblems contestId={id}/>
+                        </Tabs.TabPane>
+                        <Tabs.TabPane tab="Ranking" key="Ranking">
+                            <Dashboard 
+                                contest_id={id}
+                                contest_status={getContestStatus(data.time_start, data.time_end)}/>
+                        </Tabs.TabPane>
+                    </>}
                 </Tabs>
             </div>
         </AppWrapper>

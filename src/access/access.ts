@@ -1,5 +1,5 @@
 import {useCallback, useState, useEffect} from 'react';
-import { DataAccess, BASE_URL } from './base';
+import { DataAccess } from './base';
 
 export type UseEntityData<T> = {
     error: boolean
@@ -20,7 +20,6 @@ export function useEntityData<T>(url: string | undefined): UseEntityData<T> {
             if (!url) return;
             setLoading(true);
             const res: T = await DataAccess.Get(url);
-            console.log('res', res);
             setData(res);
         } catch (e) {
             console.error('Fetch entity error', e);

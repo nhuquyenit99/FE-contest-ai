@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { Spin, Empty, Button, Table, Popconfirm, notification } from 'antd';
+import { Empty, Button, Table, Popconfirm, notification } from 'antd';
 import { EditOutlined, UsergroupAddOutlined, DeleteOutlined } from '@ant-design/icons';
 import { ContestPerUser } from 'models';
-import { DataAccess, useEntityDataListObj } from 'access';
+import { DataAccess, useEntityDataList } from 'access';
 import './style.scss';
 import { ListContestantsModal } from '../líst-contestants-modal';
 import { AddContestModal } from '../add-contest-modal';
@@ -16,7 +16,7 @@ export function ListContest () {
 
     const modalRef = useRef<any>();
 
-    const {loading, data, error, refresh} = useEntityDataListObj<ContestPerUser>('api/organizer/contest', page);
+    const {loading, data, error, refresh} = useEntityDataList<ContestPerUser>('api/organizer/contest', page);
 
     const onChangePage = (page: number) => {
         setPage(page);

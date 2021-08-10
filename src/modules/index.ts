@@ -60,6 +60,6 @@ const routes: ModuleRoutes = [
     }
 ];
 export function setup(module: Module) {
-    console.log('Setup chat room');
+    console.log('Setup module...');
     routes.forEach(route => module.route(route));
 }

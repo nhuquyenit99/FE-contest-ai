@@ -60,6 +60,7 @@
                 display: flex;
                 row-gap: 15px;
                 flex-direction: column;
+                position: relative;
             }
             .list-contest-item:not(:empty) {
                 margin-bottom: 50px;

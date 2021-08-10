@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, notification, Checkbox, Row, Col, Upload, InputNumber } from 'antd';
 import { UploadOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { DataAccess, useEntityData, useEntityDataList } from 'access';
@@ -86,8 +86,6 @@ export function ProblemDetail() {
             return false;
         }
     };
-
-    const descriptionUrl = useMemo(() => data?.description,[data]);
 
     return (
         <OrganizerPageWrapper title='ORGANIZER PAGE'>
@@ -197,11 +195,12 @@ export function ProblemDetail() {
                     </Upload>
                 </Form.Item>
                 <Form.Item wrapperCol={{ span: 12, offset: 6 }} style={{marginTop: '30px'}}>
-                    <Button style={{marginRight: '15px'}} danger type='primary' ghost shape='round'>Cancel</Button>
-                    <Link to={`/organizer/detail/${data?.contest?._id}`}><Button type="primary" htmlType="submit" shape='round'>
+                    <Link to={`/organizer/detail/${data?.contest?._id}`}>
+                        <Button style={{marginRight: '15px'}} danger type='primary' ghost shape='round'>Cancel</Button>
+                    </Link>
+                    <Button type="primary" htmlType="submit" shape='round'>
                         Save
                     </Button>
-                    </Link>
                 </Form.Item>
             </Form>
         </OrganizerPageWrapper>

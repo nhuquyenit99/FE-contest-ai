@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 import { Button, Empty, notification, Popconfirm, Table } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { DataAccess, useEntityDataListObj } from 'access';
+import { DataAccess, useEntityDataList } from 'access';
 import { LoadingFullView } from 'components';
 import { Problem } from 'services/problem';
 import { AddProblemModal } from '../add-problem-modal';
-import './style.scss';
-import { EditProblemModal } from '../edit-problem-modal';
 import { Link } from 'react-router-dom';
+import './style.scss';
 
 export function ListProblem ({contestId}: {contestId: string}) {
-    const {data, loading, refresh} = useEntityDataListObj<Problem>(`api/organizer/contest/${contestId}/problems`);
-
-
+    const {data, loading, refresh} = useEntityDataList<Problem>(`api/organizer/contest/${contestId}/problems`);
 
     const ActionMenu = (text) => {
         const [loading, setLoading] = useState(false);

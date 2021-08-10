@@ -10,13 +10,15 @@ import { LoadingFullView } from 'components';
 
 export function EditContestPage () {
     let { id } = useParams<any>();
-    console.log('contest id', id);
+
     const {loading, data, reload} = useEntityData<ContestItem>(`api/organizer/contest/${id}`);
     return (
         <OrganizerPageWrapper title='EDIT CONTEST' showBackButton>
             <div className='edit-contest-content'>
                 <Tabs type="card" >
-                    <Tabs.TabPane tab="Information" key="Infomation" className='contest-info-panel'>
+                    <Tabs.TabPane tab="Problems" key="Problems">
+                        <ListProblem contestId={id}/>
+                    </Tabs.TabPane><Tabs.TabPane tab="Information" key="Infomation" className='contest-info-panel'>
                         {data ? <>
                             <div className='panel-header'>
                                 <h3>{`Detail: ${data?.title}`}</h3>
@@ -33,9 +35,6 @@ export function EditContestPage () {
                         </> : <Empty /> 
                         }
                         {loading && <LoadingFullView />}
-                    </Tabs.TabPane>
-                    <Tabs.TabPane tab="Problems" key="Problems">
-                        <ListProblem contestId={id}/>
                     </Tabs.TabPane>
                 </Tabs>
             </div>

@@ -3,3 +3,4 @@ export * from './user';
 export * from './contest';
 export * from './problem';
 export * from './contestant';
+export * from './language';

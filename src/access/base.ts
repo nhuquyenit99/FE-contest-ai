@@ -112,11 +112,27 @@ const FilePost = (url: string, data: any) => {
     return fetchAxios(config, multipart_headers);
 };
 
+const FilePut = (url: string, data: any) => {
+    const formData = new FormData();
+    Object.keys(data).map(name => {
+        formData.append(name, data[name]);
+        return name;
+    });
+
+    let config: ConfigType = {
+        method: 'PUT',
+        url,
+        data: formData
+    };
+    return fetchAxios(config, multipart_headers);
+};
+
 export const DataAccess = {
     Get: APIGet,
     Post: APIPost,
     Delete: APIDelete,
     Put: APIPut,
     IMAGEPost,
-    FilePost
+    FilePost,
+    FilePut,
 };

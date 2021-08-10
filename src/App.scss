@@ -45,6 +45,9 @@ form {
   .ant-form-item {
     display: block;
     margin-bottom: 10px;
+    .ant-form-item-label {
+      font-weight: bold;
+    } 
   }
 }
 

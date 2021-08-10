@@ -12,9 +12,8 @@ export const ListContestantsModal = forwardRef(({
     contestId
 } : ListContestantsModalProps, ref) => {
     const [visible, setVisible] = useState(false);
-    const [page, setPage] = useState(1);
 
-    const {loading, data} = useEntityDataListObj<Contestant>(`api/organizer/contest/${contestId}/contestants`, page);
+    const {loading, data} = useEntityDataListObj<Contestant>(`api/organizer/contest/${contestId}/contestants`);
 
     useImperativeHandle(ref, () => ({
         open: () => setVisible(true)
@@ -69,10 +68,9 @@ export const ListContestantsModal = forwardRef(({
                 dataSource={data?.map((item, index) => {
                     return {...item, index: index};
                 })}  
+                bordered
                 pagination={{
-                    current: page,
                     hideOnSinglePage: true,
-                    pageSize: 10
                 }}
             /> 
         </Modal>

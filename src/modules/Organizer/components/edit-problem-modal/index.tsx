@@ -1,22 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Form, Input, Button, notification, Checkbox, Row, Col, Upload, InputNumber } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined, EditOutlined } from '@ant-design/icons';
+import { DataAccess, useEntityData, useEntityDataList } from 'access';
+import { Language, Problem } from 'models';
 import './style.scss';
-import { DataAccess, useEntityData } from 'access';
-import { Problem } from 'models';
 
 type EditProblemProps = {
     problemId: string
+    onHandleSuccess: () => void
 }
 
 export function EditProblemModal ({
     problemId,
+    onHandleSuccess
 }: EditProblemProps) {
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
     
-    const {loading: dataLoading, data} = useEntityData<Problem>(`/api/organizer/problem/${problemId}`);
+    const {data} = useEntityData<Problem>(`api/organizer/problem/${problemId}`);
+    const {data: languages} = useEntityDataList<Language>('api/organizer/language');
 
     const formItemLayout = {
         labelCol: {
@@ -29,6 +32,12 @@ export function EditProblemModal ({
         },
     };
 
+    useEffect(() => {
+        console.log('data', data);
+        
+        form.setFieldsValue({...data, languages: data?.languages.map(item => item._id)});
+    },[data, form]);
+
     const onFinish = async (values) => {
         try {
             setLoading(true);
@@ -38,6 +47,7 @@ export function EditProblemModal ({
                 message: 'Edit problem successfully!'
             });
             setVisible(false);
+            onHandleSuccess();
         } catch {
             notification.error({
                 message: 'Edit problem failed!'
@@ -46,30 +56,31 @@ export function EditProblemModal ({
         }
     };
 
-    const normFile = (e: any) => {
-        console.log('Upload event:', e);
-        if (Array.isArray(e)) {
-            return e;
+    const uploadProps = {
+        maxCount: 1,
+        onRemove: file => {
+            console.log(file);
+        },
+        beforeUpload: (file, abc) => {
+            console.log(file);
+            return false;
         }
-        return e && e.fileList;
     };
-    
 
     return (
-        <div className='add-problem'>
-            <Button shape='round' type='primary' onClick={() => setVisible(true)}>Edit Problem</Button>
+        <div className='edit-problem'>
+            <Button type='primary' ghost title='Edit' icon={<EditOutlined />} onClick={() => setVisible(true)} />
             <Modal 
                 width={800}
-                title='Add problem' 
+                title='Edit problem' 
                 visible={visible} 
                 onCancel={() => {
                     setVisible(false);
-                    form.resetFields();
                 }} 
                 onOk={() => {
                     form.submit();
                 }}
-                className='add-problem-modal'
+                className='edit-problem-modal'
                 confirmLoading={loading}
                 destroyOnClose
             >
@@ -90,7 +101,7 @@ export function EditProblemModal ({
                         name="description"
                         rules={[{ required: true }]}
                     >
-                        <Upload name="logo" action="/upload.do" listType="picture">
+                        <Upload {...uploadProps} accept='.txt,.pdf'>
                             <Button icon={<UploadOutlined />}>Click to upload</Button>
                         </Upload>
                     </Form.Item>
@@ -99,68 +110,61 @@ export function EditProblemModal ({
                         name="score"
                         rules={[{ required: true }]}
                     >
-                        <InputNumber placeholder='Score' defaultValue={10}/>
+                        <InputNumber />
                     </Form.Item>
                     <Form.Item
                         label='Time executed limit'
                         name="time_executed_limit"
                         rules={[{ required: true }]}
                     >
-                        <InputNumber defaultValue={1000} step={500}/>
+                        <InputNumber step={500}/>
                     </Form.Item>
-                    <Form.Item name="checkbox-group" label="Language">
+                    <Form.Item name="languages" label="Language" rules={[{ required: true }]}>
                         <Checkbox.Group style={{ width: '100%' }}>
                             <Row>
-                                <Col span={4}>
-                                    <Checkbox value="A" style={{ lineHeight: '32px' }}>
-                                        Python
+                                {languages && languages.length ? languages.map(item => (
+                                    <Col span={4}>
+                                        <Checkbox value={item._id} style={{ lineHeight: '32px' }}>
+                                            {item.name}
+                                        </Checkbox>
+                                    </Col>
+                                )) : <Col span={4}>
+                                    <Checkbox value="" style={{ lineHeight: '32px' }}>
+                                        Loading...
                                     </Checkbox>
-                                </Col>
-                                <Col span={4}>
-                                    <Checkbox value="B" style={{ lineHeight: '32px' }}>
-                                        C
-                                    </Checkbox>
-                                </Col>
+                                </Col>}
                             </Row>
                         </Checkbox.Group>
                     </Form.Item>
-                    <Form.Item
+                    <Form.Item rules={[{ required: true }]}
                         name="code_test"
                         label="Code test"
-                        valuePropName="fileList"
-                        getValueFromEvent={normFile}
                     >
-                        <Upload name="logo" action="/upload.do" listType="picture">
+                        <Upload {...uploadProps} accept='.txt,.py,.java,.c'>
                             <Button icon={<UploadOutlined />}>Click to upload</Button>
                         </Upload>
                     </Form.Item>
-                    <Form.Item
+                    <Form.Item rules={[{ required: true }]}
                         name="data_sample"
                         label="Data sample"
-                        valuePropName="fileList"
-                        getValueFromEvent={normFile}
                     >
-                        <Upload name="logo" action="/upload.do" listType="picture">
+                        <Upload {...uploadProps} accept='.csv'>
                             <Button icon={<UploadOutlined />}>Click to upload</Button>
                         </Upload>
                     </Form.Item>
-                    <Form.Item
+                    <Form.Item rules={[{ required: true }]}
                         name="train_data"
                         label="Train data"
-                        valuePropName="fileList"
-                        getValueFromEvent={normFile}
                     >
-                        <Upload name="logo" action="/upload.do" listType="picture">
+                        <Upload {...uploadProps} accept='.csv'>
                             <Button icon={<UploadOutlined />}>Click to upload</Button>
                         </Upload>
                     </Form.Item>
-                    <Form.Item
+                    <Form.Item rules={[{ required: true }]}
                         name="test_data"
                         label="Test data"
-                        valuePropName="fileList"
-                        getValueFromEvent={normFile}
                     >
-                        <Upload name="logo" action="/upload.do" listType="picture">
+                        <Upload {...uploadProps} accept='.csv'>
                             <Button icon={<UploadOutlined />}>Click to upload</Button>
                         </Upload>
                     </Form.Item>

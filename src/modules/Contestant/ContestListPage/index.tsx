@@ -15,12 +15,10 @@ export default function ContestListPage(props) {
     const [dataList, setDataList] = useState<ConstestWithProblems[]>();
     const [filter, setFilter] = useState<any>(ContestStatus[ContestStatus.all]);
 
-    const limit = 10;
     useEffect(() => {
         setIsLoading(true);
         fetchAllContestWithProblems(true, filter, {
-            limit,
-            offset: (page-1)*limit,
+            page: page,
         })
             .then((resp: ALlContestWithProblemsResponse) => {
                 setIsLoading(false);

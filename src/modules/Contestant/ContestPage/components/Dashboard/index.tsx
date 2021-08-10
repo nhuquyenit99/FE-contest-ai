@@ -2,6 +2,7 @@ import { WS_URL } from 'access/base';
 import { Table, Tabs } from 'antd';
 import ContestStatusEnum from 'const/contest_status';
 import { useEffect, useState } from 'react';
+import { fetchRank } from 'services/user/fetch_rank';
 import './style.scss';
 
 const { TabPane } = Tabs;
@@ -43,12 +44,6 @@ const columns = [
     }
 ];
 
-const data = [
-    {
-        pos: 1,
-        created_by: 'User 1'
-    }
-];
 
 interface DashboardProps {
     contest_id: number;
@@ -86,11 +81,19 @@ export default function Dashboard(props: DashboardProps) {
             return () => {
                 ws.close();
             };
-        }
-
-        else if (props.contest_status === ContestStatusEnum.EXPIRED) {
+        } else if (props.contest_status === ContestStatusEnum.EXPIRED) {
             // TODO: Fetch rank http api
-        }
+            fetchRank(props.contest_id).then((data) => {
+                let newData = data.map((result, index) => {
+                    return {
+                        ...result,
+                        rank: index+1
+                    };
+                });
+                setData(newData);
+               
+            }).catch((err) => {});
+        };
     }, []);
     return <div className='dashboard-container'>
         <Tabs defaultActiveKey="0">

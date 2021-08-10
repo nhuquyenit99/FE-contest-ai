@@ -26,7 +26,7 @@ export default function CardContest(props: CardContestProps) {
                     message: res.message
                 });
             } else {
-                notification.error({
+                notification.info({
                     message: res.message
                 });
             }

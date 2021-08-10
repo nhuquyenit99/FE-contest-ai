@@ -51,13 +51,13 @@ function ProblemDetail(props: ProblemDetailProps) {
                 </Col>
             </Row>,
             <Divider />
-            <Paragraph>
+            {/* <Paragraph>
                 {problem?.description} 
-            </Paragraph>
+            </Paragraph> */}
             <div style={{ textAlign: 'center' }}>
                 <iframe 
                     title="frame_pdf"
-                    src="/sample.pdf" width="80%" height="500px">
+                    src={problem?.description} width="80%" height="500px">
                 </iframe>
             </div>
         </div>

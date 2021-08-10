@@ -1,3 +1,4 @@
+import { WS_URL } from 'access/base';
 import { Table, Tabs } from 'antd';
 import ContestStatusEnum from 'const/contest_status';
 import { useEffect, useState } from 'react';
@@ -60,7 +61,7 @@ export default function Dashboard(props: DashboardProps) {
 
     useEffect(() => {
         if (props.contest_status === ContestStatusEnum.ONGOING) {
-            let ws = new WebSocket(`ws://localhost:8000/ws/contest/${props.contest_id}/rank`);
+            let ws = new WebSocket(`${WS_URL}/ws/contest/${props.contest_id}/rank`);
             ws.onopen = () => {
                 console.log('WebSocket connection opened.');
             };

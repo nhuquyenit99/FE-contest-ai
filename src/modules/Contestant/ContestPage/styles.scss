@@ -46,6 +46,20 @@
             }
         }
     }
+    .result-col__container {
+        text-align: center;
+        .progress-circle {
+            margin: 20px;
+        }
+        .text-wrapper__txt {
+            font-size: 1.2em;
+            background-color: $green;
+            color: $white;
+            padding: 5px 15px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+    }
 }
 .problem-list__container {
     .ant-list-item {

@@ -32,7 +32,7 @@ export function ProblemContainer({ problem, contest_info}: ProblemContainerProps
     }, [problem]);
     useEffect(() => {
         setWsData(undefined);
-    }, [problem._id]);
+    }, [problem?._id]);
     useEffect(() => {
         let contest_status = getContestStatus(contest_info.time_start, contest_info.time_end);
         setContestStatus(contest_status);

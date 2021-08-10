@@ -26,7 +26,7 @@ const columns = [
         }
     },
     {
-        title: 'Created by',
+        title: 'Contestant',
         dataIndex: 'user',
         key: 'user',
         render: (user) => {
@@ -81,7 +81,8 @@ export default function Dashboard(props: DashboardProps) {
             return () => {
                 ws.close();
             };
-        } else if (props.contest_status === ContestStatusEnum.EXPIRED) {
+        } else if (props.contest_status === ContestStatusEnum.EXPIRED 
+                || props.contest_status === ContestStatusEnum.UPCOMING) {
             // TODO: Fetch rank http api
             fetchRank(props.contest_id).then((data) => {
                 let newData = data.map((result, index) => {

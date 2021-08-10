@@ -24,15 +24,11 @@ type ProblemContainerProps = {
 export function ProblemContainer({ problem, contest_info}: ProblemContainerProps) {
     const [language, setLanguage] = useState<LanguageName>(problem.languages[0]);
     const [contest_status, setContestStatus] = useState<ContestStatusEnum>();
-    const [deadline, setDeadline] = useState<string>();
-    const [timeStart, setTimeStart] = useState<string>();
 
     useEffect(() => {
         let contest_status = getContestStatus(contest_info.time_start, contest_info.time_end);
         setContestStatus(contest_status);
-        setDeadline(contest_info.time_end);
-        setTimeStart(contest_info.time_start);
-    }, []);
+    }, [contest_info.time_end, contest_info.time_start]);
 
     const onFinish = (values: any) => {
         console.log('Received values of form: ', values);

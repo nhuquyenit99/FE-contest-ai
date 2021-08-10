@@ -10,7 +10,6 @@ import { MySubmissions } from './components/MySubmissions';
 import { fetchProblemsOnContestId } from 'services/user/fetch_problems_on_contest_id';
 import { Problem } from 'services/user/fetch_problems_on_contest_id';
 import './styles.scss';
-import ContestStatusEnum from '../../../const/contest_status';
 import { ContestInfo, fetchContestInfo } from 'services/user/fetch_contest_info';
 import { getContestStatus } from 'utils/time_utils';
 

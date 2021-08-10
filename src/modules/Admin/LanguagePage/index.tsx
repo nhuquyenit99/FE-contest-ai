@@ -6,7 +6,7 @@ import ModalAddLanguage from './components/ModalAddLanguage';
 import ModalEditLanguage from './components/ModalEditLanguage';
 import ModalDeleteLanguage from './components/ModalDeleteLanguage';
 import { useEffect } from 'react';
-import { fetchAllLanguage } from 'services/language';
+import { fetchAllLanguage } from 'services/admin/fetch_language';
 import { Language } from '../../../services/language';
 
 export type Item = Language&{
@@ -51,13 +51,13 @@ export default function LanguagePage() {
             title: 'Id',
             dataIndex: '_id',
             key: '_id',
-            render: text => <a>{text}</a>,
+            render: text => text,
         },
         {
             title: 'Language',
             dataIndex: 'name',
             key: 'language',
-            render: text => <a>{text}</a>,
+            render: text => text,
         },
         {
             title: 'Path',

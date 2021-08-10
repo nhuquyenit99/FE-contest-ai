@@ -3,7 +3,6 @@ import { List, Skeleton } from 'antd';
 import { useState, useEffect, useContext } from 'react';
 import { ContestAndScore, fetchMyContests } from 'services/user/fetch_my_contest';
 import { UserContext } from 'context/index';
-import { NavLink } from 'react-router-dom';
 import CONTEST_STATUS_ENUM from 'const/contest_status';
 import MyContestItem from './MyContestItem';
 
@@ -36,7 +35,7 @@ export default function MyContestsCard(props: ContestsProps) {
             });
             setList(lst);
         });
-    }, [_id]);
+    }, [_id, props.contest_status]);
 
     return (
         <Card {...props} title={props.title}>
@@ -47,11 +46,7 @@ export default function MyContestsCard(props: ContestsProps) {
                 // loadMore={loadMore}
                 dataSource={list}
                 renderItem={(item: Item) => (
-                    <List.Item
-                        // actions={[<NavLink 
-                        //     to={`/contestant/contest/?id=${item.contest._id}`} 
-                            // key="list-loadmore-edit">Detail</NavLink>]}
-                    >
+                    <List.Item>
                         <Skeleton avatar title loading={item.loading} active>
                             <MyContestItem contest={item.contest} total_score={item.total_score}></MyContestItem>
                         </Skeleton>

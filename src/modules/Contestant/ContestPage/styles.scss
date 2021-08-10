@@ -1,0 +1,70 @@
+@import '_color.scss';
+
+.problem-container__container {
+    position: relative;
+    .contest-status {
+        position: absolute;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 1em;
+        right: 15px;
+        top: -5px;
+        padding: 5px 15px;
+        color: $white;
+
+        &.expired {
+            background-color: $red;
+        }
+
+        &.ongoing {
+            background-color: $light-green;
+        }
+
+        &.upcoming {
+            background-color: $yellow;
+        }
+    }
+    
+    .problem-detail__container {
+        .header-row {
+            .right-col {
+                text-align: center;
+                margin-left: 'auto';
+                margin-right: '15px'; 
+                justify-content: 'flex-end';
+            }
+        }
+        .problem-score {
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-weight: bold;
+            color: $white;
+            background-color: $light-red;
+    
+            span {
+                font-size: 1.3em;
+            }
+        }
+    }
+}
+.problem-list__container {
+    .ant-list-item {
+        padding-left: 12px;
+    }
+    .problem-list-item__container {
+        border-radius: 15px;
+        .problem-index {
+            padding: 10px 10px;
+            line-height: 10px;
+            // border-radius: 50%;
+            text-align: center;
+            font-weight: bold;
+            color: $white;
+            background-color: $dark-grey;
+        }
+        .problem-title {
+            font-weight: 500;
+        }
+    }
+}
+

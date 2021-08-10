@@ -1,7 +1,5 @@
 import { List, Skeleton, Typography } from 'antd';
-import { useEffect, useState } from 'react';
-import { ListProblems } from 'services/problem';
-import { Problem } from 'services/problem';
+import { useState } from 'react';
 type CardContestContentProps = {
     contest_id;
     problems: {
@@ -10,6 +8,7 @@ type CardContestContentProps = {
 };
 
 export function CardContestContent(props: CardContestContentProps) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const listProblems = props.problems;
     // const [listProblems, setListProblems] = useState([]);

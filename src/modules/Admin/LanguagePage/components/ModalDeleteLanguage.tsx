@@ -1,7 +1,7 @@
 import CustomModal from 'components/core/CustomModal';
 import Text from 'antd/lib/typography/Text';
 import { notification } from 'antd';
-import { fetchDeleteLanguage } from 'services/language';
+import { fetchDeleteLanguage } from 'services/admin/fetch_language';
 
 const childDeleteLanguageComponent = (
     <>

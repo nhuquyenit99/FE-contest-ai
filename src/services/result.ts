@@ -26,7 +26,6 @@ export type ListMySubmissions = BaseListResponse & {
 };
 
 const fetchSubmitResult = (body: ResultPost) => {
-    console.log('body', body);
     return DataAccess.FilePost(RESULT_PATH, body);
 };
 const fetchListMySubmission = (created_user_id: number, problem_id: number): Promise<ListMySubmissions> => {

@@ -1,5 +1,4 @@
 import { Select } from 'antd';
-import { Option } from 'antd/lib/mentions';
 
 export default function FilterContest(props) {
     const onChangeSelect = (value) => {
@@ -8,10 +7,10 @@ export default function FilterContest(props) {
     return (
         <div className="filter-contest-container">
             <Select defaultValue="All" style={{ width: 120 }} onChange={onChangeSelect}>
-                <Option value="upcoming">Upcoming</Option>
-                <Option value="ongoing">Ongoing</Option>
-                <Option value="expired">Expired</Option>
-                <Option value="all">All</Option>
+                <Select.Option value="upcoming">Upcoming</Select.Option>
+                <Select.Option value="ongoing">Ongoing</Select.Option>
+                <Select.Option value="expired">Expired</Select.Option>
+                <Select.Option value="all">All</Select.Option>
             </Select>
         </div>
     );

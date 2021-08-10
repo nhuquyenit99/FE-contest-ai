@@ -1,6 +1,6 @@
 import CustomModal from 'components/core/CustomModal';
 import { Form, Input, notification } from 'antd';
-import { fetchAddLanguage } from 'services/language';
+import { fetchAddLanguage } from 'services/admin/fetch_language';
 type Props = {
     visible: boolean,
     setVisible: (value: boolean) => void,

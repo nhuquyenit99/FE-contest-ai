@@ -1,14 +1,13 @@
 import { useState } from 'react';
-import { Button, Space, Switch, Table} from 'antd';
+import { Space, Switch, Table} from 'antd';
 import { useEffect } from 'react';
-import { fetchAllUserPagination, User, ListUser} from 'services/user';
+import { fetchAllUserPagination, User, ListUser} from 'services/admin/fetch_user';
 import RoleTag from './RoleTag';
 import { RoleTagEnum } from './RoleTag';
-import CustomPagination from '../../../components/layout/Pagination';
-import { PaginationQuery } from '../../../services/user';
-import DeleteButton from '../../../components/core/DeleteButton';
+import CustomPagination from 'components/layout/Pagination';
+import { PaginationQuery } from 'services/admin/fetch_user';
+import DeleteButton from 'components/core/DeleteButton';
 import ModalDeleteUser from './components/ModalDeleteUser';
-import Text from 'antd/lib/typography/Text';
 import { fetchAdminPermissionAuth, fetchOrganizerPermissionAuth } from 'services/auth';
 import { AdminPermissionAuthResponse, OrganizerPermissionAuthResponse } from '../../../services/auth';
 import COLOR from 'const/color';
@@ -23,15 +22,14 @@ export default function UserPage() {
     const [data, setData] = useState<ListItems>([]);
     const [count, setCount] = useState(0);
     const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
+    const [pageSize, setPageSize] = useState<number>(10);
     const [shouldRefreshData, setShouldRefreshData] = useState(false);
     const [isDeleteLanguageModalVisible, setIsDeleteLanguageModalVisible] = useState(false);
     const [selectedId, setSelectedId] = useState(-1);
 
     const refreshData = () => {
         let query: PaginationQuery = {
-            limit: pageSize,
-            offset: (page-1)*pageSize
+            page: page,
         };
         fetchAllUserPagination(query)
             .then(resp => {
@@ -85,13 +83,13 @@ export default function UserPage() {
             title: 'Id',
             dataIndex: '_id',
             key: '_id',
-            render: text => <a>{text}</a>,
+            render: text => text,
         },
         {
             title: 'Username',
             dataIndex: 'username',
             key: 'username',
-            render: text => <a>{text}</a>,
+            render: text => text,
         },
         {
             title: 'Role',

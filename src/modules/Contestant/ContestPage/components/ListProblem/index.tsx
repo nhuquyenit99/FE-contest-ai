@@ -1,11 +1,10 @@
 import { Divider, List } from 'antd';
 import ProblemListItem from './ProblemListItem';
-import { ListProblems } from 'services/problem';
 export enum ProblemStatusEnum {
     PENDING,
     SUCCESSED,
     FAILED,
-    READY
+    READY,
 }
 export type Problem = {
     title: string,
@@ -38,8 +37,7 @@ export default function ListProblem(
     return <>
         <Divider orientation="left">List problems</Divider>
         <List
-            header={<div>Header</div>}
-            footer={<div>Footer</div>}
+            className="problem-list__container"
             bordered
             dataSource={data}
             renderItem={(item: Problem, idx: number) => {

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
     Form,
     Input,
@@ -46,6 +45,7 @@ export default function RegistrationForm() {
                 window.location.href='/login';
             })
             .catch(err => {
+                console.log(err);
                 const {data} = err.response;
                 notification.error({
                     message: data.error_message,
@@ -56,13 +56,6 @@ export default function RegistrationForm() {
             });
 
     };
-
-    // const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
-
-    // const websiteOptions = autoCompleteResult.map(website => ({
-    //     label: website,
-    //     value: website,
-    // }));
 
     return (
         <Form

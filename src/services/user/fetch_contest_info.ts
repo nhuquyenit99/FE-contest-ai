@@ -1,4 +1,3 @@
-import { Contest } from 'services/contest';
 import { DataAccess } from '../../access/base';
 
 let contest_info = {

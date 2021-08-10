@@ -4,18 +4,36 @@
     position: relative;
     .contest-status {
         position: absolute;
-        right: 15px;
-        top: 15px;
         text-transform: uppercase;
-        color: $red;
-        -ms-transform: rotate(20deg); /* IE 9 */
-        transform: rotate(20deg);
-        font-size: 2em;
         font-weight: bold;
-    }
+        font-size: 1em;
+        right: 15px;
+        top: -5px;
+        padding: 5px 15px;
+        color: $white;
 
+        &.expired {
+            background-color: $red;
+        }
+
+        &.ongoing {
+            background-color: $light-green;
+        }
+
+        &.upcoming {
+            background-color: $yellow;
+        }
+    }
     
     .problem-detail__container {
+        .header-row {
+            .right-col {
+                text-align: center;
+                margin-left: 'auto';
+                margin-right: '15px'; 
+                justify-content: 'flex-end';
+            }
+        }
         .problem-score {
             border-radius: 5px;
             padding: 5px 10px;

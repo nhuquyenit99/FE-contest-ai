@@ -21,11 +21,11 @@
         }
     }
     .context {
-        height: 110px;
+        height: 100%;
         .title {
             font-size: 18px;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         .languages {
             color: #6c757d;
@@ -40,7 +40,14 @@
             height: auto;
         }
     }
+    .description {
+        min-height: 40px;
+    }
+    .time {
+        opacity: .6;
+    }
 }
 .contest-card-item:hover {
-    color: #161a1d;
+    color: black;
+    box-shadow: 0 5px 10px #a2a7ac;
 }

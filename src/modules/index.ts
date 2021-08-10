@@ -4,7 +4,7 @@ import BaseUserPage from './Contestant/BaseUserPage';
 import LoginPage from './Login/index';
 import { HomePage } from './Home';
 import { DetailPage } from './Home/pages/detail-page';
-import { AddContestPage, EditContestPage, OrganizerHomePage } from './Organizer';
+import { EditContestPage, OrganizerHomePage, ProblemDetail } from './Organizer';
 type ModuleRoute = {
     path: string,
     exact: boolean,
@@ -49,15 +49,15 @@ const routes: ModuleRoutes = [
         component: OrganizerHomePage,
     },
     {
-        path: '/organizer/add-contest',
-        exact: true,
-        component: AddContestPage,
-    },
-    {
         path: '/organizer/detail/:id',
         exact: true,
         component: EditContestPage,
     },
+    {
+        path:'/organizer/problem/:id',
+        exact: true,
+        component: ProblemDetail
+    }
 ];
 export function setup(module: Module) {
     console.log('Setup chat room');

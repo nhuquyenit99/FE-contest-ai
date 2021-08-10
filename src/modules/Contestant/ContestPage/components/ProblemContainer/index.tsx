@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Layout from 'antd/lib/layout/layout';
-import { Form, Alert, Button, Card, Progress, Space, Upload, notification, Row, Col } from 'antd';
+import { Form, Button, Card, Progress, Space, Upload, notification, Row, Col } from 'antd';
 import ProblemDetail from './components/ProblemDetail';
 import { Problem } from 'services/problem';
 import { UploadOutlined } from '@ant-design/icons';
@@ -8,7 +8,6 @@ import { fetchSubmitResult } from 'services/result';
 import { LanguageName } from 'services/language';
 import Text from 'antd/lib/typography/Text';
 import ContestStatusEnum from 'const/contest_status';
-import contest_status from 'const/contest_status';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
@@ -16,11 +15,13 @@ const layout = {
 
 type ProblemContainerProps = {
     problem: Problem, 
-    contest_status?: ContestStatusEnum
+    contest_status?: ContestStatusEnum,
+    deadline: string,
 }
 
-export function ProblemContainer({ problem, contest_status}: ProblemContainerProps) {
+export function ProblemContainer({ problem, contest_status, deadline }: ProblemContainerProps) {
     const [language, setLanguage] = useState<LanguageName>(problem.languages[0]);
+    console.log(deadline);
     
     const onFinish = (values: any) => {
         console.log('Received values of form: ', values);
@@ -63,8 +64,8 @@ export function ProblemContainer({ problem, contest_status}: ProblemContainerPro
     return (
         <Layout>
             <Card className='problem-container__container'>
-                <div className="contest-status">{contest_status}</div>
-                <ProblemDetail problem={problem}></ProblemDetail>
+                <div className={`contest-status ${contest_status}`}>{contest_status}</div>
+                <ProblemDetail problem={problem} deadline={deadline}></ProblemDetail>
                 <Row>
                     <Col xs={12} style={{margin: 'auto'}}>
                         <Space>

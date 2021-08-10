@@ -23,6 +23,7 @@ export function ContestPage() {
     const [listProblems, setListProblems] = useState<Problem[]>([]);
     const [currentProblemPst, setCurrentProblemPst] = useState<number>(-1);
     const [currentContestId, setCurrentContestId] = useState<any>(-1);
+    const [deadline, setDeadline] = useState<string>();
     
     useEffect(() => {
         let { search } = history.location;
@@ -43,6 +44,7 @@ export function ContestPage() {
                 fetchContestInfo(contestId).then((res) => {
                     let contestStatus = getContestStatus(res.time_start, res.time_end);
                     setConstestStatus(contestStatus);
+                    setDeadline(res.time_end);
                 });  
             };
         }
@@ -54,11 +56,11 @@ export function ContestPage() {
         listProblem: listProblems.map(item => {
             let obj = { title: item.title };
             return obj;
-        }
-        ),
+        }),
         currentProblemPst,
         setCurrentProblemPst,
     };
+
     return <>
         <Layout style={{ flexDirection: 'row', margin: '15px' }}>
             <Skeleton loading={isLoading}>
@@ -70,11 +72,14 @@ export function ContestPage() {
                             <div style={{ width: '75%', marginRight: '15px' }}>
                                 <Tabs defaultActiveKey="1">
                                     <TabPane tab="Problem" key="1">
-                                        <ProblemContainer problem={listProblems[currentProblemPst]} 
-                                            contest_status={contestStatus}></ProblemContainer>
+                                        <ProblemContainer 
+                                            problem={listProblems[currentProblemPst]} 
+                                            contest_status={contestStatus}
+                                            deadline={deadline || ''}></ProblemContainer>
                                     </TabPane>
                                     <TabPane tab="Dashboard" key="2">
-                                        <Dashboard contest_id={currentContestId}
+                                        <Dashboard 
+                                            contest_id={currentContestId}
                                             contest_status={contestStatus}></Dashboard>
                                     </TabPane>
                                     <TabPane tab="My Submissions" key='3'>

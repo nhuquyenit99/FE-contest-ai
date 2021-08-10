@@ -5,29 +5,40 @@ import Paragraph from 'antd/lib/typography/Paragraph';
 import Text from 'antd/lib/typography/Text';
 import { Problem } from 'services/problem';
 import ContestStatusEnum from 'const/contest_status';
-import {useState} from 'react';
+import { useState, useEffect } from 'react';
 
 type ProblemDetailProps = {
     contest_status?: ContestStatusEnum
+    deadline?: string
     problem: Problem
 }
 function ProblemDetail(props: ProblemDetailProps) {
     const {contest_status, problem} = props;
+    const deadlineStr: string| undefined= props.deadline;
     const [deadline, setDeadLine] = useState<number>(0);
-    if (contest_status === ContestStatusEnum.EXPIRED) {
-        setDeadLine(0);
-    }
+    useEffect(() => {
+        if (deadlineStr) {
+            setDeadLine(new Date(deadlineStr).getTime());
+        }
+        
+        if (contest_status === ContestStatusEnum.EXPIRED) {
+            setDeadLine(0);
+        }
+    
+        console.log(deadlineStr);
+    }, [contest_status, deadlineStr]);
+
     return (
         <div className="problem-detail__container">
-            <Row gutter={24}>
-                <Col span={16}>
+            <Row className="header-row" gutter={24}>
+                <Col span={18}>
                     <Title level={2} className="problem-title">{problem?.title}</Title>
                     <Text className="problem-score">Score: <span>
                         {problem?.score}
                     </span></Text>
                 </Col>
-                <Col style={{marginLeft: 'auto', marginRight: '15px', justifyContent: 'flex-end'}}>
-                    <Countdown title="Time remaining" value={deadline} format="HH:mm:ss" />
+                <Col className="right-col">
+                    <Countdown title="Time remaining" value={deadline} format="DDd HH:mm:ss" />
                     <Tag color="yellow-inverse">
                         <Text>TLE: {problem?.time_executed_limit}ms</Text>
                     </Tag>

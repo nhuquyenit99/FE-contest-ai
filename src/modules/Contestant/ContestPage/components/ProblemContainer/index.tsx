@@ -11,6 +11,7 @@ import ContestStatusEnum from 'const/contest_status';
 import { ContestInfo } from 'services/user/fetch_contest_info';
 import { getContestStatus } from 'utils/time_utils';
 import { useEffect } from 'react';
+import { WS_URL } from 'access/base';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
@@ -22,8 +23,12 @@ type ProblemContainerProps = {
 }
 
 export function ProblemContainer({ problem, contest_info}: ProblemContainerProps) {
-    const [language, setLanguage] = useState<LanguageName>(problem.languages[0]);
+    const [language, setLanguage] = useState<LanguageName>();
     const [contest_status, setContestStatus] = useState<ContestStatusEnum>();
+    const [wsData, setWsData] = useState();
+    useEffect(() => {
+        setLanguage(problem.languages[0]);
+    }, [problem.languages]);
 
     useEffect(() => {
         let contest_status = getContestStatus(contest_info.time_start, contest_info.time_end);
@@ -41,15 +46,35 @@ export function ProblemContainer({ problem, contest_info}: ProblemContainerProps
         let data = {
             ...values,
             problem_id: problem._id,
-            language_id: language._id,
+            language_id: language?._id,
         };
         console.log(data);
         fetchSubmitResult(data)
             .then(resp => {
-                console.log(resp);
                 notification.success({
                     message: 'Submit files successfully!'
                 });
+                // Websocket submit files watcher
+                let ws = new WebSocket(`${WS_URL}/ws/result/${resp._id}`);
+                ws.onopen = () => {
+                    console.log('WebSocket connection opened.');
+                };
+                ws.onclose = () => {
+                    console.log('WebSocket connection closed.');
+                };
+                ws.onmessage = (message) => {
+                    let data = JSON.parse(message.data);
+                    console.log(data);
+                    setWsData(data);
+                    if (data.status === 'S') {
+                        ws.close();
+                    }
+                };
+
+                return () => {
+                    ws.close();
+                };
+
             })
             .catch((err) => {
                 console.log(err);
@@ -68,6 +93,29 @@ export function ProblemContainer({ problem, contest_info}: ProblemContainerProps
             return false;
         }
     };
+    const renderResult = (wsData) => {
+        if (!wsData) return <></>;
+        if (wsData.status === 'S') { 
+            let acc = wsData? wsData.accuracy : 0;
+            return <Card>
+                <Text className="text-wrapper__txt">Accuracy</Text>
+                <Progress className="progress-circle" type="circle" percent={acc *100} />
+                <div>
+                    <Text className="text-wrapper__txt">Time execute: {wsData.time_execute}</Text>
+                </div>
+            </Card>;
+        }
+        if (wsData.status === 'I') {
+            return <Card>
+                <Text className="text-wrapper__txt">In Process</Text>
+            </Card>;
+        }
+        if (wsData.status === 'N') {
+            return <Card>
+                <Text className="text-wrapper__txt">In Queue</Text>
+            </Card>;
+        }
+    };
     return (
         <Layout>
             <Card className='problem-container__container'>
@@ -81,7 +129,7 @@ export function ProblemContainer({ problem, contest_info}: ProblemContainerProps
                                 {
                                     problem.languages.map(lang => {
                                         return <Button
-                                            type={lang._id === language._id ? 'primary' : 'default'}
+                                            type={lang._id === language?._id ? 'primary' : 'default'}
                                             onClick={() => setLanguage(lang)}
                                             key={lang.name}>{lang.name}
                                         </Button>;
@@ -99,7 +147,7 @@ export function ProblemContainer({ problem, contest_info}: ProblemContainerProps
                                     >
                                         <Upload
                                             {...uploadProps}
-                                            accept={language.file_extensions}
+                                            accept={language?.file_extensions}
                                         >
                                             <Button icon={<UploadOutlined />}>Click to upload</Button>
                                         </Upload>
@@ -110,7 +158,7 @@ export function ProblemContainer({ problem, contest_info}: ProblemContainerProps
                                     >
                                         <Upload
                                             {...uploadProps}
-                                            accept={language.file_extensions}
+                                            accept={language?.file_extensions}
                                         >
                                             <Button icon={<UploadOutlined />}>Click to upload</Button>
                                         </Upload>
@@ -121,7 +169,7 @@ export function ProblemContainer({ problem, contest_info}: ProblemContainerProps
                                     >
                                         <Upload
                                             {...uploadProps}
-                                            accept={language.file_extensions}
+                                            accept={language?.file_extensions}
                                         >
                                             <Button icon={<UploadOutlined />}>Click to upload</Button>
                                         </Upload>
@@ -134,13 +182,8 @@ export function ProblemContainer({ problem, contest_info}: ProblemContainerProps
                                 </Form>
                             </Card>
                         </Col>
-                        <Col xs={6} style={{margin: 'auto'}}>
-                            <Card>
-                                <Text>Accuracy</Text>
-                                <Space>
-                                    <Progress type="circle" percent={30} />
-                                </Space>
-                            </Card>
+                        <Col className="result-col__container" xs={8} style={{margin: 'auto'}}> 
+                            {renderResult(wsData)}
                         </Col>
                     </Row>
                 }

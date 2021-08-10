@@ -11,6 +11,7 @@ type ResultPost = {
 };
 export type Result = {
     _id: number,
+    status: string,
     problem: string,
     created_user: string,
     model_file: string,
@@ -18,14 +19,15 @@ export type Result = {
     code_train: string,
     accuracy: number,
     time_submit: string,
-    language: string
+    language: string,
+    time_execute: string,
 };
 
 export type ListMySubmissions = BaseListResponse & {
     results: Result[]
 };
 
-const fetchSubmitResult = (body: ResultPost) => {
+const fetchSubmitResult = (body: ResultPost): Promise<Result> => {
     return DataAccess.FilePost(RESULT_PATH, body);
 };
 const fetchListMySubmission = (created_user_id: number, problem_id: number): Promise<ListMySubmissions> => {

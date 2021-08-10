@@ -10,6 +10,7 @@ const multipart_headers = {
     'Content-Type': 'multipart/form-data',
     'Accept': '*/*'
 };
+export const WS_URL = 'ws://127.0.0.1:8000';
 export const BASE_URL = 'http://127.0.0.1:8000';
 
 const CLOUD_NAME = 'dj5xafymg';
@@ -97,7 +98,7 @@ const IMAGEPost = (data: any) => {
         },
     });
 };
-const FilePost = (url: string, data: any) => {
+const FilePost = (url: string, data: any): Promise<any> => {
     const formData = new FormData();
     Object.keys(data).map(name => {
         formData.append(name, data[name]);

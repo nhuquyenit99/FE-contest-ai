@@ -8,7 +8,7 @@ export function UpcomingContestItem ({data}: {data: ContestItem}) {
     return (
         <div className='contest-item'>
             <div className='prefix'>
-                <img src='https://www.imgworlds.com/wp-content/uploads/2015/12/18-CONTACTUS-HEADER.jpg' alt='contest-item-img'/>
+                <img src='https://image.flaticon.com/icons/png/512/42/42405.png' alt='contest-item-img'/>
             </div>
             <div className='context'>
                 <div className='title'>

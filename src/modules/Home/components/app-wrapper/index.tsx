@@ -1,10 +1,11 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, Empty, Spin } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 import { UpcomingContestItem } from '../upcoming-contest-item';
-import { defaultContestItem } from 'models';
+import { ContestItem } from 'models';
 import './style.scss';
 import { Link } from 'react-router-dom';
+import { useEntityDataList } from 'access';
 
 
 type AppWrapperProps = {
@@ -14,6 +15,7 @@ type AppWrapperProps = {
 export function AppWrapper ({
     children
 }: AppWrapperProps) {
+    const {data, loading} = useEntityDataList<ContestItem>('api/contest/upcoming/');
     return (
         <div className='app-wrapper'>
             <div className='header'>
@@ -31,11 +33,13 @@ export function AppWrapper ({
                             Upcoming contests
                     </div>
                     <div className='list-contest-item'>
-                        <UpcomingContestItem data={defaultContestItem}/>
-                        <UpcomingContestItem data={defaultContestItem}/>
-                        <UpcomingContestItem data={defaultContestItem}/>
+                        {loading ? <div className='loading-component'><Spin /></div> 
+                            : data && data.length > 0 ? data?.map(item => 
+                                <UpcomingContestItem data={item} key={item._id}/>
+                            ) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                        }
                     </div>
-                    <Link to='contestant' className='link-redirect'>
+                    <Link to='/contestant' className='link-redirect'>
                         <Button type='primary' shape='round' danger>Attend now!</Button>
                     </Link>
                 </div>

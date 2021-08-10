@@ -1,0 +1,19 @@
+.edit-problem-modal {
+    .ant-modal-header {
+        background: #1890ff;
+        padding-left: 18px;
+        padding-right: 18px;
+        .ant-modal-title {
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    }
+    .ant-modal-close {
+        color: white;
+    }
+
+    .ant-modal-close:hover {
+        opacity: .7;
+    }
+}

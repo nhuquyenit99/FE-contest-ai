@@ -7,7 +7,6 @@ import './style.scss';
 
 export function EditContestPage () {
     let { id } = useParams<any>();
-    console.log('contest id', id);
     const [data, setData] = useState<ContestItem>(defaultContestItem);
     useEffect(() => {
         //get data

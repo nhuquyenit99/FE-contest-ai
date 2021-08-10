@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Card, List, Pagination, Skeleton } from 'antd';
+import { useEffect, useState } from 'react';
+import { Card, List, Skeleton } from 'antd';
 import CardContest from './components/CardContest';
-import { ListContests } from 'services/contest';
 import { ALlContestWithProblemsResponse } from 'services/contest';
 import { ConstestWithProblems } from 'services/contest';
 import CustomPagination from 'components/layout/Pagination';

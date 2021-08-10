@@ -1,7 +1,6 @@
 import { DataAccess } from '../access/base';
 import { BaseListResponse } from './base';
 const CONTEST_PATH = 'api/contest/';
-const CONTEST_PROBLEM_PATH = CONTEST_PATH + 'problems/';
 export type Contest = {
     _id: number,
     title: string,

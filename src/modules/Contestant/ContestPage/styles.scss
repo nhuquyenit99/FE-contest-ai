@@ -1,0 +1,52 @@
+@import '_color.scss';
+
+.problem-container__container {
+    position: relative;
+    .contest-status {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        text-transform: uppercase;
+        color: $red;
+        -ms-transform: rotate(20deg); /* IE 9 */
+        transform: rotate(20deg);
+        font-size: 2em;
+        font-weight: bold;
+    }
+
+    
+    .problem-detail__container {
+        .problem-score {
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-weight: bold;
+            color: $white;
+            background-color: $light-red;
+    
+            span {
+                font-size: 1.3em;
+            }
+        }
+    }
+}
+.problem-list__container {
+    .ant-list-item {
+        padding-left: 12px;
+    }
+    .problem-list-item__container {
+        border-radius: 15px;
+        .problem-index {
+            padding: 10px 10px;
+            line-height: 10px;
+            // border-radius: 50%;
+            text-align: center;
+            font-weight: bold;
+            color: $white;
+            background-color: $dark-grey;
+        }
+        .problem-title {
+            font-weight: 500;
+        }
+    }
+}
+

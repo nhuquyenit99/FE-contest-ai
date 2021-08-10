@@ -65,7 +65,6 @@ function RootApplication() {
     if (loading) {
         return <Loading />;
     }
-    console.log('render');
     return (
         <BrowserRouter basename="/">
             <Switch>

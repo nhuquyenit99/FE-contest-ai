@@ -1,22 +1,30 @@
-import React from 'react';
 import { Divider, Row, Col, Tag } from 'antd';
 import Countdown from 'antd/lib/statistic/Countdown';
 import Title from 'antd/lib/typography/Title';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import Text from 'antd/lib/typography/Text';
 import { Problem } from 'services/problem';
+import ContestStatusEnum from 'const/contest_status';
+import {useState} from 'react';
 
-const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30; // Moment is also OK
 type ProblemDetailProps = {
+    contest_status?: ContestStatusEnum
     problem: Problem
 }
-function ProblemDetail({problem}: ProblemDetailProps) {
+function ProblemDetail(props: ProblemDetailProps) {
+    const {contest_status, problem} = props;
+    const [deadline, setDeadLine] = useState<number>(0);
+    if (contest_status === ContestStatusEnum.EXPIRED) {
+        setDeadLine(0);
+    }
     return (
-        <div className="contest">
+        <div className="problem-detail__container">
             <Row gutter={24}>
-                <Col span={12}>
+                <Col span={16}>
                     <Title level={2} className="problem-title">{problem?.title}</Title>
-                    <Text>Score: {problem?.score}</Text>
+                    <Text className="problem-score">Score: <span>
+                        {problem?.score}
+                    </span></Text>
                 </Col>
                 <Col style={{marginLeft: 'auto', marginRight: '15px', justifyContent: 'flex-end'}}>
                     <Countdown title="Time remaining" value={deadline} format="HH:mm:ss" />

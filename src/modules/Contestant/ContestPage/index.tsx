@@ -6,31 +6,47 @@ import { ProblemContainer } from './components/ProblemContainer/index';
 import SampleCodeContainer from './components/SampleCodeContainer';
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { fetchProblemWithContestId, Problem } from 'services/problem';
 import { MySubmissions } from './components/MySubmissions';
+import { fetchProblemsOnContestId } from 'services/user/fetch_problems_on_contest_id';
+import { Problem } from 'services/user/fetch_problems_on_contest_id';
+import './styles.scss';
+import ContestStatusEnum from '../../../const/contest_status';
+import { fetchContestInfo } from 'services/user/fetch_contest_info';
+import { getContestStatus } from 'utils/time_utils';
+
 
 const { TabPane } = Tabs;
 export function ContestPage() {
     const history = useHistory();
+    const [contestStatus, setConstestStatus] = useState<ContestStatusEnum|undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [listProblems, setListProblems] = useState<Problem[]>([]);
     const [currentProblemPst, setCurrentProblemPst] = useState<number>(-1);
     const [currentContestId, setCurrentContestId] = useState<any>(-1);
-
+    
     useEffect(() => {
         let { search } = history.location;
         let params = new URLSearchParams(search);
         let contestId = params.get('id');
-        setCurrentContestId(contestId);
-        setIsLoading(true);
-        fetchProblemWithContestId(search) // search: ?id=123123dfas
-            .then((res) => {
-                if (res.length > 0) {
-                    setListProblems(res);
-                    setCurrentProblemPst(0);
-                }
-                setIsLoading(false);
-            });
+        if (contestId) {
+            setCurrentContestId(contestId);
+            setIsLoading(true);
+            fetchProblemsOnContestId(contestId) // search: ?id=123123dfas
+                .then((res) => {
+                    if (res.length > 0) {
+                        setListProblems(res);
+                        setCurrentProblemPst(0);
+                    }
+                    setIsLoading(false);
+                });
+            if (!contestStatus) {
+                fetchContestInfo(contestId).then((res) => {
+                    let contestStatus = getContestStatus(res.time_start, res.time_end);
+                    setConstestStatus(contestStatus);
+                });  
+            };
+        }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -54,10 +70,12 @@ export function ContestPage() {
                             <div style={{ width: '75%', marginRight: '15px' }}>
                                 <Tabs defaultActiveKey="1">
                                     <TabPane tab="Problem" key="1">
-                                        <ProblemContainer problem={listProblems[currentProblemPst]}></ProblemContainer>
+                                        <ProblemContainer problem={listProblems[currentProblemPst]} 
+                                            contest_status={contestStatus}></ProblemContainer>
                                     </TabPane>
                                     <TabPane tab="Dashboard" key="2">
-                                        <Dashboard contest_id={currentContestId}></Dashboard>
+                                        <Dashboard contest_id={currentContestId}
+                                            contest_status={contestStatus}></Dashboard>
                                     </TabPane>
                                     <TabPane tab="My Submissions" key='3'>
                                         <MySubmissions problem_id={listProblems[currentProblemPst]?._id}></MySubmissions>

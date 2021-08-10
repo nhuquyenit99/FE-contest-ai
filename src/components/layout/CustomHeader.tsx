@@ -12,7 +12,7 @@ type CustomHeaderProps = {
     routes: HeaderRoutes
 }
 function CustomHeader({ routes }: CustomHeaderProps) {
-    const {displayName} = useContext(UserContext);
+    const {displayName, _id} = useContext(UserContext);
     return (
         <Header className='__header-wrapper__'>
             <Row>
@@ -35,7 +35,9 @@ function CustomHeader({ routes }: CustomHeaderProps) {
                 <Col style={{ marginLeft: 'auto' }}>
                     <Space size="large" align="end">
                         <CustomBadge></CustomBadge>
-                        <AvatarContainer displayName={displayName} dark></AvatarContainer>
+                        <NavLink to={`/contestant/user/${_id}`}>
+                            <AvatarContainer displayName={displayName} dark></AvatarContainer>
+                        </NavLink>
                         <SettingDropdown></SettingDropdown>
                     </Space>
                 </Col>

@@ -1,4 +1,3 @@
-import { rejects } from 'node:assert';
 import { fetchRefreshToken } from 'services/token';
 import { readCookie, eraseCookie, createCookie } from 'utils/cookie';
 

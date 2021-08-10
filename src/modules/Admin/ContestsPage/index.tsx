@@ -48,13 +48,17 @@ export default function ContestPage() {
             title: 'Id',
             dataIndex: '_id',
             key: '_id',
-            render: text => <a>{text}</a>,
+            render: text => {
+                let url = `/contestant/contest/?id=${text}`;
+                let dom = <a href={url}>{text}</a>;
+                return dom;
+            }
         },
         {
             title: 'Title',
             dataIndex: 'title',
             key: 'title',
-            render: text => <a>{text}</a>,
+            render: text => text,
         },
         {
             title: 'Created User',

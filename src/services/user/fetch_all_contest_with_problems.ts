@@ -1,5 +1,4 @@
 import { DataAccess } from 'access/base';
-import contest_status from 'const/contest_status';
 import { ALlContestWithProblemsResponse } from '../contest';
 
 export enum ContestStatus {

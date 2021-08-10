@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Form, FormInstance, Input, notification } from 'antd';
 import { Store } from 'rc-field-form/lib/interface';
 import CustomModal from 'components/core/CustomModal';
-import { fetchUpdateLanguage } from 'services/language';
+import { fetchUpdateLanguage } from 'services/admin/fetch_language';
 import { Item } from '..';
 
 const renderChildComponent = (

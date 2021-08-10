@@ -7,7 +7,6 @@ export default function SampleCodeContainer() {
     useEffect(() => {
         fetchSampleCodeHelp()
             .then(resp => {
-                console.log(resp);
                 setContent(resp?.html_content);
             });
     }, []);

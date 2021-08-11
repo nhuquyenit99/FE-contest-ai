@@ -1,0 +1,10 @@
+.edit-contest-content {
+    width: 60vw;
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+    }
+    .contest-info-panel {
+        position: relative;
+    }
+}

@@ -1,11 +1,12 @@
 import { Content, Footer} from 'antd/lib/layout/layout';
 import Layout from 'antd/lib/layout/layout';
 import CustomHeader from './CustomHeader';
-import { Route, Switch } from 'react-router';
-import { ContestPage } from 'modules/pages';
-import LoginPage from '../../modules/pages/LoginPage/index';
-function UserLayout(props) {
-    const {headerRoutes, headerRouter} = props;
+import { HeaderRoutes } from 'modules/Contestant/BaseUserPage';
+type Props = {
+    headerRoutes: HeaderRoutes,
+    headerRouter: JSX.Element
+}
+function UserLayout({headerRouter, headerRoutes}: Props) {
     return (
         <Layout className="layout">
             <CustomHeader routes={headerRoutes}></CustomHeader>

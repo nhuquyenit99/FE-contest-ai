@@ -1,67 +1,75 @@
 import React from 'react';
-import { DataAccess } from '../access';
-import { CategoryType, UserType } from '../models';
+import { eraseCookie, readCookie } from 'utils/cookie';
+import { Redirect } from 'react-router-dom';
 
 type UserContextType = {
-    _id: string
+    _id: number
     displayName: string,
-    avatar: string,
-    followUsers: UserType[],
-    followCategories: CategoryType[],
+    username: string,
+    isAuthenticated: boolean,
     logout: () => void
-    updateUser: (newInfo: UserInfo) => void
-    getFollowingCategories: () => void
+    getIsAuthenticated: () => boolean,
+    updateUser: (newInfo: UserInfo, cb?: () => void) => void
     updateAvatar: (imageURL: string) => void
 }
 
 export const UserContext = React.createContext<UserContextType>({
-    _id: '',
+    _id: 0,
     displayName: '',
-    avatar: '',
-    followUsers: [],
-    followCategories: [],
+    username: '',
+    isAuthenticated: false,
     logout: () => undefined,
-    updateUser: (newInfo: UserInfo) => undefined,
-    getFollowingCategories: () => undefined,
+    getIsAuthenticated: () => false,
+    updateUser: (newInfo: UserInfo, cb?: () => void) => undefined,
     updateAvatar: (imageURL: string) => undefined
 });
 
 type StateType = {
-    _id: string
+    _id: number
     displayName: string
-    avatar: string
-    followUsers: UserType[],
-    followCategories: CategoryType[],
+    username: string,
+    isAuthenticated: boolean
 }
 
 type UserInfo = {
-    _id: string
+    _id: number
     displayName: string
-    avatar: string
+    username: string,
+    isAuthenticated: boolean
 }
 export class UserContextProvider extends React.Component<any, StateType> {
     constructor(props: any) {
         super(props);
         this.state = {
-            _id: '',
+            _id: 0,
             displayName: '',
-            avatar: '',
-            followUsers: [],
-            followCategories: [],
+            username: '',
+            isAuthenticated: false
         };
     }
-
+    getIsAuthenticated = () => {
+        console.log(readCookie('access_token') !== '');
+        console.log(this.state);
+        let isAuthenticated = (readCookie('access_token') !== ''
+            && this.state.username !== '');
+        
+        if (this.state.isAuthenticated !== isAuthenticated) {
+            this.setState({isAuthenticated});
+        }
+        return isAuthenticated;
+    }
     logout = () => {
-        DataAccess.Delete('logout');
         this.setState(prev => {
             return {
                 ...prev,
-                _id: '',
+                _id: 0,
                 displayName: '',
                 avatar: ''
             };
         });
-        localStorage.removeItem('token');
+        eraseCookie('access_token');
+        eraseCookie('refresh_token');
+        return <Redirect to='/'/>;
     }
 
     updateUser = (newInfo: UserInfo, cb?: () => void) => {
@@ -70,22 +78,7 @@ export class UserContextProvider extends React.Component<any, StateType> {
                 ...prev,
                 ...newInfo,
             };
-        }, () => {
-            this.getFollowingCategories(cb);
-        });
-    }
-    getFollowingCategories = (cb?: () => void) => {
-        DataAccess.Get(`categories/user/${this.state._id}`).then(res => {
-            this.setState(prev => {
-                return {
-                    ...prev,
-                    followCategories: res.data.data
-                };
-            }, cb);
-        }).catch (e => {
-            console.log('Fetch following categories failed > ', e);
-            if (cb) cb();
-        });
+        }, cb);
     }
     updateAvatar = (imageUrl: string) => {
         this.setState(prev => {
@@ -99,9 +92,9 @@ export class UserContextProvider extends React.Component<any, StateType> {
         return (
             <UserContext.Provider value={{
                 ...this.state,
+                getIsAuthenticated: this.getIsAuthenticated,
                 updateUser: this.updateUser,
                 logout: this.logout,
-                getFollowingCategories: this.getFollowingCategories,
                 updateAvatar: this.updateAvatar
             }}>
                 {this.props.children}
@@ -109,3 +102,4 @@ export class UserContextProvider extends React.Component<any, StateType> {
         );
     }
 }
+

@@ -1,6 +1,5 @@
 import Avatar from 'antd/lib/avatar/avatar';
 import { UserOutlined } from '@ant-design/icons';
-import { Image } from 'antd';
 
 function CustomAvatar() {
     return (

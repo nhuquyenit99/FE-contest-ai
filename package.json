@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^27.1.0",
+    "@ckeditor/ckeditor5-react": "^3.0.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -19,6 +21,10 @@
     "react-scripts": "4.0.3",
     "sass": "^1.32.8",
     "typescript": "^4.1.2",
+    "uniforms": "^3.5.4",
+    "uniforms-antd": "^3.5.4",
+    "uniforms-bridge-json-schema": "^3.5.4",
+    "uniforms-semantic": "^3.5.4",
     "web-vitals": "^1.0.1"
   },
   "scripts": {

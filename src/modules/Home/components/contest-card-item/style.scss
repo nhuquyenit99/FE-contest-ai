@@ -1,0 +1,53 @@
+.contest-card-item {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+    min-height: 150px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #a2a7ac;
+    position: relative;
+    color: #161a1d;
+    .prefix {
+        height: 100px;
+        width: 100px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        img {
+            height: 100%;
+            width: auto;
+            image-orientation: from-image;
+        }
+    }
+    .context {
+        height: 100%;
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .languages {
+            color: #6c757d;
+        }
+    }
+    .suffix {
+        position: absolute;
+        right: -30px;
+        top: -10px;
+        img {
+            width: 50px;
+            height: auto;
+        }
+    }
+    .description {
+        min-height: 40px;
+    }
+    .time {
+        opacity: .6;
+    }
+}
+.contest-card-item:hover {
+    color: black;
+    box-shadow: 0 5px 10px #a2a7ac;
+}

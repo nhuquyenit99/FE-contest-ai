@@ -1,82 +1,78 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { NotFoundPage, Loading } from './components';
 import { Module, RootModule } from './core';
+import { readCookie } from 'utils/cookie';
+import { fetchGetInfo } from 'services/auth';
+import { useEffect} from 'react';
+import { UserContext } from './context/index';
 import './App.scss';
-import { DataAccess } from './access';
-// import { UserContext } from './context';
 
 const INSTALLED_MODULE: any = {
     'modules': require('./modules/'),
 };
 
-class RootApplication extends React.Component<{}, { loading: boolean }> {
-    rootModule: RootModule;
-    constructor(props: {}) {
-        super(props);
-        this.state = {
-            loading: true,
-        };
-        this.rootModule = new RootModule();
-    }
-    componentDidMount() {
-        this.init();
-    }
+const rootModule: RootModule = new RootModule();
+function RootApplication() {
+    const [loading, setLoading] = useState(true);
+    const { updateUser } = useContext(UserContext);
 
-    setupModule() {
+    useEffect(() => {
+        init();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    const setupModule = () => {
         for (let key in INSTALLED_MODULE) {
             const module = new Module(key);
             INSTALLED_MODULE[key].setup(module);
-            this.rootModule.register(module);
+            rootModule.register(module);
+            console.log(rootModule);
         }
-    }
+    };
 
-    async init() {
-        this.setState({ loading: true });
+    const init = async () => {
+        setLoading(true);
         // Setup module
-        this.setupModule();
-        // const token = localStorage.getItem('token');
-        // if (token) {
-        //     DataAccess.Get('auth').then(res => {
-        //         const user = {
-        //             _id: res.data._id,
-        //             avatar: res.data.avatar,
-        //             displayName: res.data.display_name
-        //         };
-        //         this.context.updateUser(user, () => this.setState({loading: false}));
-        //     }).catch(e => {
-        //         console.log('Error > ', e);
-        //         this.setState({loading: false});
-        //     });
+        setupModule();
+        const token = readCookie('access_token');
+        if (token) {
+            fetchGetInfo().then(res => {
+                const { _id, username, first_name, last_name } = res;
+                const user = {
+                    _id,
+                    username,
+                    displayName: first_name + ' ' + last_name,
+                    isAuthenticated: true
+                };
+                updateUser(user);
+            }).catch(e => {
+                console.log('Error > ', e);
+                setLoading(false);
+            });
 
-        // } else {
-        //     this.setState({ loading: false }); 
-        // }
-        this.setState({ loading: false });
-    }
+        } else {
+            setLoading(false);
+        }
+        setLoading(false);
+    };
 
-    componentWillUnmount() {
-    }
-
-    renderRoute() {
-        return Object.entries(this.rootModule.routes()).map(([key, route]) => {
+    const renderRoute = () => {
+        return Object.entries(rootModule.routes()).map(([key, route]) => {
             return <Route key={route.path} {...route} />;
         });
-    }
+    };
 
-    render() {
-        if (this.state.loading) {
-            return <Loading />;
-        }
-        return (
-            <BrowserRouter basename="/">
-                <Switch>
-                    {this.renderRoute()}
-                    <Route component={NotFoundPage} />
-                </Switch>
-            </BrowserRouter>
-        );
+    if (loading) {
+        return <Loading />;
     }
+    return (
+        <BrowserRouter basename="/">
+            <Switch>
+                {renderRoute()}
+                <Route component={NotFoundPage} />
+            </Switch>
+        </BrowserRouter>
+
+    );
 }
-// RootApplication.contextType = UserContext;
 export { RootApplication };

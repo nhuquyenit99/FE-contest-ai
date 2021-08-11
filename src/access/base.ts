@@ -1,53 +1,94 @@
+import { fetchRefreshToken } from 'services/token';
+import { readCookie, eraseCookie, createCookie } from 'utils/cookie';
+
 const axios = require('axios');
 
-const headers = {
-    'Authorization': 'Basic Og==',
+const json_headers = {
     'Content-Type': 'application/json',
-    'accept': '*/*',
-    'Access-Control-Allow-Origin': '*'
 };
-const BASE_URL = 'http://103.113.83.246:8006';
+const multipart_headers = {
+    'Content-Type': 'multipart/form-data',
+    'Accept': '*/*'
+};
+export const WS_URL = 'ws://127.0.0.1:8000';
+export const BASE_URL = 'http://127.0.0.1:8000';
 
 const CLOUD_NAME = 'dj5xafymg';
-const APIPost = async (url: string, data?: string) => {
-    const token = localStorage.getItem('token');
-    return await axios({
+type ConfigType = {
+    method: string,
+    url: string,
+    data?: any,
+    params?: any,
+}
+const getBaseConfigAxios = (config: ConfigType, headers) => {
+    const token = readCookie('access_token');
+    const { method, url, data, params } = config;
+    return {
+        method: method,
+        url: `${BASE_URL}/${url}`,
+        headers: token ? { ...headers, 'Authorization': `Bearer ${token}` } : headers,
+        params: params,
+        data: data
+    };
+};
+
+const fetchAxios = <T>(config: ConfigType, headers): Promise<T> => {
+    return axios(getBaseConfigAxios({ ...config }, headers))
+        .then((response, err) => {
+            return response as Promise<{ data: T }>;
+        })
+        .then(data => data.data)
+        .catch(err => {
+            if (err.response?.status === 401) {
+                fetchRefreshToken()?.then(access_resp => {
+                    if (!access_resp) return;
+                    eraseCookie('access_token');
+                    createCookie('access_token', access_resp.access);
+                });
+                console.log('refresh');
+            }
+            throw err;
+        });
+};
+
+
+
+const APIPost = <T>(url: string, data?: any): Promise<T> => {
+    let config: ConfigType = {
         method: 'POST',
-        url: `${BASE_URL}/${url}`,
-        headers: token ? { ...headers, 'Authorization': `Bearer ${token}` } : headers,
-        data: data
-    });
+        url,
+        data
+    };
+    return fetchAxios(config, json_headers);
 };
 
-const APIGet = async (url: string) => {
-    const token = localStorage.getItem('token');
-    return await axios({
+const APIGet = <T>(url: string, params?: object): Promise<T> => {
+    let config: ConfigType = {
         method: 'GET',
-        url: `${BASE_URL}/${url}`,
-        headers: token ? { ...headers, 'Authorization': `Bearer ${token}` } : headers,
-    });
+        url,
+        params
+    };
+    return fetchAxios(config, json_headers);
 };
 
-const APIDelete = async (url: string, data?: string) => {
-    const token = localStorage.getItem('token');
-    return await axios({
+const APIDelete = <T>(url: string, data?: string): Promise<T> => {
+    let config: ConfigType = {
         method: 'DELETE',
-        url: `${BASE_URL}/${url}`,
-        headers: token ? {...headers, 'Authorization' : `Bearer ${token}`} : headers,
-        data: data
-    });
+        url,
+        data
+    };
+    return fetchAxios(config, json_headers);
 };
-const APIPut = async (url: string, data: string) => {
-    const token = localStorage.getItem('token');
-    return await axios({
+const APIPut = <T>(url: string, data: any): Promise<T> => {
+    let config: ConfigType = {
         method: 'PUT',
-        url: `${BASE_URL}/${url}`,
-        headers: token ? { ...headers, 'Authorization': `Bearer ${token}` } : headers,
-        data: data
-    });
+        url,
+        data
+    };
+    return fetchAxios(config, json_headers);
 };
-const IMAGEPost = async (data: any) => {
-    return await axios({
+const IMAGEPost = (data: any) => {
+    return axios({
         method: 'POST',
         url: `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
         data: data,
@@ -57,10 +98,42 @@ const IMAGEPost = async (data: any) => {
         },
     });
 };
+const FilePost = (url: string, data: any): Promise<any> => {
+    const formData = new FormData();
+    Object.keys(data).map(name => {
+        formData.append(name, data[name]);
+        return name;
+    });
+
+    let config: ConfigType = {
+        method: 'POST',
+        url,
+        data: formData
+    };
+    return fetchAxios(config, multipart_headers);
+};
+
+const FilePut = (url: string, data: any) => {
+    const formData = new FormData();
+    Object.keys(data).map(name => {
+        formData.append(name, data[name]);
+        return name;
+    });
+
+    let config: ConfigType = {
+        method: 'PUT',
+        url,
+        data: formData
+    };
+    return fetchAxios(config, multipart_headers);
+};
+
 export const DataAccess = {
     Get: APIGet,
     Post: APIPost,
     Delete: APIDelete,
     Put: APIPut,
     IMAGEPost,
+    FilePost,
+    FilePut,
 };
